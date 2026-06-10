@@ -1,0 +1,97 @@
+---
+interface Props {
+  title: string;
+  weekday: string;
+  time: string;
+  location: string;
+  description?: string;
+  variant?: 'default' | 'mesa';
+  badge?: string;
+}
+const { title, weekday, time, location, description, variant = 'default', badge } = Astro.props;
+---
+<article class={`evento evento--${variant}`}>
+  {badge && <span class="evento__badge">{badge}</span>}
+  <p class="evento__when">
+    <span class="evento__day">{weekday}</span>
+    <span class="evento__time">{time}</span>
+  </p>
+  <h3 class="evento__title">{title}</h3>
+  <p class="evento__location">{location}</p>
+  {description && <p class="evento__desc">{description}</p>}
+</article>
+
+<style>
+  .evento {
+    background: var(--color-blanco);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 2vw, 2rem);
+    position: relative;
+    transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+  }
+  .evento:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+  .evento--mesa {
+    background: linear-gradient(160deg, #fbf3df 0%, #f3e2bf 60%, #e9cd95 100%);
+    border-color: #e2c790;
+    color: var(--color-mesa-vino);
+  }
+  .evento--mesa .evento__day,
+  .evento--mesa .evento__time,
+  .evento--mesa .evento__title,
+  .evento--mesa .evento__location { color: var(--color-mesa-vino); }
+  .evento--mesa .evento__desc { color: #5a2727; }
+
+  .evento__badge {
+    position: absolute;
+    top: var(--sp-3);
+    right: var(--sp-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    background: var(--color-mesa-vino);
+    color: var(--color-mesa-crema);
+    padding: 0.3em 0.7em;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+  .evento--default .evento__badge {
+    background: var(--color-azul-claro-50);
+    color: var(--color-azul-deep);
+  }
+
+  .evento__when {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+  }
+  .evento__day {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-azul-deep);
+  }
+  .evento__time {
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+    color: var(--color-azul-deep);
+  }
+
+  .evento__title {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--sp-2);
+  }
+  .evento__location {
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+  .evento__desc {
+    margin-top: var(--sp-3);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-relaxed);
+  }
+</style>

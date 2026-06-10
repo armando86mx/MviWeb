@@ -1,0 +1,20 @@
+---
+import { SITE } from '@lib/site';
+
+interface Crumb { name: string; href: string; }
+interface Props { items: Crumb[]; }
+
+const { items } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    item: c.href.startsWith('http') ? c.href : `${SITE.url}${c.href}`,
+  })),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

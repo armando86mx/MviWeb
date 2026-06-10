@@ -1,0 +1,47 @@
+---
+interface Props {
+  text: string;
+  reference: string;
+  size?: 'sm' | 'md' | 'lg';
+  invert?: boolean;
+}
+const { text, reference, size = 'md', invert = false } = Astro.props;
+---
+<figure class={`quote quote--${size} ${invert ? 'quote--invert' : ''}`}>
+  <blockquote>
+    <p>“{text}”</p>
+  </blockquote>
+  <figcaption>{reference}</figcaption>
+</figure>
+
+<style>
+  .quote {
+    margin: 0;
+  }
+  .quote blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    line-height: var(--lh-snug);
+    color: var(--color-azul-deep);
+    border-left: 3px solid var(--color-azul-claro);
+    padding-left: var(--sp-5);
+    margin: 0;
+  }
+  .quote--sm blockquote { font-size: var(--fs-md); }
+  .quote--md blockquote { font-size: var(--fs-lg); }
+  .quote--lg blockquote { font-size: var(--fs-xl); }
+  .quote figcaption {
+    margin-top: var(--sp-3);
+    padding-left: calc(var(--sp-5) + 3px);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-muted);
+  }
+  .quote--invert blockquote {
+    color: var(--color-fg-on-deep);
+    border-left-color: var(--color-azul-claro);
+  }
+  .quote--invert figcaption { color: var(--color-azul-claro-200); }
+</style>

@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
+
+const title = 'Tu primera visita · Iglesia Cristiana en Puebla';
+const description = '¿Vienes por primera vez a MVI Amor y Gracia en Amozoc? Te contamos qué esperar, cómo se viste la gente, qué ocurre en el servicio y qué NO esperar. Sin sorpresas.';
+
+const faq = [
+  { question: '¿Qué se hace en una reunión cristiana evangélica?', answer: 'Cantamos al Señor, se predica un pasaje de la Biblia, oramos, y compartimos la Cena del Señor con regularidad. Es sencillo, ordenado y enfocado en la Palabra.' },
+  { question: '¿Cuánto duran los servicios?', answer: 'El servicio dominical dura aproximadamente hora y media. Si vienes al estudio bíblico previo de las 10:30 AM, suma una hora más.' },
+  { question: '¿Cómo me visto para ir a una iglesia evangélica?', answer: 'Como te sientas cómodo. La gente viste casual o semi-formal. No hay código de vestimenta. Lo importante es que vengas, no cómo vienes.' },
+  { question: '¿Tengo que ser miembro para asistir?', answer: 'No. Puedes asistir como visitante el tiempo que quieras. Nadie te va a presionar para nada. La membresía formal viene mucho después, si tras conocernos tú eliges ser parte de la familia.' },
+  { question: '¿Hay actividades para niños?', answer: '[PLACEHOLDER: completar con actividades para niños cuando estén formalizadas.] En general, las familias permanecen juntas y los niños son bienvenidos en el servicio.' },
+  { question: '¿Aceptan ofrendas?', answer: 'Hay una caja para ofrenda voluntaria, sin presión. Si vienes de visita, no te preocupes por dar nada. La ofrenda es un acto de los que ya son parte de la familia.' },
+  { question: '¿Tengo que hablar adelante o presentarme?', answer: 'No. Si quieres saludar al pastor al final, eres bienvenido. Si prefieres pasar inadvertido tu primera vez, también está bien.' },
+  { question: '¿Hay estacionamiento?', answer: '[PLACEHOLDER: detallar opciones de estacionamiento cerca del templo en Amozoc.]' },
+];
+---
+
+<BaseLayout title={title} description={description} path="/visitanos">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Visítanos', href: '/visitanos' }]} />
+  <SchemaFAQ slot="head" items={faq} />
+
+  <Hero
+    eyebrow="Primera visita"
+    title="¿Vienes por primera vez? Bienvenido a casa."
+    subtitle="Te contamos qué esperar antes de llegar el domingo. Sin sorpresas, sin requisitos, sin presión."
+  />
+
+  <section class="section">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Lo que sí esperar</p>
+        <h2>Qué encontrarás un domingo en Amor y Gracia</h2>
+      </header>
+      <div class="grid grid--3">
+        <Card variant="subtle">
+          <h3>Calidez sin presión</h3>
+          <p>Te recibimos con saludo, no con preguntas incómodas. Si quieres pasar inadvertido tu primera vez, está bien. Si quieres conocer al pastor al final, también.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Predicación expositiva</h3>
+          <p>Se abre la Biblia, se lee un pasaje, y se explica lo que dice. Sin teatralidad. Si nunca habías oído predicar así, vas a apreciar la calma.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Mesa pequeña</h3>
+          <p>Somos pocos, y eso nos permite conocernos por nombre. Vas a sentir que importas como persona, no como número.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Lo que NO vas a encontrar</p>
+        <h2>Honestos sobre lo que no somos</h2>
+      </header>
+      <div class="grid grid--3">
+        <Card>
+          <h3>No somos espectáculo</h3>
+          <p>No vas a ver máquinas de humo, luces de concierto ni shows. La adoración es sencilla y central.</p>
+        </Card>
+        <Card>
+          <h3>No predicamos prosperidad</h3>
+          <p>No te van a prometer riqueza por sembrar pacto. El evangelio es Cristo, no una fórmula de éxito.</p>
+        </Card>
+        <Card>
+          <h3>No te vamos a presionar</h3>
+          <p>No hay altar de manipulación emocional ni listas de obligaciones para visitantes. Tu paso lo marcas tú.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--prose">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que la gente nos pregunta antes de venir</h2>
+      <div class="faq" style="margin-top: var(--sp-5);">
+        {faq.map((qa) => (
+          <details class="faq__item">
+            <summary>{qa.question}</summary>
+            <p>{qa.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Avísanos que vienes"
+    title="¿Quieres avisarnos que vendrás este domingo?"
+    subtitle="No es obligatorio, pero si nos escribes con tiempo te recibimos personalmente y te explicamos cómo llegar."
+    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+    secondaryCTA={{ label: 'Cómo llegar a Amozoc', href: '/sedes/amozoc' }}
+  />
+</BaseLayout>
+
+<style>
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--sp-4) 0;
+  }
+  .faq__item summary {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-azul-deep);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .faq__item summary::after { content: "+"; font-size: var(--fs-xl); transition: transform var(--dur-2) var(--ease-out); }
+  .faq__item[open] summary::after { transform: rotate(45deg); }
+  .faq__item p { margin-top: var(--sp-3); line-height: var(--lh-relaxed); }
+</style>

@@ -1,0 +1,59 @@
+---
+interface EventInput {
+  name: string;
+  description?: string;
+  recurringDayOfWeek: 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+  startTime: string; // HH:MM (local)
+  endTime?: string;
+  locationName: string;
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion: string;
+  url?: string;
+}
+interface Props { events: EventInput[]; }
+
+const { events } = Astro.props;
+
+const dayMap: Record<string, string> = {
+  Sunday: 'https://schema.org/Sunday',
+  Monday: 'https://schema.org/Monday',
+  Tuesday: 'https://schema.org/Tuesday',
+  Wednesday: 'https://schema.org/Wednesday',
+  Thursday: 'https://schema.org/Thursday',
+  Friday: 'https://schema.org/Friday',
+  Saturday: 'https://schema.org/Saturday',
+};
+
+const schema = events.map((e) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: e.name,
+  description: e.description,
+  eventSchedule: {
+    '@type': 'Schedule',
+    repeatFrequency: 'P1W',
+    byDay: dayMap[e.recurringDayOfWeek],
+    startTime: e.startTime,
+    endTime: e.endTime,
+  },
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  eventStatus: 'https://schema.org/EventScheduled',
+  location: {
+    '@type': 'Place',
+    name: e.locationName,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: e.streetAddress,
+      addressLocality: e.addressLocality,
+      addressRegion: e.addressRegion,
+      addressCountry: 'MX',
+    },
+  },
+  url: e.url,
+  isAccessibleForFree: true,
+  organizer: { '@type': 'Organization', name: 'MVI Amor y Gracia' },
+}));
+---
+
+{schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}

@@ -1,0 +1,96 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Términos de uso · MVI Amor y Gracia';
+const description = 'Términos de uso del sitio web amorygraciapuebla.org. Propiedad intelectual, uso del contenido, materiales Crecer y normas generales.';
+---
+
+<BaseLayout title={title} description={description} path="/terminos">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Términos de uso', href: '/terminos' }]} />
+
+  <article class="legal container container--prose section">
+    <header>
+      <p class="eyebrow">Documento legal</p>
+      <h1>Términos de uso</h1>
+      <p class="muted">Última actualización: abril de 2026.</p>
+    </header>
+
+    <h2>Aceptación</h2>
+    <p>
+      Al acceder al sitio web <a href="https://amorygraciapuebla.org">amorygraciapuebla.org</a>
+      aceptas los siguientes términos. Si no estás de acuerdo, te pedimos que no uses el sitio.
+    </p>
+
+    <h2>Propiedad intelectual</h2>
+    <p>
+      El contenido de este sitio (textos, imágenes, materiales doctrinales, identidad visual,
+      logos y diseño) es propiedad de <strong>MVI Amor y Gracia</strong>, salvo donde se
+      indique expresamente lo contrario.
+    </p>
+    <p>
+      <strong>Está permitido:</strong>
+    </p>
+    <ul>
+      <li>Compartir enlaces a páginas individuales del sitio.</li>
+      <li>Citar fragmentos breves del contenido con la atribución correspondiente y enlace al original.</li>
+      <li>Descargar la serie Crecer para uso personal, familiar o de discipulado dentro de tu propia comunidad cristiana.</li>
+    </ul>
+    <p>
+      <strong>NO está permitido sin autorización escrita previa:</strong>
+    </p>
+    <ul>
+      <li>Reproducir el sitio o partes sustanciales del mismo en otros sitios o publicaciones.</li>
+      <li>Usar el logo, marca o identidad visual de MVI Amor y Gracia en proyectos de terceros.</li>
+      <li>Vender, redistribuir comercialmente o modificar los materiales Crecer.</li>
+      <li>Usar el contenido para fines contrarios a la doctrina y valores de la iglesia.</li>
+    </ul>
+
+    <h2>Comentarios y mensajes</h2>
+    <p>
+      Los formularios del sitio están pensados para comunicación pastoral y consultas
+      genuinas. Nos reservamos el derecho de no responder o reportar mensajes con contenido
+      ofensivo, fraudulento o spam.
+    </p>
+
+    <h2>Limitación de responsabilidad</h2>
+    <p>
+      El sitio se ofrece "tal como está". Hacemos esfuerzo razonable para mantener la
+      información actualizada y el sitio disponible, pero no garantizamos disponibilidad sin
+      interrupciones ni la ausencia de errores. No nos hacemos responsables por daños
+      derivados del uso o imposibilidad de uso del sitio.
+    </p>
+
+    <h2>Enlaces a terceros</h2>
+    <p>
+      El sitio puede contener enlaces a páginas externas (red MVI, recursos cristianos,
+      directorios, redes sociales). No controlamos el contenido de esos sitios ni nos hacemos
+      responsables de sus prácticas.
+    </p>
+
+    <h2>Legislación aplicable</h2>
+    <p>
+      Estos términos se rigen por las leyes mexicanas. Cualquier controversia se resolverá
+      ante los tribunales competentes en la ciudad de Puebla, Puebla, México.
+    </p>
+
+    <h2>Cambios</h2>
+    <p>
+      Podemos actualizar estos términos en cualquier momento. La versión vigente es la
+      publicada en esta página, con la fecha indicada al inicio.
+    </p>
+
+    <h2>Contacto</h2>
+    <p>
+      Para consultas sobre estos términos, escríbenos a
+      <a href="mailto:contacto@amorygraciapuebla.org">contacto@amorygraciapuebla.org</a>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal { padding-top: clamp(2rem, 4vw, 3.5rem); }
+  .legal h2 { margin-top: var(--sp-7); margin-bottom: var(--sp-3); }
+  .legal p { margin-bottom: var(--sp-4); }
+  .legal ul { margin-bottom: var(--sp-4); }
+</style>

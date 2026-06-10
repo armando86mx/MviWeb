@@ -1,0 +1,135 @@
+/* ============================================================
+   MVI Amor y Gracia — Design tokens
+   Fuente: ARCHITECTURE.md §2 (Identidad, voz y tono)
+   ============================================================ */
+
+:root {
+  /* ── Colores institucionales ─────────────────────────────── */
+  --color-azul-deep: #133299;       /* Color principal, headers, CTAs */
+  --color-azul-deep-700: #0e2576;
+  --color-azul-deep-900: #081649;
+  --color-azul-claro: #6699FF;      /* Acentos, links, destacados ligeros */
+  --color-azul-claro-200: #cdddff;
+  --color-azul-claro-50:  #eef3ff;
+
+  /* Reservado, evitar en UI principal — solo si fuese estrictamente necesario */
+  --color-morado-evitar: #9933CC;
+
+  /* Neutros */
+  --color-negro:        #1A1A1A;
+  --color-blanco-roto:  #FAFAFA;
+  --color-blanco:       #FFFFFF;
+  --color-gris-medio:   #666666;
+  --color-gris-claro:   #E5E5E5;
+  --color-gris-suave:   #F2F2F2;
+
+  /* Acento cálido para Tiempo de Mesa (no usar en UI institucional general) */
+  --color-mesa-vino:    #6f2a2a;
+  --color-mesa-cobre:   #b06a3a;
+  --color-mesa-crema:   #f5ead4;
+
+  /* Estado */
+  --color-success: #1f7a4a;
+  --color-error:   #b3261e;
+  --color-warning: #b07b00;
+
+  /* Roles semánticos (para componentes) */
+  --color-bg:           var(--color-blanco-roto);
+  --color-bg-alt:       var(--color-gris-suave);
+  --color-bg-invert:    var(--color-azul-deep);
+  --color-fg:           var(--color-negro);
+  --color-fg-muted:     var(--color-gris-medio);
+  --color-fg-on-deep:   var(--color-blanco-roto);
+  --color-link:         var(--color-azul-deep);
+  --color-link-hover:   var(--color-azul-deep-700);
+  --color-border:       var(--color-gris-claro);
+  --color-focus:        var(--color-azul-claro);
+
+  /* ── Tipografía ──────────────────────────────────────────── */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body:    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:    "Geist Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Escala tipográfica fluida (clamp min, fluid, max) */
+  --fs-xs:   clamp(0.78rem, 0.76rem + 0.1vw, 0.82rem);
+  --fs-sm:   clamp(0.88rem, 0.85rem + 0.15vw, 0.94rem);
+  --fs-base: clamp(1rem, 0.97rem + 0.18vw, 1.08rem);
+  --fs-md:   clamp(1.125rem, 1.08rem + 0.22vw, 1.25rem);
+  --fs-lg:   clamp(1.35rem, 1.27rem + 0.4vw, 1.55rem);
+  --fs-xl:   clamp(1.7rem, 1.55rem + 0.7vw, 2.1rem);
+  --fs-2xl:  clamp(2.05rem, 1.8rem + 1.2vw, 2.85rem);
+  --fs-3xl:  clamp(2.5rem, 2.05rem + 2.1vw, 3.85rem);
+  --fs-4xl:  clamp(3rem, 2.4rem + 3vw, 4.85rem);
+
+  --lh-tight:   1.12;
+  --lh-snug:    1.25;
+  --lh-normal:  1.55;
+  --lh-relaxed: 1.7;
+
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ── Espaciado (escala 8pt extendida) ────────────────────── */
+  --sp-1:  0.25rem;
+  --sp-2:  0.5rem;
+  --sp-3:  0.75rem;
+  --sp-4:  1rem;
+  --sp-5:  1.5rem;
+  --sp-6:  2rem;
+  --sp-7:  2.5rem;
+  --sp-8:  3rem;
+  --sp-9:  4rem;
+  --sp-10: 5rem;
+  --sp-11: 6.5rem;
+  --sp-12: 8rem;
+
+  /* ── Radii ───────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+
+  /* ── Sombras ─────────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(8, 22, 73, 0.04);
+  --shadow-sm: 0 2px 6px rgba(8, 22, 73, 0.06);
+  --shadow-md: 0 6px 18px rgba(8, 22, 73, 0.08);
+  --shadow-lg: 0 14px 36px rgba(8, 22, 73, 0.12);
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --container-max: 1200px;
+  --container-narrow: 760px;
+  --container-prose: 680px;
+  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+
+  --header-h: 72px;
+
+  /* ── Motion ──────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 360ms;
+
+  /* ── Z-index ─────────────────────────────────────────────── */
+  --z-header: 50;
+  --z-modal:  100;
+  --z-toast:  200;
+
+  color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+    --dur-3: 0ms;
+  }
+}

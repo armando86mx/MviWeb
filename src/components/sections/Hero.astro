@@ -1,0 +1,145 @@
+---
+import { SCRIPTURE_HERO, SITE } from '@lib/site';
+import Button from '@components/ui/Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  scripture?: { text: string; reference: string };
+  primaryCTA?: { label: string; href: string };
+  secondaryCTA?: { label: string; href: string };
+  variant?: 'home' | 'page';
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  scripture = SCRIPTURE_HERO,
+  primaryCTA,
+  secondaryCTA,
+  variant = 'page',
+} = Astro.props;
+---
+
+<section class={`hero hero--${variant}`} aria-labelledby="hero-heading">
+  <div class="container hero__inner">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 id="hero-heading" class="hero__title text-balance">{title}</h1>
+    {subtitle && <p class="hero__subtitle text-pretty">{subtitle}</p>}
+
+    {scripture && (
+      <figure class="hero__scripture">
+        <blockquote>“{scripture.text}”</blockquote>
+        <figcaption>{scripture.reference}</figcaption>
+      </figure>
+    )}
+
+    {(primaryCTA || secondaryCTA) && (
+      <div class="hero__ctas">
+        {primaryCTA && <Button variant="invert" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
+        {secondaryCTA && <Button variant="ghost" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+      </div>
+    )}
+
+    {variant === 'home' && (
+      <p class="hero__tagline">{SITE.tagline}</p>
+    )}
+  </div>
+
+  <div class="hero__glow" aria-hidden="true"></div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--color-azul-deep-900) 0%, var(--color-azul-deep) 70%, var(--color-azul-deep-700) 100%);
+    color: var(--color-fg-on-deep);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero--home { padding-block: clamp(5rem, 10vw, 9rem); }
+  .hero--page { padding-block: clamp(3.5rem, 6vw, 5.5rem); }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+  }
+  .hero .eyebrow { color: var(--color-azul-claro-200); }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--color-blanco);
+    margin-bottom: var(--sp-4);
+  }
+  .hero--home .hero__title { font-size: var(--fs-4xl); }
+
+  .hero__subtitle {
+    font-size: var(--fs-md);
+    line-height: var(--lh-relaxed);
+    color: var(--color-azul-claro-200);
+    max-width: 56ch;
+    margin-bottom: var(--sp-6);
+  }
+
+  .hero__scripture {
+    margin: var(--sp-7) 0;
+    padding-left: var(--sp-5);
+    border-left: 3px solid var(--color-azul-claro);
+  }
+  .hero__scripture blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    line-height: var(--lh-snug);
+    color: var(--color-blanco);
+    margin: 0;
+    border: 0;
+    padding: 0;
+    max-width: 60ch;
+  }
+  .hero__scripture figcaption {
+    margin-top: var(--sp-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-azul-claro);
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+    align-items: center;
+  }
+  .hero__ctas :global(.btn--ghost) { color: var(--color-azul-claro-200); }
+  .hero__ctas :global(.btn--ghost):hover { color: var(--color-blanco); }
+
+  .hero__tagline {
+    margin-top: var(--sp-9);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-md);
+    color: var(--color-azul-claro-200);
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: var(--sp-5);
+    max-width: 60ch;
+  }
+
+  .hero__glow {
+    position: absolute;
+    inset: -40% -10% auto auto;
+    width: 70%;
+    height: 130%;
+    background: radial-gradient(closest-side, rgba(102,153,255,0.35), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>

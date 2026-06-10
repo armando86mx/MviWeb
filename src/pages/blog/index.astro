@@ -1,0 +1,85 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const title = 'Blog · MVI Amor y Gracia · Estudios bíblicos y reflexiones';
+const description = 'Blog de MVI Amor y Gracia. Estudios bíblicos, reflexiones pastorales sobre la segunda venida de Cristo, los 5 pilares de la iglesia, sana doctrina y vida en familia.';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout title={title} description={description} path="/blog">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Blog', href: '/blog' }]} />
+
+  <Hero
+    eyebrow="Blog"
+    title="Estudios y reflexiones desde Amor y Gracia"
+    subtitle="Lo que estamos pensando, predicando y conversando como iglesia. Sin prisa, sin clickbait, con la Biblia abierta."
+  />
+
+  <section class="section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="muted">[PLACEHOLDER: aún no hay publicaciones. Volverás a ver entradas cuando se publique el primer post.]</p>
+      ) : (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li>
+              <Card href={`/blog/${post.slug}`}>
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <p class="post-card__tags">
+                    {post.data.tags.slice(0, 2).join(' · ')}
+                  </p>
+                )}
+                <h2 class="post-card__title">{post.data.title}</h2>
+                <p class="post-card__desc">{post.data.description}</p>
+                <p class="post-card__meta">
+                  <time datetime={post.data.pubDate.toISOString()}>{fmt.format(post.data.pubDate)}</time>
+                  {post.data.author && <span> · {post.data.author}</span>}
+                </p>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .post-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+  @media (min-width: 800px) { .post-list { grid-template-columns: repeat(2, 1fr); } }
+
+  .post-card__tags {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-azul-deep);
+    margin-bottom: var(--sp-3);
+  }
+  .post-card__title {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--sp-3);
+    text-wrap: balance;
+  }
+  .post-card__desc { color: var(--color-fg); line-height: var(--lh-relaxed); }
+  .post-card__meta {
+    margin-top: var(--sp-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-fg-muted);
+  }
+</style>

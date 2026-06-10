@@ -1,0 +1,163 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import EventoCard from '@components/sections/EventoCard.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaChurch from '@components/seo/SchemaChurch.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+
+const title = 'Iglesia Cristiana en Amozoc, Puebla · Amor y Gracia';
+const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Servicios dominicales 11:00 AM, Tiempos de Mesa los jueves 7:30 PM. Iglesia evangélica con sana doctrina.';
+---
+
+<BaseLayout title={title} description={description} path="/sedes/amozoc">
+  <SchemaChurch slot="head" variant="amozoc" />
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Sedes', href: '/sedes/amozoc' },
+      { name: 'Amozoc', href: '/sedes/amozoc' },
+    ]}
+  />
+
+  <Hero
+    eyebrow="Sede principal · Amozoc"
+    title="Iglesia Cristiana Evangélica en Amozoc"
+    subtitle="Nuestra sede principal y el corazón de Amor y Gracia. Aquí nos reunimos cada domingo y los jueves para Tiempos de Mesa."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <article class="info">
+          <p class="eyebrow">Cómo llegar</p>
+          <h2>Dirección y referencias</h2>
+          <address class="address">
+            <strong>MVI Amor y Gracia · Sede Amozoc</strong><br />
+            {SITE.sedes.amozoc.streetAddress}<br />
+            Amozoc de Mota, Puebla<br />
+            CP {SITE.sedes.amozoc.postalCode}, México
+          </address>
+          <p class="muted">
+            <strong>Teléfono / WhatsApp:</strong> {SITE.sedes.amozoc.phone}<br />
+            <strong>Correo:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+
+          <p style="margin-top: var(--sp-5);">
+            <Button variant="primary" href={`https://www.google.com/maps/search/?api=1&query=${SITE.sedes.amozoc.latitude},${SITE.sedes.amozoc.longitude}`} target="_blank" rel="noopener">
+              Abrir en Google Maps
+            </Button>
+          </p>
+
+          <p class="muted" style="margin-top: var(--sp-4); font-size: var(--fs-sm);">
+            <em>[PLACEHOLDER: agregar referencia visual ("a media cuadra de…", "a un costado de…") cuando se confirme dirección final.]</em>
+          </p>
+        </article>
+
+        <article class="map" aria-label="Mapa de la ubicación">
+          <div class="map__placeholder">
+            <p>[PLACEHOLDER: mapa de Google embebido]</p>
+            <p class="muted" style="font-size: var(--fs-xs);">
+              Cuando se confirme la dirección final, embeber un &lt;iframe&gt; de Google Maps centrado en la sede de Amozoc.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Horario de reuniones</p>
+        <h2>Cuándo nos encontramos en Amozoc</h2>
+      </header>
+      <div class="grid grid--3">
+        <EventoCard
+          title="Estudio bíblico previo"
+          weekday="Domingos"
+          time="10:30 AM"
+          location="Sede Amozoc"
+          description="Estudio en grupos pequeños, una hora antes del servicio."
+        />
+        <EventoCard
+          title="Servicio dominical"
+          weekday="Domingos"
+          time="11:00 AM"
+          location="Sede Amozoc"
+          description="Adoración, predicación y comunión. Familias bienvenidas."
+        />
+        <EventoCard
+          title="Tiempos de Mesa"
+          weekday="Jueves"
+          time="7:30 PM"
+          location="Casa de la familia Jiménez, Amozoc"
+          description="Estudio en hogar, mesa compartida, conversación profunda."
+          variant="mesa"
+          badge="Hogar"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <Card variant="subtle">
+          <h3>Para vecinos de Amozoc</h3>
+          <p>
+            Si vives en Amozoc, San Salvador el Verde, Tepeaca, Santa María Xonacatepec o
+            colonias cercanas, somos tu iglesia local. Te recibimos cada domingo sin importar
+            si es tu primera vez o vienes hace años a otra congregación.
+          </p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Para gente de Puebla y zonas satélite</h3>
+          <p>
+            Cada domingo nos visita gente que viene desde la capital, las Cholulas y zonas
+            cercanas. La sede en Amozoc está pensada también para ti.
+          </p>
+          <p style="margin-top: var(--sp-3);">
+            <Button variant="ghost" href="/puebla">Más para gente de Puebla →</Button>
+          </p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Visítanos"
+    title="¿Vienes este domingo? Avísanos."
+    subtitle="Si quieres, escríbenos para confirmarte hora exacta, dirección final y dónde estacionarte."
+    primaryCTA={{ label: 'Escribir a la sede', href: '/contacto' }}
+    secondaryCTA={{ label: 'Tu primera visita', href: '/visitanos' }}
+  />
+</BaseLayout>
+
+<style>
+  .info { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .address {
+    font-style: normal;
+    line-height: var(--lh-relaxed);
+    padding: var(--sp-4);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+  }
+  .map__placeholder {
+    aspect-ratio: 4 / 3;
+    background: var(--color-bg-alt);
+    border: 1px dashed var(--color-azul-deep);
+    border-radius: var(--radius-md);
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: var(--sp-5);
+    color: var(--color-azul-deep);
+    font-family: var(--font-mono);
+  }
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+</style>

@@ -1,0 +1,241 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import ScriptureQuote from '@components/ui/ScriptureQuote.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
+import CTABand from '@components/sections/CTABand.astro';
+
+const title = 'Lo que creemos · Sana Doctrina e Iglesia Bíblica en Puebla';
+const description = 'Nuestra confesión: una iglesia evangélica con sana doctrina, centrada en Cristo, que vive los 5 pilares de Hechos 2:42 y espera con gozo el regreso de Jesús.';
+
+const pilares = [
+  {
+    n: 1,
+    titulo: 'Intimidad en adoración',
+    versiculo: 'Juan 4:23-24',
+    texto: 'No buscamos espectáculo: buscamos rostro. La adoración no es entretenimiento, es respuesta. Es lo que ocurre cuando el corazón reconoce a un Dios real y responde con todo lo que es. La adoración en Amor y Gracia es sencilla, sostenida y central.',
+  },
+  {
+    n: 2,
+    titulo: 'Enseñanza',
+    versiculo: '2 Timoteo 3:16-17',
+    texto: 'Creemos en la predicación expositiva — abrir la Biblia, leerla en su contexto, y dejar que diga lo que dice, no lo que queremos que diga. La sana doctrina edifica y sostiene en el tiempo. Nuestro material introductorio Crecer está construido sobre esta convicción.',
+  },
+  {
+    n: 3,
+    titulo: 'Comunión',
+    versiculo: 'Hechos 2:44-46',
+    texto: 'Hacer iglesia es hacer familia. Conocernos por nombre, cuidarnos en lo concreto, y caminar juntos en lo cotidiano. Por eso valoramos los Tiempos de Mesa: el evangelio se ve mejor en la mesa que en el escenario.',
+  },
+  {
+    n: 4,
+    titulo: 'Oración',
+    versiculo: 'Hechos 2:42, 1 Tesalonicenses 5:17',
+    texto: 'No como recurso de emergencia, sino como aire de la iglesia. Oramos juntos, oramos por los nuestros, y le pedimos al Señor que sostenga lo que hace. Sin oración, lo demás es activismo religioso.',
+  },
+  {
+    n: 5,
+    titulo: 'Partimiento del pan',
+    versiculo: 'Lucas 22:19-20',
+    texto: 'La mesa de la comunión nos recuerda quiénes somos: la novia que espera al novio, sostenida por la cruz, esperando con gozo el regreso de Cristo.',
+  },
+];
+
+const declaracion = [
+  { titulo: 'La Biblia', texto: 'Creemos que las Escrituras del Antiguo y Nuevo Testamento son la Palabra de Dios, inspirada, autoritativa y suficiente para enseñar, redargüir, corregir e instruir en justicia.' },
+  { titulo: 'Dios trino', texto: 'Creemos en un solo Dios eternamente existente en tres personas: Padre, Hijo y Espíritu Santo. Igualmente Dios, distintos en función, unidos en gloria.' },
+  { titulo: 'Jesucristo', texto: 'Creemos que Jesús es plenamente Dios y plenamente hombre, nacido de la virgen María, crucificado por nuestros pecados, resucitado al tercer día, ascendido al cielo, y que ha de volver con poder y gloria.' },
+  { titulo: 'Espíritu Santo', texto: 'Creemos que el Espíritu Santo convence al mundo de pecado, regenera al creyente, lo sella, lo capacita para servir y produce su fruto en quien camina conforme a Él.' },
+  { titulo: 'Salvación por gracia', texto: 'Creemos que la salvación es por gracia, mediante la fe en Cristo, no por obras, para que nadie se gloríe. Es don de Dios, no logro humano.' },
+  { titulo: 'La iglesia', texto: 'Creemos que la iglesia es el cuerpo de Cristo, una novia preparada, formada por todos los que han nacido de nuevo. Se reúne local y físicamente, y vive los 5 pilares de Hechos 2:42.' },
+  { titulo: 'Segunda venida de Cristo', texto: 'Creemos que Jesús volverá personal, visible y gloriosamente. Esta esperanza viva moldea cómo vivimos hoy: con gozo, sobriedad y servicio.' },
+  { titulo: 'Bautismo y Cena', texto: 'Practicamos el bautismo del creyente por inmersión y participamos regularmente de la Cena del Señor como recordatorio del pacto.' },
+];
+
+const faq = [
+  { question: '¿Son una denominación?', answer: 'No somos una denominación tradicional. Operamos bajo la cobertura ministerial de Ministerios Visión Internacional (MVI), una red de iglesias evangélicas con presencia en México, América Latina y otros países.' },
+  { question: '¿Qué significa iglesia con sana doctrina?', answer: 'Significa que enseñamos lo que la Biblia enseña, en su contexto, sin atajos. Buscamos predicación expositiva, no de entretenimiento, y rechazamos modas teológicas y la teología de la prosperidad.' },
+  { question: '¿Creen en los dones del Espíritu?', answer: 'Creemos que el Espíritu Santo está activo en su iglesia hoy. No somos cesacionistas duros, pero tampoco abrazamos prácticas extremas que no encuentran respaldo en la Palabra.' },
+  { question: '¿Qué piensan de la teología de la prosperidad?', answer: 'No la enseñamos. Creemos que el evangelio es Cristo, no un retorno financiero garantizado. La fe no es semilla mágica, es confianza obediente.' },
+  { question: '¿Tengo que ser miembro para asistir?', answer: 'No. Eres bienvenido como visitante el tiempo que necesites. La membresía formal viene después, si tras conocernos quieres ser parte de la familia.' },
+];
+---
+
+<BaseLayout title={title} description={description} path="/lo-que-creemos">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Lo que creemos', href: '/lo-que-creemos' }]} />
+  <SchemaFAQ slot="head" items={faq} />
+
+  <Hero
+    eyebrow="Confesión y doctrina"
+    title="Lo que creemos – Iglesia con sana doctrina en Puebla"
+    subtitle="Una confesión sencilla, bíblica y antigua. Cinco pilares que sostienen la vida de la iglesia y una declaración de fe que no necesita inventarse cada generación."
+  />
+
+  <section class="section">
+    <div class="container container--prose">
+      <p class="eyebrow">Hechos 2:42</p>
+      <h2>Los 5 pilares — la página que define a Amor y Gracia</h2>
+      <p class="lead">
+        En Hechos 2:42 la iglesia primitiva se sostuvo de cinco prácticas. Cinco hábitos que no
+        son un programa, son la forma en que la iglesia vive. Aquí están, uno por uno, con su
+        versículo y un párrafo honesto de cómo los entendemos hoy.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <ol class="pilares-detallados" role="list">
+        {pilares.map((p) => (
+          <li>
+            <Card>
+              <div class="pilar-detail">
+                <div class="pilar-detail__num"><span>{String(p.n).padStart(2, '0')}</span></div>
+                <div>
+                  <h3>{p.titulo}</h3>
+                  <p>{p.texto}</p>
+                  <p class="pilar-detail__ref">{p.versiculo}</p>
+                </div>
+              </div>
+            </Card>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">Declaración de fe</p>
+      <h2>Lo que afirmamos — sin atajos ni modas</h2>
+      <p class="lead">
+        Una confesión breve. Lo escrito aquí no es novedad: es lo que la iglesia bíblica ha
+        confesado en sus líneas centrales por siglos.
+      </p>
+      <dl class="declaracion">
+        {declaracion.map((d) => (
+          <div class="declaracion__item">
+            <dt>{d.titulo}</dt>
+            <dd>{d.texto}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--narrow">
+      <ScriptureQuote
+        size="lg"
+        text="aguardando la esperanza bienaventurada y la manifestación gloriosa de nuestro gran Dios y Salvador Jesucristo"
+        reference="Tito 2:13"
+      />
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--prose">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que la gente nos pregunta</h2>
+      <div class="faq">
+        {faq.map((qa) => (
+          <details class="faq__item">
+            <summary>{qa.question}</summary>
+            <p>{qa.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Recursos"
+    title="¿Quieres profundizar? Te enviamos la serie Crecer."
+    subtitle="Tres niveles de estudio bíblico introductorio sobre los fundamentos, los hábitos del discípulo y los 5 pilares de la iglesia. Gratuito, en tu correo."
+    primaryCTA={{ label: 'Descargar serie Crecer', href: '/recursos/descargar' }}
+    secondaryCTA={{ label: 'Conocer cómo nos reunimos', href: '/como-nos-reunimos' }}
+  />
+</BaseLayout>
+
+<style>
+  .pilares-detallados {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--sp-5);
+  }
+  .pilar-detail {
+    display: grid;
+    gap: var(--sp-5);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 700px) {
+    .pilar-detail { grid-template-columns: auto 1fr; align-items: flex-start; }
+  }
+  .pilar-detail__num span {
+    display: grid;
+    place-content: center;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--color-azul-deep);
+    color: var(--color-fg-on-deep);
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-semibold);
+  }
+  .pilar-detail__ref {
+    margin-top: var(--sp-3);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-muted);
+  }
+
+  .declaracion {
+    display: grid;
+    gap: var(--sp-5);
+    margin: 0;
+  }
+  .declaracion__item dt {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+    color: var(--color-azul-deep);
+    margin-bottom: var(--sp-2);
+  }
+  .declaracion__item dd { margin: 0; line-height: var(--lh-relaxed); }
+
+  .faq { margin-top: var(--sp-5); }
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--sp-4) 0;
+  }
+  .faq__item summary {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-azul-deep);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .faq__item summary::after {
+    content: "+";
+    font-size: var(--fs-xl);
+    color: var(--color-azul-deep);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .faq__item[open] summary::after { transform: rotate(45deg); }
+  .faq__item p {
+    margin-top: var(--sp-3);
+    color: var(--color-fg);
+    line-height: var(--lh-relaxed);
+  }
+</style>

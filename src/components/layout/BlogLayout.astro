@@ -1,0 +1,113 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SchemaArticle from '@components/seo/SchemaArticle.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+import { buildCanonical } from '@lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: readonly string[];
+  author?: string;
+  ogImage?: string;
+  path: string;
+}
+
+const { title, description, pubDate, updatedDate, tags = [], author, ogImage, path } = Astro.props;
+const url = buildCanonical(path);
+const datePublished = pubDate.toISOString();
+const dateModified = (updatedDate ?? pubDate).toISOString();
+const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  path={path}
+  ogType="article"
+  ogImage={ogImage}
+  publishedTime={datePublished}
+  modifiedTime={dateModified}
+>
+  <SchemaArticle
+    slot="head"
+    headline={title}
+    description={description}
+    url={url}
+    datePublished={datePublished}
+    dateModified={dateModified}
+    author={author}
+    tags={tags}
+    image={ogImage ? `${SITE.url}${ogImage}` : undefined}
+  />
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Blog', href: '/blog' },
+      { name: title, href: path },
+    ]}
+  />
+
+  <article class="post container container--prose section">
+    <header class="post__header">
+      <p class="eyebrow">Blog · MVI Amor y Gracia</p>
+      <h1>{title}</h1>
+      <p class="post__meta">
+        <time datetime={datePublished}>{fmt.format(pubDate)}</time>
+        {author && <span> · {author}</span>}
+      </p>
+      {tags.length > 0 && (
+        <ul class="post__tags" aria-label="Etiquetas">
+          {tags.map((t) => <li>{t}</li>)}
+        </ul>
+      )}
+    </header>
+
+    <div class="post__body">
+      <slot />
+    </div>
+
+    <footer class="post__footer">
+      <a href="/blog" class="post__back">← Volver al blog</a>
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post { padding-top: clamp(2rem, 4vw, 3.5rem); }
+  .post__header { margin-bottom: var(--sp-7); }
+  .post h1 { margin-top: var(--sp-3); text-wrap: balance; }
+  .post__meta { font-size: var(--fs-sm); color: var(--color-fg-muted); margin-top: var(--sp-3); font-family: var(--font-mono); }
+  .post__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    list-style: none;
+    margin: var(--sp-4) 0 0;
+    padding: 0;
+  }
+  .post__tags li {
+    font-size: var(--fs-xs);
+    background: var(--color-azul-claro-50);
+    color: var(--color-azul-deep);
+    padding: 0.3em 0.7em;
+    border-radius: var(--radius-pill);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .post__body :global(h2) { margin-top: var(--sp-8); margin-bottom: var(--sp-4); }
+  .post__body :global(h3) { margin-top: var(--sp-7); margin-bottom: var(--sp-3); }
+  .post__body :global(p) { margin-bottom: var(--sp-4); line-height: var(--lh-relaxed); }
+  .post__body :global(ul), .post__body :global(ol) { margin: var(--sp-4) 0; }
+  .post__body :global(li) { margin-bottom: var(--sp-2); line-height: var(--lh-relaxed); }
+  .post__body :global(blockquote) { margin: var(--sp-6) 0; }
+  .post__body :global(img) { border-radius: var(--radius-md); margin: var(--sp-5) 0; }
+
+  .post__footer { margin-top: var(--sp-9); padding-top: var(--sp-5); border-top: 1px solid var(--color-border); }
+  .post__back { font-family: var(--font-mono); font-size: var(--fs-sm); }
+</style>

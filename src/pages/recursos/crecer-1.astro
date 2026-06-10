@@ -1,0 +1,107 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Button from '@components/ui/Button.astro';
+import Card from '@components/ui/Card.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Crecer 1 — Fundamentos · Estudio bíblico introductorio · Amor y Gracia';
+const description = 'Crecer 1 es el primer nivel de la serie Crecer. Una guía sencilla y bíblica para quienes empiezan a seguir a Cristo: qué es la Biblia, qué significa ser hijo de Dios, por qué seguir a Jesús.';
+---
+
+<BaseLayout title={title} description={description} path="/recursos/crecer-1">
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Recursos', href: '/recursos' },
+      { name: 'Crecer 1', href: '/recursos/crecer-1' },
+    ]}
+  />
+
+  <Hero
+    eyebrow="Serie Crecer · Nivel 1"
+    title="Crecer 1 — Fundamentos"
+    subtitle="El primer nivel del material que usamos en la iglesia para acompañar a quienes están dando sus primeros pasos en la fe. Sencillo, bíblico, sin atajos."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">¿De qué trata?</p>
+      <h2>El primer paso es saber qué fundamento estás pisando.</h2>
+      <p>
+        Crecer 1 está pensado para alguien que <strong>acaba de creer en Cristo</strong> o
+        está cerca de hacerlo, pero también para quien lleva años siendo cristiano y quiere
+        revisar los fundamentos sin asumir nada por sentado.
+      </p>
+      <p>
+        El material está organizado en lecciones cortas, cada una con un pasaje bíblico, una
+        explicación clara, y preguntas para conversar. Está pensado para usarse a solas, en
+        pareja o en pequeños grupos. En Amor y Gracia lo usamos en discipulado de uno a uno y
+        en algunos Tiempos de Mesa de inicio.
+      </p>
+
+      <h3>Lo que vas a aprender</h3>
+      <ul>
+        <li>Qué es la Biblia y por qué es la Palabra de Dios.</li>
+        <li>Quién es Dios — Padre, Hijo y Espíritu Santo.</li>
+        <li>Quién es Jesús y por qué murió en la cruz.</li>
+        <li>Qué significa <em>nacer de nuevo</em> y ser hijo de Dios.</li>
+        <li>Cómo orar, cómo leer la Biblia y por dónde empezar.</li>
+        <li>Qué es la iglesia y por qué necesitas una.</li>
+      </ul>
+
+      <h3>¿Para quién es?</h3>
+      <ul>
+        <li><strong>Si acabas de creer:</strong> es exactamente tu primer paso.</li>
+        <li><strong>Si estás cerca de creer:</strong> aclara muchas dudas comunes sin manipulación.</li>
+        <li><strong>Si llevas años:</strong> revisa con ojos frescos las verdades fundamentales.</li>
+        <li><strong>Si estás discipulando a alguien:</strong> tienes una guía estructurada para hacerlo.</li>
+      </ul>
+
+      <h3>Versículos clave que aborda</h3>
+      <ul>
+        <li>Juan 3:16 · Romanos 3:23-24 · Efesios 2:8-9</li>
+        <li>2 Timoteo 3:16-17 · Hechos 2:42 · Mateo 28:19-20</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow text-center stack-lg">
+      <p class="eyebrow">Descarga gratuita</p>
+      <h2>Recibe los tres niveles en tu correo</h2>
+      <p class="lead" style="margin-inline:auto;">
+        Te enviamos los tres PDFs en un solo correo. Empieza por Crecer 1.
+      </p>
+      <div>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <Card variant="subtle" href="/recursos/crecer-2">
+          <p class="eyebrow">Siguiente nivel</p>
+          <h3>Crecer 2 — Hábitos del discípulo</h3>
+          <p>Una vez consolidados los fundamentos, los hábitos cotidianos del discípulo: oración, estudio, vida en comunión.</p>
+        </Card>
+        <Card variant="subtle" href="/recursos/crecer-3">
+          <p class="eyebrow">Tercer nivel</p>
+          <h3>Crecer 3 — La iglesia que crece</h3>
+          <p>Los 5 pilares de la iglesia primitiva (Hechos 2:42) y cómo sostenerlos hoy.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Conversación"
+    title="¿Te quedan preguntas leyendo el material?"
+    subtitle="Es justo lo que esperamos. Sentarnos a conversar la Palabra es de las cosas que más nos gusta hacer como iglesia."
+    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+  />
+</BaseLayout>

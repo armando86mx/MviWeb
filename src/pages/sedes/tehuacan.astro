@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaChurch from '@components/seo/SchemaChurch.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+
+const title = 'Iglesia Cristiana en Tehuacán, Puebla · Amor y Gracia';
+const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Iglesia evangélica con sana doctrina, en comunión con la sede principal de Amozoc.';
+---
+
+<BaseLayout title={title} description={description} path="/sedes/tehuacan">
+  <SchemaChurch slot="head" variant="tehuacan" />
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Sedes', href: '/sedes/tehuacan' },
+      { name: 'Tehuacán', href: '/sedes/tehuacan' },
+    ]}
+  />
+
+  <Hero
+    eyebrow="Iglesia hija · Tehuacán"
+    title="Iglesia Cristiana Evangélica en Tehuacán"
+    subtitle="Nuestra iglesia hija en Tehuacán, Puebla. Con su propio liderazgo local, en comunión con la sede principal de Amozoc."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">Quiénes somos en Tehuacán</p>
+      <h2>Una iglesia local, plantada con calma.</h2>
+      <p>
+        La iglesia de Tehuacán es <strong>iglesia hija</strong> de MVI Amor y Gracia. Eso
+        significa que es una congregación local, con su propio liderazgo y vida en comunidad,
+        pero en comunión doctrinal y pastoral con la sede principal en Amozoc.
+      </p>
+      <p>
+        Si vives en Tehuacán, Tepanco de López, San Sebastián Zinacatepec, Ajalpan o municipios
+        cercanos, esta es tu iglesia local. Compartimos los mismos pilares, la misma sana
+        doctrina y el mismo énfasis en la mesa y la profundidad.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="grid grid--2">
+        <article class="info">
+          <p class="eyebrow">Cómo llegar</p>
+          <h2>Dirección y horario</h2>
+          <address class="address">
+            <strong>MVI Amor y Gracia · Tehuacán</strong><br />
+            {SITE.sedes.tehuacan.streetAddress}<br />
+            Tehuacán, Puebla<br />
+            CP {SITE.sedes.tehuacan.postalCode}, México
+          </address>
+          <p class="muted">
+            <strong>Teléfono / WhatsApp:</strong> {SITE.sedes.tehuacan.phone}<br />
+            <strong>Correo:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+
+          <p class="muted" style="font-size: var(--fs-sm); margin-top: var(--sp-4);">
+            <em>[PLACEHOLDER: confirmar horario de servicios y nombre del liderazgo local de Tehuacán.]</em>
+          </p>
+
+          <p style="margin-top: var(--sp-5);">
+            <Button variant="primary" href={`https://www.google.com/maps/search/?api=1&query=${SITE.sedes.tehuacan.latitude},${SITE.sedes.tehuacan.longitude}`} target="_blank" rel="noopener">
+              Abrir en Google Maps
+            </Button>
+          </p>
+        </article>
+
+        <article class="map" aria-label="Mapa de la ubicación">
+          <div class="map__placeholder">
+            <p>[PLACEHOLDER: mapa de Google embebido para Tehuacán]</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Liderazgo local</p>
+        <h2>Pastores y líderes en Tehuacán</h2>
+        <p class="lead">
+          La iglesia de Tehuacán cuenta con su propio liderazgo, con conocimiento de la zona,
+          experiencia ministerial y comunión con los pastores Daniel y Rocío Chávez.
+        </p>
+      </header>
+
+      <Card variant="subtle">
+        <p>[PLACEHOLDER: nombre del pastor / líder local de Tehuacán + breve bio + foto.]</p>
+      </Card>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Visítanos"
+    title="Ven a conocer la iglesia en Tehuacán."
+    subtitle="Si vives en la zona y estás buscando iglesia, escríbenos y te recibimos personalmente. Sin presión, sin requisitos."
+    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+    secondaryCTA={{ label: 'Tu primera visita', href: '/visitanos' }}
+  />
+</BaseLayout>
+
+<style>
+  .info { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .address {
+    font-style: normal;
+    line-height: var(--lh-relaxed);
+    padding: var(--sp-4);
+    background: var(--color-blanco);
+    border-radius: var(--radius-md);
+  }
+  .map__placeholder {
+    aspect-ratio: 4 / 3;
+    background: var(--color-blanco);
+    border: 1px dashed var(--color-azul-deep);
+    border-radius: var(--radius-md);
+    display: grid; place-content: center; text-align: center;
+    padding: var(--sp-5);
+    color: var(--color-azul-deep);
+    font-family: var(--font-mono);
+  }
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+</style>

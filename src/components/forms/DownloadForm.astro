@@ -1,0 +1,134 @@
+---
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
+---
+
+<form
+  class="form"
+  action="/api/descarga.php"
+  method="POST"
+  novalidate
+  data-form="descarga"
+  aria-describedby="dl-help"
+>
+  <p id="dl-help" class="form__help">
+    Te enviaremos los tres niveles de la serie Crecer en un solo correo.
+    Si no llega en unos minutos, revisa tu carpeta de spam.
+  </p>
+
+  <div class="form__row">
+    <label class="field">
+      <span class="field__label">Nombre <span aria-hidden="true">*</span></span>
+      <input type="text" name="nombre" required minlength="2" maxlength="50" autocomplete="given-name" />
+    </label>
+    <label class="field">
+      <span class="field__label">Apellido <span aria-hidden="true">*</span></span>
+      <input type="text" name="apellido" required minlength="2" maxlength="50" autocomplete="family-name" />
+    </label>
+  </div>
+
+  <label class="field">
+    <span class="field__label">Correo <span aria-hidden="true">*</span></span>
+    <input type="email" name="email" required maxlength="120" autocomplete="email" inputmode="email" />
+    <span class="field__hint">Solo lo usaremos para enviarte el material y, si lo decides después, el boletín.</span>
+  </label>
+
+  <div class="hp" aria-hidden="true">
+    <label>No llenar este campo:
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <input type="hidden" name="g-recaptcha-response" data-recaptcha-token />
+
+  <div class="form__actions">
+    <button type="submit" class="btn btn--primary btn--lg">Enviar a mi correo</button>
+    <p class="form__legal">
+      Al enviar aceptas nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+    </p>
+  </div>
+
+  <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .form { display: grid; gap: var(--sp-5); max-width: 600px; }
+  .form__help { font-size: var(--fs-sm); color: var(--color-fg-muted); }
+  .form__row { display: grid; gap: var(--sp-4); }
+  @media (min-width: 600px) { .form__row { grid-template-columns: 1fr 1fr; } }
+
+  .field { display: grid; gap: var(--sp-2); }
+  .field__label { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+  .field__hint { font-size: var(--fs-xs); color: var(--color-fg-muted); }
+  .field input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: var(--fs-base);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-blanco);
+    transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+  }
+  .field input:focus {
+    border-color: var(--color-azul-claro);
+    box-shadow: 0 0 0 3px var(--color-azul-claro-50);
+    outline: none;
+  }
+  .hp { position: absolute; left: -9999px; top: -9999px; visibility: hidden; }
+
+  .form__actions { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
+  @media (min-width: 600px) { .form__actions { flex-direction: row; align-items: center; } }
+  .form__legal { font-size: var(--fs-xs); color: var(--color-fg-muted); }
+
+  .form__status:not(:empty) {
+    padding: var(--sp-3) var(--sp-4);
+    border-radius: var(--radius-md);
+    background: var(--color-azul-claro-50);
+    color: var(--color-azul-deep);
+    font-size: var(--fs-sm);
+  }
+  .form__status[data-state="error"]:not(:empty) {
+    background: #fde7e7;
+    color: var(--color-error);
+  }
+</style>
+
+<script define:vars={{ recaptchaSiteKey }}>
+  const form = document.querySelector('[data-form="descarga"]');
+  const status = document.querySelector('[data-form-status]');
+  const tokenInput = document.querySelector('[data-recaptcha-token]');
+
+  async function getRecaptchaToken() {
+    if (!recaptchaSiteKey || !window.grecaptcha) return '';
+    return new Promise((resolve) => {
+      window.grecaptcha.ready(async () => {
+        try {
+          const t = await window.grecaptcha.execute(recaptchaSiteKey, { action: 'descarga' });
+          resolve(t);
+        } catch { resolve(''); }
+      });
+    });
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!status) return;
+    status.textContent = 'Enviando…';
+    status.removeAttribute('data-state');
+
+    const t = await getRecaptchaToken();
+    if (tokenInput) tokenInput.value = t;
+
+    const data = new FormData(form);
+    try {
+      const r = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!r.ok) throw new Error(String(r.status));
+      const j = await r.json().catch(() => ({}));
+      status.textContent = j.message ?? '¡Listo! Revisa tu correo en los próximos minutos.';
+      form.reset();
+    } catch (err) {
+      status.setAttribute('data-state', 'error');
+      status.textContent = 'No pudimos procesar tu solicitud. Intenta de nuevo o escríbenos a contacto@amorygraciapuebla.org';
+    }
+  });
+</script>

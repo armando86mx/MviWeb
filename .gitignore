@@ -1,0 +1,42 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.local
+.env.production
+.env.*.local
+
+# astro
+.astro/
+
+# secrets / config PHP fuera de raíz (por si acaso)
+*.config.php
+amorygracia-config.php
+docs/kynoz-reference/kynoz-config.php
+
+# macOS
+.DS_Store
+
+# claude local
+.claude/settings.local.json
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# temp
+*.log
+*.tmp

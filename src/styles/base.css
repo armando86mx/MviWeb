@@ -1,0 +1,89 @@
+/* Tipografía base, links, headings */
+
+html {
+  font-family: var(--font-body);
+  font-size: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+body {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg);
+}
+
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl); }
+h4 { font-size: var(--fs-lg); line-height: var(--lh-snug); }
+h5 { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+h6 { font-size: var(--fs-base); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--color-fg-muted); }
+
+p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-relaxed);
+  color: var(--color-fg);
+}
+
+p + p { margin-top: var(--sp-4); }
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color var(--dur-1) var(--ease-out);
+}
+a:hover { color: var(--color-link-hover); }
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+::selection {
+  background-color: var(--color-azul-claro-200);
+  color: var(--color-azul-deep-900);
+}
+
+strong, b { font-weight: var(--fw-semibold); }
+
+blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
+  color: var(--color-azul-deep);
+  border-left: 3px solid var(--color-azul-claro);
+  padding-left: var(--sp-5);
+  margin: var(--sp-6) 0;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: var(--sp-3);
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: var(--fs-sm);
+  color: var(--color-fg-muted);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: var(--sp-7) 0;
+}
+
+code, pre, kbd { font-family: var(--font-mono); font-size: 0.95em; }

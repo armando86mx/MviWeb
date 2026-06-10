@@ -1,0 +1,111 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'invert';
+  size?: 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  fullWidth?: boolean;
+  ariaLabel?: string;
+  rel?: string;
+  target?: string;
+  class?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  type = 'button',
+  disabled = false,
+  fullWidth = false,
+  ariaLabel,
+  rel,
+  target,
+  class: extraClass = '',
+} = Astro.props;
+
+const cls = [
+  'btn',
+  `btn--${variant}`,
+  `btn--${size}`,
+  fullWidth ? 'btn--full' : '',
+  extraClass,
+].filter(Boolean).join(' ');
+---
+
+{href ? (
+  <a href={href} class={cls} aria-label={ariaLabel} rel={rel} target={target}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={cls} disabled={disabled} aria-label={ariaLabel}>
+    <slot />
+  </button>
+)}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    text-decoration: none;
+    border-radius: var(--radius-pill);
+    transition: background-color var(--dur-2) var(--ease-out),
+                color var(--dur-2) var(--ease-out),
+                border-color var(--dur-2) var(--ease-out),
+                transform var(--dur-1) var(--ease-out),
+                box-shadow var(--dur-2) var(--ease-out);
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  .btn--sm { padding: 0.55rem 1rem; font-size: var(--fs-sm); }
+  .btn--md { padding: 0.85rem 1.5rem; font-size: var(--fs-base); }
+  .btn--lg { padding: 1.05rem 2rem; font-size: var(--fs-md); }
+  .btn--full { width: 100%; }
+
+  .btn--primary {
+    background-color: var(--color-azul-deep);
+    color: var(--color-fg-on-deep);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn--primary:hover {
+    background-color: var(--color-azul-deep-700);
+    color: var(--color-fg-on-deep);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn--secondary {
+    background-color: transparent;
+    color: var(--color-azul-deep);
+    border-color: var(--color-azul-deep);
+  }
+  .btn--secondary:hover {
+    background-color: var(--color-azul-deep);
+    color: var(--color-fg-on-deep);
+  }
+
+  .btn--ghost {
+    background-color: transparent;
+    color: var(--color-azul-deep);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    padding-inline: 0;
+    border-radius: 0;
+  }
+  .btn--ghost:hover { color: var(--color-azul-deep-700); }
+
+  .btn--invert {
+    background-color: var(--color-blanco-roto);
+    color: var(--color-azul-deep);
+  }
+  .btn--invert:hover { background-color: var(--color-azul-claro-50); }
+</style>

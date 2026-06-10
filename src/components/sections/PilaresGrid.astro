@@ -1,0 +1,92 @@
+---
+import Card from '@components/ui/Card.astro';
+
+const pilares = [
+  {
+    n: '01',
+    titulo: 'Intimidad en adoración',
+    descripcion: 'No buscamos espectáculo. Buscamos rostro. La adoración es respuesta del corazón a un Dios real.',
+    versiculo: 'Hechos 2:42, Juan 4:23',
+  },
+  {
+    n: '02',
+    titulo: 'Enseñanza',
+    descripcion: 'Sentarse con la Palabra, sin atajos. La sana doctrina edifica y sostiene en el tiempo.',
+    versiculo: '2 Timoteo 3:16-17',
+  },
+  {
+    n: '03',
+    titulo: 'Comunión',
+    descripcion: 'Hacer iglesia es hacer familia. Conocernos, cuidarnos y caminar juntos.',
+    versiculo: 'Hechos 2:44-46',
+  },
+  {
+    n: '04',
+    titulo: 'Oración',
+    descripcion: 'No como recurso de emergencia, sino como aire de la iglesia.',
+    versiculo: 'Hechos 2:42, 1 Tesalonicenses 5:17',
+  },
+  {
+    n: '05',
+    titulo: 'Partimiento del pan',
+    descripcion: 'La mesa de la comunión nos recuerda quiénes somos: la novia que espera al novio.',
+    versiculo: 'Lucas 22:19-20',
+  },
+];
+---
+
+<section class="pilares" aria-labelledby="pilares-heading">
+  <div class="container">
+    <header class="pilares__header">
+      <p class="eyebrow">Hechos 2:42</p>
+      <h2 id="pilares-heading">Los 5 pilares de la iglesia primitiva</h2>
+      <p class="lead">
+        Cinco prácticas que sostuvieron a la iglesia en sus primeros días y siguen sosteniendo
+        a Amor y Gracia hoy.
+      </p>
+    </header>
+
+    <ol class="pilares__grid" role="list">
+      {pilares.map((p) => (
+        <li>
+          <Card variant="subtle">
+            <p class="pilar__n">{p.n}</p>
+            <h3>{p.titulo}</h3>
+            <p>{p.descripcion}</p>
+            <p class="pilar__ref">{p.versiculo}</p>
+          </Card>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .pilares { padding-block: clamp(3rem, 5vw, 6rem); }
+  .pilares__header { max-width: 60ch; margin-bottom: var(--sp-7); }
+  .pilares__grid {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+  @media (min-width: 700px) { .pilares__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .pilares__grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .pilar__n {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-azul-deep);
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--sp-2);
+  }
+  .pilar__ref {
+    margin-top: var(--sp-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-fg-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+</style>

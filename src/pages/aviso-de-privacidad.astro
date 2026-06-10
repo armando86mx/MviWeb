@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Aviso de privacidad · MVI Amor y Gracia';
+const description = 'Aviso de privacidad de MVI Amor y Gracia conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP, México).';
+---
+
+<BaseLayout title={title} description={description} path="/aviso-de-privacidad">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Aviso de privacidad', href: '/aviso-de-privacidad' }]} />
+
+  <article class="legal container container--prose section">
+    <header>
+      <p class="eyebrow">Documento legal</p>
+      <h1>Aviso de privacidad</h1>
+      <p class="muted">Última actualización: abril de 2026.</p>
+    </header>
+
+    <h2>Identidad y domicilio del responsable</h2>
+    <p>
+      <strong>MVI Amor y Gracia</strong> ("la iglesia", "nosotros") es responsable del
+      tratamiento de los datos personales que recopilemos a través de este sitio web,
+      conforme a la <em>Ley Federal de Protección de Datos Personales en Posesión de los
+      Particulares</em> (LFPDPPP) y su Reglamento.
+    </p>
+    <p>
+      <strong>Domicilio para asuntos relacionados con privacidad:</strong>
+      <em>[PLACEHOLDER: dirección postal de la iglesia en Amozoc, Puebla.]</em>
+      <strong>Correo de contacto:</strong> <a href="mailto:contacto@amorygraciapuebla.org">contacto@amorygraciapuebla.org</a>
+    </p>
+
+    <h2>Datos personales que recabamos</h2>
+    <p>A través de este sitio podemos recabar los siguientes datos:</p>
+    <ul>
+      <li>Nombre y apellido.</li>
+      <li>Correo electrónico.</li>
+      <li>Teléfono (opcional, en formulario de contacto).</li>
+      <li>Mensaje libre que tú nos envíes.</li>
+      <li>Datos técnicos de navegación (dirección IP anonimizada, navegador, dispositivo) cuando aceptes las cookies analíticas.</li>
+    </ul>
+    <p>
+      <strong>No recabamos datos personales sensibles</strong> (origen racial, salud, vida sexual, opiniones políticas, etc.).
+    </p>
+
+    <h2>Finalidades del tratamiento</h2>
+    <h3>Finalidades primarias (necesarias para el servicio)</h3>
+    <ul>
+      <li>Responder a tu mensaje de contacto.</li>
+      <li>Enviarte el material de la serie Crecer cuando lo solicites desde el formulario de descarga.</li>
+      <li>Atender pedidos de oración o consultas pastorales.</li>
+    </ul>
+
+    <h3>Finalidades secundarias (opcionales, requieren tu consentimiento)</h3>
+    <ul>
+      <li>Enviarte el boletín informativo de la iglesia, si te suscribes.</li>
+      <li>Medir el comportamiento agregado de los visitantes mediante Google Analytics 4 (sólo si aceptas las cookies analíticas).</li>
+    </ul>
+    <p>Puedes oponerte a las finalidades secundarias en cualquier momento.</p>
+
+    <h2>Transferencia de datos</h2>
+    <p>
+      Para operar el sitio usamos los siguientes terceros, todos con políticas de privacidad
+      conformes a estándares internacionales:
+    </p>
+    <ul>
+      <li><strong>Hostinger</strong> (alojamiento del sitio y correo electrónico).</li>
+      <li><strong>Google</strong> (Analytics, reCAPTCHA, Fonts).</li>
+      <li><strong>ConvertKit (Kit)</strong> (gestión del boletín y secuencias de seguimiento si te suscribes).</li>
+      <li><strong>Cloudflare</strong> (CDN y protección DDoS).</li>
+    </ul>
+    <p>
+      <strong>No vendemos, alquilamos ni cedemos tus datos personales</strong> a terceros con
+      fines comerciales o publicitarios.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      Este sitio puede usar cookies estrictamente necesarias para su funcionamiento (sin
+      consentimiento) y cookies analíticas opcionales (Google Analytics 4). Las cookies
+      analíticas <strong>solo se activan si tú aceptas</strong> mediante el banner que
+      aparece en tu primera visita. Puedes cambiar tu decisión en cualquier momento borrando
+      el almacenamiento del sitio en tu navegador.
+    </p>
+
+    <h2>Derechos ARCO</h2>
+    <p>
+      Tienes derecho a <strong>Acceder, Rectificar, Cancelar u Oponerte</strong> al
+      tratamiento de tus datos personales (derechos ARCO). Puedes ejercerlos enviando una
+      solicitud por escrito al correo
+      <a href="mailto:contacto@amorygraciapuebla.org">contacto@amorygraciapuebla.org</a>
+      indicando: tu nombre, una copia de tu identificación oficial, la descripción del
+      derecho que quieres ejercer y los datos sobre los que aplicas el derecho. Te
+      responderemos en un plazo máximo de 20 días hábiles.
+    </p>
+
+    <h2>Revocación del consentimiento</h2>
+    <p>
+      Puedes revocar el consentimiento que nos hayas otorgado en cualquier momento mediante
+      el mismo correo. Si te suscribiste al boletín, también puedes darte de baja directamente
+      desde el enlace al pie de cualquier correo que recibas.
+    </p>
+
+    <h2>Cambios al aviso</h2>
+    <p>
+      Cualquier cambio sustancial a este aviso se publicará en esta misma página, con la
+      fecha de actualización al inicio.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal { padding-top: clamp(2rem, 4vw, 3.5rem); }
+  .legal h2 { margin-top: var(--sp-7); margin-bottom: var(--sp-3); }
+  .legal h3 { margin-top: var(--sp-5); margin-bottom: var(--sp-2); }
+  .legal p { margin-bottom: var(--sp-4); }
+  .legal ul { margin-bottom: var(--sp-4); }
+</style>

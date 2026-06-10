@@ -1,0 +1,165 @@
+---
+import { NAV_FOOTER_SITE, NAV_FOOTER_LEGAL, SITE } from '@lib/site';
+
+const year = new Date().getFullYear();
+const social = [
+  { label: 'Facebook', href: SITE.social.facebook },
+  { label: 'Instagram', href: SITE.social.instagram },
+  { label: 'YouTube', href: SITE.social.youtube },
+].filter((s) => !s.href.startsWith('[PLACEHOLDER'));
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container site-footer__grid">
+    <section class="site-footer__brand">
+      <a href="/" class="footer-brand" aria-label={`${SITE.name} — inicio`}>
+        <svg viewBox="0 0 64 64" width="48" height="48" aria-hidden="true">
+          <rect width="64" height="64" rx="12" fill="var(--color-blanco-roto)"/>
+          <text x="32" y="44" font-family="Fraunces, Georgia, serif" font-size="36" font-weight="700" fill="var(--color-azul-deep)" text-anchor="middle">A</text>
+          <circle cx="48" cy="20" r="4" fill="var(--color-azul-claro)"/>
+        </svg>
+        <span class="footer-brand__name">MVI Amor y Gracia</span>
+      </a>
+      <p class="footer-tagline">{SITE.tagline}</p>
+      <p class="footer-locale">Iglesia Cristiana Evangélica<br/>Amozoc · Tehuacán · Puebla</p>
+    </section>
+
+    <nav class="site-footer__nav" aria-label="Mapa del sitio">
+      <h2 class="footer-h">Sitio</h2>
+      <ul>
+        {NAV_FOOTER_SITE.map(({ label, href }) => (
+          <li><a href={href}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <section class="site-footer__social">
+      <h2 class="footer-h">Síguenos</h2>
+      {social.length > 0 ? (
+        <ul>
+          {social.map((s) => (
+            <li><a href={s.href} rel="me noopener" target="_blank">{s.label}</a></li>
+          ))}
+        </ul>
+      ) : (
+        <p class="footer-muted">[PLACEHOLDER: links a Facebook, Instagram y YouTube cuando estén confirmados]</p>
+      )}
+    </section>
+
+    <section class="site-footer__contact">
+      <h2 class="footer-h">Contacto</h2>
+      <p>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+      <p class="footer-muted">[PLACEHOLDER: WhatsApp pastoral si aplica]</p>
+      <p class="footer-muted">[PLACEHOLDER: dirección Amozoc completa]</p>
+    </section>
+  </div>
+
+  <div class="site-footer__bar">
+    <div class="container site-footer__bar-inner">
+      <p>© {year} MVI Amor y Gracia. Todos los derechos reservados.</p>
+      <ul class="legal-links">
+        {NAV_FOOTER_LEGAL.map(({ label, href }) => (
+          <li><a href={href}>{label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-azul-deep);
+    color: var(--color-fg-on-deep);
+    margin-top: var(--sp-11);
+  }
+  .site-footer a {
+    color: var(--color-azul-claro-200);
+    text-decoration: none;
+  }
+  .site-footer a:hover { color: var(--color-blanco); text-decoration: underline; }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-7);
+    padding-block: var(--sp-9);
+  }
+  @media (min-width: 700px) {
+    .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    color: var(--color-fg-on-deep);
+    text-decoration: none;
+  }
+  .footer-brand__name {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+  }
+
+  .footer-tagline {
+    margin-top: var(--sp-4);
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--color-azul-claro-200);
+    font-size: var(--fs-base);
+  }
+  .footer-locale {
+    margin-top: var(--sp-3);
+    font-size: var(--fs-sm);
+    color: var(--color-azul-claro-200);
+  }
+
+  .footer-h {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    color: var(--color-azul-claro);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--sp-3);
+  }
+
+  .site-footer__nav ul,
+  .site-footer__social ul {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    font-size: var(--fs-sm);
+  }
+
+  .site-footer__contact p { font-size: var(--fs-sm); margin-block: var(--sp-2); }
+  .footer-muted { color: rgba(250,250,250,0.55); font-size: var(--fs-xs); }
+
+  .site-footer__bar {
+    border-top: 1px solid rgba(250,250,250,0.12);
+    background-color: rgba(0,0,0,0.16);
+  }
+  .site-footer__bar-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    align-items: flex-start;
+    padding-block: var(--sp-5);
+    font-size: var(--fs-xs);
+    color: rgba(250,250,250,0.7);
+  }
+  .legal-links {
+    display: flex;
+    list-style: none;
+    margin: 0; padding: 0;
+    gap: var(--sp-5);
+    flex-wrap: wrap;
+  }
+  @media (min-width: 700px) {
+    .site-footer__bar-inner { flex-direction: row; justify-content: space-between; align-items: center; }
+  }
+</style>

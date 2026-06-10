@@ -1,0 +1,102 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Button from '@components/ui/Button.astro';
+import Card from '@components/ui/Card.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Crecer 2 — Hábitos del discípulo · Estudio bíblico · Amor y Gracia';
+const description = 'Crecer 2 es el segundo nivel de la serie Crecer. Aborda los hábitos cotidianos del discípulo: estudio bíblico, oración, y cómo la Palabra transforma el entendimiento.';
+---
+
+<BaseLayout title={title} description={description} path="/recursos/crecer-2">
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Recursos', href: '/recursos' },
+      { name: 'Crecer 2', href: '/recursos/crecer-2' },
+    ]}
+  />
+
+  <Hero
+    eyebrow="Serie Crecer · Nivel 2"
+    title="Crecer 2 — Hábitos del discípulo"
+    subtitle="Después de los fundamentos, los hábitos. Estudio bíblico, oración y la transformación del entendimiento por la Palabra."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">¿De qué trata?</p>
+      <h2>La fe se sostiene por hábitos, no por intensidad.</h2>
+      <p>
+        Crecer 2 es para quien ya entendió los fundamentos y ahora necesita consolidar los
+        <strong>hábitos cotidianos del discípulo</strong>. No es teología avanzada: es la vida
+        cristiana en su día a día. Cómo se ora cuando no quieres orar. Cómo se lee la Biblia
+        cuando no entiendes lo que lees. Cómo se vive la iglesia cuando hay desacuerdos.
+      </p>
+      <p>
+        El énfasis es <strong>la transformación del entendimiento</strong> — Romanos 12:2 — más
+        que la modificación externa de conducta. La Biblia no nos cambia desde fuera; nos cambia
+        renovando cómo pensamos.
+      </p>
+
+      <h3>Lo que vas a aprender</h3>
+      <ul>
+        <li>Cómo estudiar la Biblia con calma y método.</li>
+        <li>Oración: cómo orar cuando no sabes orar, y cómo desarrollar una vida de oración sostenida.</li>
+        <li>Cómo leer la Biblia en su contexto, sin sacar versículos de su lugar.</li>
+        <li>El papel del Espíritu Santo en el entendimiento.</li>
+        <li>Vida en familia espiritual: comunión, perdón y restauración.</li>
+        <li>Hábitos prácticos para el discípulo de cada día.</li>
+      </ul>
+
+      <h3>¿Para quién es?</h3>
+      <ul>
+        <li><strong>Para quien ya creyó</strong> y quiere caminar firme.</li>
+        <li><strong>Para discípulos cansados</strong> que necesitan recordar por qué empezaron.</li>
+        <li><strong>Para nuevos creyentes</strong> que ya completaron Crecer 1.</li>
+      </ul>
+
+      <h3>Versículos clave que aborda</h3>
+      <ul>
+        <li>Romanos 12:1-2 · 2 Timoteo 2:15</li>
+        <li>Mateo 6:5-13 · Salmo 1 · Hebreos 10:24-25</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow text-center stack-lg">
+      <p class="eyebrow">Descarga gratuita</p>
+      <h2>Recibe los tres niveles en tu correo</h2>
+      <div>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--2">
+        <Card variant="subtle" href="/recursos/crecer-1">
+          <p class="eyebrow">Nivel anterior</p>
+          <h3>Crecer 1 — Fundamentos</h3>
+          <p>Si necesitas reforzar los fundamentos antes de seguir, empieza aquí.</p>
+        </Card>
+        <Card variant="subtle" href="/recursos/crecer-3">
+          <p class="eyebrow">Nivel siguiente</p>
+          <h3>Crecer 3 — La iglesia que crece</h3>
+          <p>Los 5 pilares de la iglesia primitiva (Hechos 2:42).</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Conversación"
+    title="¿Quieres conversar lo que estás leyendo?"
+    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+  />
+</BaseLayout>

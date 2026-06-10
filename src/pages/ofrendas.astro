@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Ofrendas · MVI Amor y Gracia';
+const description = 'La sección de ofrendas en línea está en preparación. Mientras tanto, si Dios pone en tu corazón apoyar a la iglesia, contáctanos directamente.';
+---
+
+<BaseLayout title={title} description={description} path="/ofrendas" noindex={true}>
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Ofrendas', href: '/ofrendas' }]} />
+
+  <Hero
+    eyebrow="Ofrendas"
+    title="Estamos preparando esta sección."
+    subtitle="Pronto habrá una opción para ofrendar en línea. Mientras tanto, si Dios pone en tu corazón apoyar a la iglesia, contáctanos directamente."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">Honestos contigo</p>
+      <h2>Por qué aún no aceptamos ofrendas en línea</h2>
+      <p>
+        En MVI Amor y Gracia tomamos la administración de los recursos con seriedad. Antes de
+        habilitar una pasarela de pagos en línea, queremos completar las decisiones legales y
+        fiscales que aseguren que <strong>todo lo recibido se administre de forma transparente
+        y exclusivamente para los fines de la iglesia</strong>, no a título personal de nadie.
+      </p>
+      <p>
+        Por eso esta sección queda <strong>informativa por ahora</strong>. Cuando la pasarela
+        esté lista, te avisaremos por el boletín y por las redes sociales.
+      </p>
+
+      <h3>Mientras tanto</h3>
+      <p>
+        Si Dios pone en tu corazón apoyar a la iglesia con una ofrenda, puedes hacerlo de las
+        siguientes formas:
+      </p>
+      <ul>
+        <li><strong>En persona</strong> el domingo, en la caja de ofrenda voluntaria del templo en Amozoc.</li>
+        <li><strong>Por transferencia bancaria</strong> a la cuenta que los pastores te puedan compartir directamente. Escríbenos para coordinarlo: <a href="mailto:contacto@amorygraciapuebla.org">contacto@amorygraciapuebla.org</a>.</li>
+      </ul>
+
+      <h3>Sobre transparencia</h3>
+      <p>
+        Las ofrendas que se reciben se administran bajo la cobertura pastoral de Daniel y Rocío
+        Chávez y se destinan a sostener la operación local de la iglesia, apoyar misiones,
+        ayudar a hermanos en necesidad y mantener el espacio físico de reunión. La rendición de
+        cuentas se hace internamente con el liderazgo y, cuando aplique, con la red de
+        Ministerios Visión Internacional.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow">
+      <Card variant="subtle">
+        <p class="eyebrow">¿Tienes preguntas?</p>
+        <h3>Pregúntanos directamente</h3>
+        <p>Cualquier duda sobre cómo se administran las ofrendas o cómo apoyar, escríbenos. Es una conversación que con gusto tenemos.</p>
+        <p style="margin-top: var(--sp-4);">
+          <Button variant="primary" href="/contacto">Escribir a la iglesia</Button>
+        </p>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>

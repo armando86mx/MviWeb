@@ -1,0 +1,24 @@
+---
+interface Props { tone?: 'azul' | 'mesa' | 'neutro'; }
+const { tone = 'azul' } = Astro.props;
+---
+<span class={`badge badge--${tone}`}><slot /></span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    padding: 0.3em 0.75em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    line-height: 1.2;
+  }
+  .badge--azul { background-color: var(--color-azul-claro-50); color: var(--color-azul-deep); }
+  .badge--mesa { background-color: var(--color-mesa-crema); color: var(--color-mesa-vino); }
+  .badge--neutro { background-color: var(--color-bg-alt); color: var(--color-fg-muted); }
+</style>

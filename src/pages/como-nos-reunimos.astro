@@ -1,0 +1,165 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import EventoCard from '@components/sections/EventoCard.astro';
+import Card from '@components/ui/Card.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaEvent from '@components/seo/SchemaEvent.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+
+const title = 'Servicios y Ministerios · Iglesia Amor y Gracia Puebla';
+const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominicales en Amozoc a las 11:00 AM, Tiempos de Mesa los jueves, y vida en comunidad.';
+
+const eventos = [
+  {
+    name: 'Estudio bíblico previo',
+    description: 'Sentarse con la Palabra antes del servicio dominical.',
+    recurringDayOfWeek: 'Sunday' as const,
+    startTime: '10:30',
+    endTime: '11:00',
+    locationName: 'MVI Amor y Gracia · Amozoc',
+    streetAddress: SITE.sedes.amozoc.streetAddress,
+    addressLocality: 'Amozoc',
+    addressRegion: 'Puebla',
+  },
+  {
+    name: 'Servicio dominical',
+    description: 'Adoración, Palabra y comunión en familia.',
+    recurringDayOfWeek: 'Sunday' as const,
+    startTime: '11:00',
+    endTime: '12:30',
+    locationName: 'MVI Amor y Gracia · Amozoc',
+    streetAddress: SITE.sedes.amozoc.streetAddress,
+    addressLocality: 'Amozoc',
+    addressRegion: 'Puebla',
+  },
+  {
+    name: 'Tiempos de Mesa',
+    description: 'Estudio en hogar de la familia Jiménez. Comida sencilla compartida y conversación profunda alrededor de la Palabra.',
+    recurringDayOfWeek: 'Thursday' as const,
+    startTime: '19:30',
+    endTime: '21:00',
+    locationName: 'Casa de la familia Jiménez · Tiempos de Mesa',
+    streetAddress: '[PLACEHOLDER: Domicilio Tiempos de Mesa, Amozoc]',
+    addressLocality: 'Amozoc',
+    addressRegion: 'Puebla',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} path="/como-nos-reunimos">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Cómo nos reunimos', href: '/como-nos-reunimos' }]} />
+  <SchemaEvent slot="head" events={eventos} />
+
+  <Hero
+    eyebrow="Reuniones"
+    title="Cómo nos reunimos"
+    subtitle="Dos espacios principales cada semana. El templo el domingo, la mesa el jueves. Y el resto del tiempo, vida juntos."
+  />
+
+  <section class="section">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Domingos</p>
+        <h2>Servicio dominical en Amozoc</h2>
+        <p class="lead">
+          Empezamos con estudio bíblico a las 10:30 AM y continuamos con servicio completo a las
+          11:00 AM. Dura aproximadamente hora y media.
+        </p>
+      </header>
+
+      <div class="grid grid--2">
+        <EventoCard
+          title="Estudio bíblico previo"
+          weekday="Domingos"
+          time="10:30 AM"
+          location="Sede Amozoc · [PLACEHOLDER: dirección]"
+          description="Una hora de estudio en grupos pequeños antes del servicio. Ideal si te gusta sentarte con la Palabra con calma."
+        />
+        <EventoCard
+          title="Servicio dominical"
+          weekday="Domingos"
+          time="11:00 AM"
+          location="Sede Amozoc · [PLACEHOLDER: dirección]"
+          description="Adoración, predicación expositiva y comunión. Familias bienvenidas, niños incluidos."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Jueves</p>
+        <h2>Tiempos de Mesa</h2>
+        <p class="lead">
+          Una de las cosas más entrañables de Amor y Gracia. Nos reunimos en casa de la familia
+          Jiménez los jueves a las 7:30 PM, alrededor de una mesa, para estudiar la Biblia con
+          calma y compartir comida sencilla.
+        </p>
+      </header>
+
+      <div class="grid grid--2">
+        <EventoCard
+          title="Tiempos de Mesa"
+          weekday="Jueves"
+          time="7:30 PM"
+          location="Casa de la familia Jiménez, Amozoc"
+          description="Estudio bíblico en hogar. Pequeños grupos. Conversación profunda. Comida compartida."
+          variant="mesa"
+          badge="Hogar"
+        />
+        <Card variant="mesa">
+          <h3>¿Qué pasa en una mesa?</h3>
+          <p>
+            Llegas, te sirves café o un bocado, oramos brevemente, leemos un pasaje y
+            conversamos sobre él. No hay agenda apretada ni prisa. La mesa cierra cuando la
+            conversación cierra.
+          </p>
+          <p style="margin-top: var(--sp-3);"><em>Si quieres venir, escríbenos antes y te confirmamos dirección y detalles.</em></p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Otras instancias</p>
+        <h2>Vida en comunidad durante la semana</h2>
+        <p class="lead">
+          Además de las reuniones públicas, sostenemos pequeños grupos de oración, mentoría
+          informal entre hermanos y convivencias periódicas.
+        </p>
+      </header>
+
+      <div class="grid grid--3">
+        <Card variant="subtle">
+          <h3>Oración y ayuno</h3>
+          <p>Periódicamente convocamos a tiempos de oración y ayuno corporativos. Se anuncian con tiempo desde el púlpito y por los canales del ministerio.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Mentoría pastoral</h3>
+          <p>Si quieres conversación pastoral más personal, los pastores reciben citas con cita previa. Escríbenos y agendamos.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Convivencias</h3>
+          <p>Comidas, paseos y cumpleaños. La iglesia hace familia, así que pasamos tiempo juntos también fuera del templo.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Primera vez"
+    title="¿Es tu primera vez con nosotros?"
+    subtitle="Te dejamos una página corta con todo lo que conviene saber antes de venir el domingo: cómo es el lugar, cómo se viste la gente, qué ocurre, y qué no esperar."
+    primaryCTA={{ label: 'Tu primera visita', href: '/visitanos' }}
+    secondaryCTA={{ label: 'Cómo llegar', href: '/sedes/amozoc' }}
+  />
+</BaseLayout>
+
+<style>
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-6); }
+</style>

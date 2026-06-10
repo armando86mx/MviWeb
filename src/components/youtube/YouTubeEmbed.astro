@@ -1,0 +1,60 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+  thumbnail?: string;
+}
+const { videoId, title, thumbnail } = Astro.props;
+const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+---
+<div class="yt" data-video-id={videoId}>
+  <button class="yt__btn" type="button" aria-label={`Reproducir: ${title}`}>
+    <img src={thumb} alt="" loading="lazy" decoding="async" />
+    <span class="yt__play" aria-hidden="true">▶</span>
+  </button>
+</div>
+
+<style>
+  .yt {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #000;
+    position: relative;
+  }
+  .yt__btn {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    padding: 0; border: 0;
+    cursor: pointer;
+  }
+  .yt__btn img { width: 100%; height: 100%; object-fit: cover; }
+  .yt__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    color: var(--color-blanco);
+    font-size: 3rem;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .yt__btn:hover .yt__play { transform: scale(1.1); }
+</style>
+
+<script>
+  document.querySelectorAll('.yt').forEach((el) => {
+    const btn = el.querySelector('.yt__btn') as HTMLButtonElement | null;
+    const id = (el as HTMLElement).dataset.videoId;
+    if (!btn || !id) return;
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
+      iframe.title = btn.getAttribute('aria-label') ?? '';
+      el.replaceChildren(iframe);
+    });
+  });
+</script>

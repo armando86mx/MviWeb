@@ -1,0 +1,74 @@
+---
+interface Props {
+  layout?: 'horizontal' | 'stacked';
+}
+const { layout = 'horizontal' } = Astro.props;
+---
+<aside class={`pastores pastores--${layout}`}>
+  <div class="pastores__media" aria-hidden="true">
+    <div class="pastores__placeholder">
+      <span>Daniel & Rocío</span>
+      <em>[PLACEHOLDER: foto profesional de los pastores]</em>
+    </div>
+  </div>
+  <div class="pastores__body">
+    <p class="eyebrow">Pastores fundadores</p>
+    <h3>Daniel y Rocío Chávez</h3>
+    <p>
+      Matrimonio que pastorea Amor y Gracia desde su fundación en marzo de 2014. Cálidos por
+      naturaleza, profundos en la enseñanza, comprometidos con caminar de cerca con la familia
+      de la iglesia.
+    </p>
+    <blockquote class="pastores__quote">
+      Somos enseñables. Nosotros no lo sabemos todo. Y seguimos aprendiendo día con día buscando a Dios.
+    </blockquote>
+  </div>
+</aside>
+
+<style>
+  .pastores {
+    background: var(--color-blanco);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    display: grid;
+    gap: var(--sp-5);
+  }
+  .pastores--horizontal { grid-template-columns: 1fr; }
+  @media (min-width: 800px) {
+    .pastores--horizontal { grid-template-columns: minmax(220px, 280px) 1fr; gap: var(--sp-7); align-items: center; }
+  }
+
+  .pastores__placeholder {
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(160deg, var(--color-azul-deep) 0%, var(--color-azul-deep-700) 100%);
+    border-radius: var(--radius-md);
+    color: var(--color-fg-on-deep);
+    display: grid;
+    place-content: center;
+    text-align: center;
+    padding: var(--sp-5);
+    font-family: var(--font-display);
+  }
+  .pastores__placeholder span { font-size: var(--fs-xl); }
+  .pastores__placeholder em {
+    display: block;
+    font-style: normal;
+    margin-top: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-azul-claro-200);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .pastores__quote {
+    margin-top: var(--sp-4);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-md);
+    color: var(--color-azul-deep);
+    border-left: 3px solid var(--color-azul-claro);
+    padding-left: var(--sp-4);
+  }
+</style>

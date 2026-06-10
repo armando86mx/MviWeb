@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
+
+const title = 'Iglesia Cristiana en Puebla · Amor y Gracia (sede en Amozoc)';
+const description = 'Iglesia cristiana evangélica para gente de Puebla capital y zona metropolitana. Nuestra sede física está en Amozoc — a minutos de Puebla — y nos visitan cada domingo desde San Andrés Cholula, San Pedro, Atlixco y la capital.';
+
+const faq = [
+  { question: '¿Tienen sede en Puebla capital?', answer: 'No. Nuestra sede física está en Amozoc, parte del área metropolitana de Puebla. Estamos a pocos minutos de la capital y recibimos cada domingo a hermanos que vienen desde el centro de Puebla y zonas conurbadas.' },
+  { question: '¿Por qué no abren una sede en Puebla capital?', answer: 'Porque preferimos hacer una sola iglesia bien, en lugar de varias a medias. Crecemos en profundidad antes que en ancho. Si en el futuro Dios abre puerta para una sede en la capital, lo evaluaremos.' },
+  { question: '¿Cuánto se hace de Puebla capital a Amozoc?', answer: '[PLACEHOLDER: tiempo aproximado en auto desde el centro de Puebla a Amozoc, en domingo, sin tráfico].' },
+  { question: '¿Hay hermanos de Puebla que se reúnan entre semana?', answer: '[PLACEHOLDER: confirmar si existe un grupo en la capital o si la opción es viajar a Tiempos de Mesa los jueves.]' },
+];
+---
+
+<BaseLayout title={title} description={description} path="/puebla">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Puebla', href: '/puebla' }]} />
+  <SchemaFAQ slot="head" items={faq} />
+
+  <Hero
+    eyebrow="Para gente de Puebla"
+    title="Iglesia Cristiana Evangélica para gente de Puebla"
+    subtitle="Nuestra sede está en Amozoc — área metropolitana de Puebla — y cada domingo nos visita gente de la capital, Cholula, Atlixco y zonas satélite."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">Honestos contigo</p>
+      <h2>No tenemos sede en Puebla capital — y aquí te explicamos por qué.</h2>
+      <p>
+        Si llegaste aquí buscando una iglesia evangélica en Puebla, queremos ser claros desde
+        el principio. Nuestra única sede física es <strong>Amozoc, Puebla</strong>, parte de la
+        zona metropolitana, a pocos minutos del centro de la capital. Cada domingo nos visita
+        gente que viene desde la capital, San Andrés Cholula, San Pedro Cholula, Atlixco y
+        otras zonas vecinas.
+      </p>
+      <p>
+        Preferimos hacer <strong>una sola iglesia bien</strong> que varias a medias. Crecemos
+        en profundidad antes que en superficie. Si en el futuro el Señor abre puerta para
+        plantar en la capital, lo conversaremos con calma.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Si vienes desde…</p>
+        <h2>Hermanos que nos visitan cada domingo</h2>
+        <p class="lead">Aquí algunas de las zonas desde las que la gente viaja para reunirse con nosotros.</p>
+      </header>
+
+      <div class="grid grid--3">
+        <Card variant="subtle">
+          <h3>Puebla capital</h3>
+          <p>Centro, Angelópolis, La Paz, Las Ánimas, La Hacienda y zonas similares. Tiempo en domingo: <em>[PLACEHOLDER]</em>.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>San Andrés / San Pedro Cholula</h3>
+          <p>Hermanos vienen desde Cholula y zonas adyacentes. Domingo en la mañana es el mejor momento por tráfico.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Atlixco y Cuautlancingo</h3>
+          <p>Recibimos también gente de Atlixco, Cuautlancingo y municipios cercanos. La distancia se siente menos cuando hay mesa esperando.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--prose">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que la gente nos pregunta desde Puebla</h2>
+      <div class="faq" style="margin-top: var(--sp-5);">
+        {faq.map((qa) => (
+          <details class="faq__item">
+            <summary>{qa.question}</summary>
+            <p>{qa.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Visítanos"
+    title="A minutos de Puebla. La mesa está puesta."
+    subtitle="Si te animas a venir, escríbenos antes y te recibimos personalmente. Te ayudamos con cómo llegar y dónde estacionarte."
+    primaryCTA={{ label: 'Cómo llegar a Amozoc', href: '/sedes/amozoc' }}
+    secondaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+  />
+</BaseLayout>
+
+<style>
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+  .faq__item { border-bottom: 1px solid var(--color-border); padding: var(--sp-4) 0; }
+  .faq__item summary {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-azul-deep);
+    display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3);
+  }
+  .faq__item summary::after { content: "+"; font-size: var(--fs-xl); transition: transform var(--dur-2) var(--ease-out); }
+  .faq__item[open] summary::after { transform: rotate(45deg); }
+  .faq__item p { margin-top: var(--sp-3); line-height: var(--lh-relaxed); }
+</style>

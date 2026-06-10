@@ -1,0 +1,97 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+
+const title = 'Podcast y prédicas · MVI Amor y Gracia';
+const description = 'Prédicas y enseñanzas de MVI Amor y Gracia. Estudios bíblicos sobre la segunda venida de Cristo, los 5 pilares de la iglesia primitiva, sana doctrina y vida en familia.';
+
+const podcastSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'PodcastSeries',
+  name: `Podcast · ${SITE.name}`,
+  description,
+  url: `${SITE.url}/podcast`,
+  inLanguage: SITE.locale,
+  webFeed: `${SITE.url}/rss.xml`,
+  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+};
+---
+
+<BaseLayout title={title} description={description} path="/podcast">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Podcast', href: '/podcast' }]} />
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(podcastSchema)} />
+
+  <Hero
+    eyebrow="Prédicas y podcast"
+    title="Sentarse con la Palabra, en cualquier momento"
+    subtitle="Las prédicas de los pastores Daniel y Rocío Chávez, transmisiones recientes y series doctrinales que la iglesia ha estudiado."
+  />
+
+  <section class="section">
+    <div class="container container--prose stack-lg">
+      <p class="eyebrow">Plataformas</p>
+      <h2>Dónde encontrarnos</h2>
+      <p>
+        Estamos preparando el feed RSS del podcast y el canal de YouTube. Mientras tanto, las
+        prédicas en video están en redes sociales y en plataformas de streaming.
+      </p>
+      <ul class="platforms">
+        <li><strong>YouTube:</strong> <em>[PLACEHOLDER: link al canal de YouTube de Amor y Gracia]</em></li>
+        <li><strong>Spotify (podcast):</strong> <em>[PLACEHOLDER: link al show de Spotify cuando se cree]</em></li>
+        <li><strong>Apple Podcasts:</strong> <em>[PLACEHOLDER: link a Apple Podcasts cuando se cree]</em></li>
+        <li><strong>RSS feed:</strong> <a href="/rss.xml">/rss.xml</a> (blog; el feed del podcast vendrá después)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Prédicas recientes</p>
+        <h2>Últimas enseñanzas</h2>
+        <p class="lead">[PLACEHOLDER: cuando el canal esté activo, aquí se listarán automáticamente las últimas 6 prédicas vía YouTube Data API v3 en build time.]</p>
+      </header>
+
+      <div class="grid grid--3">
+        <Card variant="subtle">
+          <p class="eyebrow">Próximamente</p>
+          <h3>Serie: La novia que espera al novio</h3>
+          <p>Reflexiones sobre la segunda venida de Cristo y la vida de la iglesia hoy.</p>
+        </Card>
+        <Card variant="subtle">
+          <p class="eyebrow">Próximamente</p>
+          <h3>Serie: Hechos 2:42</h3>
+          <p>Estudio expositivo de los 5 pilares de la iglesia primitiva.</p>
+        </Card>
+        <Card variant="subtle">
+          <p class="eyebrow">Próximamente</p>
+          <h3>Serie: Crecer en familia</h3>
+          <p>Enseñanzas para vida en familia desde la perspectiva del evangelio.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Suscríbete"
+    title="Te avisamos cuando publiquemos prédicas nuevas"
+    subtitle="Suscríbete al boletín de la iglesia y recibe avisos cuando salga material nuevo."
+    primaryCTA={{ label: 'Recibir el boletín', href: '/recursos/descargar' }}
+    secondaryCTA={{ label: 'Lo que creemos', href: '/lo-que-creemos' }}
+  />
+</BaseLayout>
+
+<style>
+  .platforms {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: grid; gap: var(--sp-3);
+  }
+  .platforms li { padding: var(--sp-3) var(--sp-4); background: var(--color-bg-alt); border-radius: var(--radius-md); }
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+</style>

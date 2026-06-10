@@ -1,0 +1,82 @@
+---
+// Banner LFPDPPP — controla GA4 mediante consent.
+// Aparece sólo si no hay decisión previa.
+---
+<aside id="cookie-banner" class="cookie-banner" hidden aria-live="polite">
+  <div class="cookie-banner__inner">
+    <p class="cookie-banner__text">
+      Este sitio puede usar Google Analytics para entender cómo se usa la página.
+      No recopilamos datos personales sin tu consentimiento. Puedes aceptar o rechazar
+      las cookies analíticas en cualquier momento.
+      <a href="/aviso-de-privacidad">Más información</a>.
+    </p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-banner__btn cookie-banner__btn--secondary" data-cookie-decline>Rechazar</button>
+      <button type="button" class="cookie-banner__btn cookie-banner__btn--primary" data-cookie-accept>Aceptar analíticas</button>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    inset: auto var(--sp-4) var(--sp-4) var(--sp-4);
+    z-index: var(--z-toast);
+    max-width: 640px;
+    margin-inline: auto;
+    background: var(--color-blanco);
+    color: var(--color-fg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--sp-5);
+  }
+  .cookie-banner[hidden] { display: none; }
+  .cookie-banner__inner {
+    display: grid;
+    gap: var(--sp-4);
+  }
+  .cookie-banner__text {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-relaxed);
+    margin: 0;
+  }
+  .cookie-banner__actions {
+    display: flex;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .cookie-banner__btn {
+    border-radius: var(--radius-pill);
+    padding: 0.6rem 1.2rem;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    border: 1px solid transparent;
+  }
+  .cookie-banner__btn--primary { background: var(--color-azul-deep); color: var(--color-fg-on-deep); }
+  .cookie-banner__btn--secondary { background: transparent; color: var(--color-azul-deep); border-color: var(--color-border); }
+</style>
+
+<script>
+  const KEY = 'mvi-cookie-consent-v1';
+  const banner = document.getElementById('cookie-banner');
+  const accept = document.querySelector('[data-cookie-accept]');
+  const decline = document.querySelector('[data-cookie-decline]');
+
+  function show() { banner?.removeAttribute('hidden'); }
+  function hide() { banner?.setAttribute('hidden', ''); }
+
+  const stored = localStorage.getItem(KEY);
+  if (!stored) show();
+
+  accept?.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'granted');
+    hide();
+    document.dispatchEvent(new CustomEvent('mvi:consent-granted'));
+  });
+  decline?.addEventListener('click', () => {
+    localStorage.setItem(KEY, 'denied');
+    hide();
+  });
+</script>

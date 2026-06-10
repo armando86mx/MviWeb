@@ -1,0 +1,16 @@
+---
+import { SITE } from '@lib/site';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE.url}/#website`,
+  name: SITE.name,
+  alternateName: SITE.alternateNames,
+  url: SITE.url,
+  inLanguage: SITE.locale,
+  description: SITE.description,
+  publisher: { '@id': `${SITE.url}/#church` },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

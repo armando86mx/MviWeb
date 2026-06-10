@@ -1,0 +1,24 @@
+---
+import { SITE } from '@lib/site';
+
+interface Props {
+  name: string;
+  jobTitle?: string;
+  description?: string;
+  image?: string;
+  spouse?: string;
+}
+const { name, jobTitle, description, image, spouse } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name,
+  jobTitle,
+  description,
+  image,
+  worksFor: { '@type': 'ReligiousOrganization', name: SITE.name, url: SITE.url },
+  ...(spouse ? { spouse: { '@type': 'Person', name: spouse } } : {}),
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

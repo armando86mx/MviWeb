@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+
+const title = 'Recursos · Estudios bíblicos y serie Crecer · Amor y Gracia';
+const description = 'Recursos para crecer en la fe: la serie Crecer (Fundamentos, Hábitos del discípulo, La iglesia que crece) — material introductorio gratuito que usamos en MVI Amor y Gracia.';
+
+const recursos = [
+  {
+    slug: 'crecer-1',
+    titulo: 'Crecer 1 — Fundamentos',
+    descripcion: 'Aprende qué es ser hijo de Dios, qué es la Biblia, y por qué seguir a Cristo. El primer nivel del material que usamos en la iglesia para acompañar a quienes empiezan.',
+  },
+  {
+    slug: 'crecer-2',
+    titulo: 'Crecer 2 — Hábitos del discípulo',
+    descripcion: 'Estudio bíblico, oración, y cómo la Palabra transforma el entendimiento. Para quienes ya entendieron lo básico y quieren consolidar la vida cristiana.',
+  },
+  {
+    slug: 'crecer-3',
+    titulo: 'Crecer 3 — La iglesia que crece',
+    descripcion: 'Los 5 pilares de la iglesia primitiva según Hechos 2:42 — adoración, enseñanza, comunión, oración y partimiento del pan.',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} path="/recursos">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Recursos', href: '/recursos' }]} />
+
+  <Hero
+    eyebrow="Recursos"
+    title="Recursos para crecer en la fe"
+    subtitle="La serie Crecer es el material introductorio que usamos en la iglesia para acompañar a quienes están dando sus primeros pasos en la fe — o quieren refrescar los fundamentos."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--3">
+        {recursos.map((r) => (
+          <Card href={`/recursos/${r.slug}`}>
+            <p class="eyebrow">{r.titulo.split(' — ')[0]}</p>
+            <h3>{r.titulo.split(' — ')[1]}</h3>
+            <p>{r.descripcion}</p>
+            <p style="margin-top: var(--sp-4);">
+              <span class="card-link">Conocer más →</span>
+            </p>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container container--narrow text-center stack-lg">
+      <p class="eyebrow">Descarga gratuita</p>
+      <h2>Recibe los tres niveles en tu correo</h2>
+      <p class="lead" style="margin-inline:auto;">
+        Te enviamos los tres PDFs en un solo correo. Sin sorpresas, sin spam. Solo el material
+        y, si lo decides después, una invitación al boletín de la iglesia.
+      </p>
+      <div>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--prose">
+      <p class="eyebrow">Más recursos</p>
+      <h2>Otros materiales que estamos preparando</h2>
+      <p>
+        Estamos trabajando en estudios bíblicos en video, transcripciones de prédicas, y guías
+        breves sobre temas que la iglesia nos pide abordar (segunda venida, vida en familia,
+        oración). Si te suscribes al boletín, te avisamos cuando salgan.
+      </p>
+      <p>
+        <Button variant="ghost" href="/blog">Mientras tanto, lee el blog →</Button>
+      </p>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Visítanos"
+    title="¿Quieres conversar el material con alguien?"
+    subtitle="Si lees Crecer y te quedan preguntas, escríbenos. La iglesia es justamente eso: gente para sentarse a conversar la Palabra."
+    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+    secondaryCTA={{ label: 'Cómo nos reunimos', href: '/como-nos-reunimos' }}
+  />
+</BaseLayout>
+
+<style>
+  .card-link {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--color-azul-deep);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+</style>

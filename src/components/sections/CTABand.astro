@@ -1,0 +1,53 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  primaryCTA: { label: string; href: string };
+  secondaryCTA?: { label: string; href: string };
+}
+const { eyebrow, title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
+---
+<section class="cta-band section section--invert">
+  <div class="container cta-band__inner">
+    <div>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 class="text-balance">{title}</h2>
+      {subtitle && <p class="cta-band__sub">{subtitle}</p>}
+    </div>
+    <div class="cta-band__actions">
+      <Button variant="invert" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>
+      {secondaryCTA && <Button variant="ghost" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+    align-items: center;
+  }
+  @media (min-width: 800px) {
+    .cta-band__inner { grid-template-columns: 1.4fr 1fr; gap: var(--sp-9); }
+  }
+  .cta-band__sub {
+    color: var(--color-azul-claro-200);
+    font-size: var(--fs-md);
+    line-height: var(--lh-relaxed);
+    max-width: 56ch;
+    margin-top: var(--sp-3);
+  }
+  .cta-band__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    justify-content: flex-start;
+  }
+  @media (min-width: 800px) {
+    .cta-band__actions { justify-content: flex-end; }
+  }
+</style>

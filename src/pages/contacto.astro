@@ -1,0 +1,92 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import ContactForm from '@components/forms/ContactForm.astro';
+import Card from '@components/ui/Card.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import { SITE } from '@lib/site';
+
+const title = 'Contacto · MVI Amor y Gracia · Iglesia en Puebla';
+const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Puebla, Amozoc o Tehuacán y quieres conocer la iglesia, agendar una visita o pedir oración, este es el camino.';
+---
+
+<BaseLayout title={title} description={description} path="/contacto">
+  <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Contacto', href: '/contacto' }]} />
+
+  <Hero
+    eyebrow="Contacto"
+    title="Escríbenos. Aquí estamos para escucharte."
+    subtitle="Si quieres visitarnos, pedir oración, hacer una consulta pastoral o simplemente saludar — este es el lugar."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <article class="contact-form">
+          <h2>Formulario de contacto</h2>
+          <p class="lead" style="margin-bottom: var(--sp-5);">
+            Tu mensaje llega directo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+            Te respondemos en uno o dos días hábiles.
+          </p>
+          <ContactForm />
+        </article>
+
+        <aside class="contact-info">
+          <Card variant="subtle">
+            <p class="eyebrow">Datos de contacto</p>
+            <h3>Por dónde más nos puedes alcanzar</h3>
+            <p>
+              <strong>Correo general:</strong><br />
+              <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            </p>
+            <p>
+              <strong>WhatsApp pastoral:</strong><br />
+              <em>[PLACEHOLDER: número de WhatsApp pastoral si aplica]</em>
+            </p>
+            <p>
+              <strong>Sede principal:</strong><br />
+              Amozoc, Puebla<br />
+              <a href="/sedes/amozoc">Cómo llegar →</a>
+            </p>
+            <p>
+              <strong>Iglesia hija:</strong><br />
+              Tehuacán, Puebla<br />
+              <a href="/sedes/tehuacan">Cómo llegar →</a>
+            </p>
+          </Card>
+
+          <Card variant="subtle" class="redes">
+            <p class="eyebrow">Redes sociales</p>
+            <h3>Síguenos</h3>
+            <ul>
+              <li>Facebook · <em>[PLACEHOLDER]</em></li>
+              <li>Instagram · <em>[PLACEHOLDER]</em></li>
+              <li>YouTube · <em>[PLACEHOLDER]</em></li>
+            </ul>
+          </Card>
+
+          <Card variant="subtle">
+            <p class="eyebrow">Horarios</p>
+            <h3>Cuándo nos encontramos</h3>
+            <p><strong>Domingo · 10:30 AM</strong><br />Estudio bíblico previo</p>
+            <p><strong>Domingo · 11:00 AM</strong><br />Servicio dominical</p>
+            <p><strong>Jueves · 7:30 PM</strong><br />Tiempos de Mesa (en hogar)</p>
+          </Card>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-7);
+  }
+  @media (min-width: 900px) {
+    .contact-grid { grid-template-columns: 1.5fr 1fr; gap: var(--sp-9); align-items: flex-start; }
+  }
+  .contact-info { display: grid; gap: var(--sp-4); }
+  .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); }
+</style>

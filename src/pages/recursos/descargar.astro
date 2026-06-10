@@ -1,0 +1,79 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import DownloadForm from '@components/forms/DownloadForm.astro';
+import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Card from '@components/ui/Card.astro';
+
+const title = 'Descargar la serie Crecer · Estudios bíblicos · Amor y Gracia';
+const description = 'Recibe en tu correo los tres niveles de la serie Crecer (Fundamentos, Hábitos del discípulo, La iglesia que crece). Descarga gratuita, sin spam.';
+---
+
+<BaseLayout title={title} description={description} path="/recursos/descargar">
+  <SchemaBreadcrumb
+    slot="head"
+    items={[
+      { name: 'Inicio', href: '/' },
+      { name: 'Recursos', href: '/recursos' },
+      { name: 'Descargar', href: '/recursos/descargar' },
+    ]}
+  />
+
+  <section class="section--invert" style="padding-block: clamp(3rem, 6vw, 5rem);">
+    <div class="container container--narrow">
+      <p class="eyebrow">Descarga gratuita</p>
+      <h1>Recibe la serie Crecer en tu correo</h1>
+      <p class="lead" style="color: var(--color-azul-claro-200); max-width: 60ch;">
+        Te enviamos los tres niveles en un solo correo. Sin spam. Sin sorpresas. Si después
+        decides suscribirte al boletín de la iglesia, puedes hacerlo desde el correo que recibas
+        — pero no es obligatorio.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container container--prose">
+      <div class="form-wrap">
+        <DownloadForm />
+      </div>
+
+      <aside class="aside">
+        <p class="eyebrow">Qué pasa después</p>
+        <ol class="steps">
+          <li>Revisas tu correo (incluyendo spam) en los próximos minutos.</li>
+          <li>Recibes los tres niveles en un solo mensaje, con un botón para cada PDF.</li>
+          <li>Si quieres, te invitamos a suscribirte al boletín de la iglesia.</li>
+          <li>Si no quieres, simplemente quedas con el material y nada más.</li>
+        </ol>
+      </aside>
+
+      <Card variant="subtle" class="legal">
+        <h3>¿Cómo cuidamos tus datos?</h3>
+        <p>
+          Solo guardamos tu nombre y correo para enviarte el material y, si te suscribes
+          después, mandarte el boletín. No compartimos tu información con nadie. Puedes
+          darte de baja en cualquier momento. Más detalle en nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>.
+        </p>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .form-wrap {
+    background: var(--color-blanco);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: var(--sp-7);
+  }
+  .aside { margin-top: var(--sp-7); }
+  .steps {
+    margin-top: var(--sp-3);
+    padding-left: 1.5rem;
+  }
+  .steps li {
+    line-height: var(--lh-relaxed);
+    margin-bottom: var(--sp-2);
+  }
+  .legal { margin-top: var(--sp-7); }
+</style>

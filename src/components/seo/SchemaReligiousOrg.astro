@@ -1,0 +1,23 @@
+---
+import { SITE } from '@lib/site';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ReligiousOrganization',
+  '@id': `${SITE.url}/#religiousorg`,
+  name: SITE.name,
+  url: SITE.url,
+  description: SITE.description,
+  founder: [
+    { '@type': 'Person', name: SITE.pastors.daniel },
+    { '@type': 'Person', name: SITE.pastors.rocio },
+  ],
+  foundingDate: SITE.founded,
+  parentOrganization: {
+    '@type': 'ReligiousOrganization',
+    name: SITE.parentOrganization.name,
+    url: SITE.parentOrganization.url,
+  },
+};
+---
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

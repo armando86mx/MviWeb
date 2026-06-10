@@ -1,0 +1,102 @@
+---
+import { SITE } from '@lib/site';
+
+interface Props {
+  variant?: 'main' | 'amozoc' | 'tehuacan';
+}
+
+const { variant = 'main' } = Astro.props;
+
+const SOCIAL = [
+  SITE.social.facebook,
+  SITE.social.instagram,
+  SITE.social.youtube,
+].filter((x) => !x.startsWith('[PLACEHOLDER'));
+
+const sede = variant === 'tehuacan' ? SITE.sedes.tehuacan : SITE.sedes.amozoc;
+const id = variant === 'tehuacan'
+  ? `${SITE.url}/sedes/tehuacan#church`
+  : variant === 'amozoc'
+    ? `${SITE.url}/sedes/amozoc#church`
+    : `${SITE.url}/#church`;
+
+const name = variant === 'tehuacan'
+  ? 'MVI Amor y Gracia · Tehuacán'
+  : variant === 'amozoc'
+    ? 'MVI Amor y Gracia · Amozoc'
+    : SITE.name;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Church',
+  '@id': id,
+  name,
+  alternateName: SITE.alternateNames,
+  description: SITE.description,
+  url: variant === 'main' ? `${SITE.url}/` : `${SITE.url}/sedes/${variant}`,
+  logo: `${SITE.url}/favicon.svg`,
+  image: `${SITE.url}${SITE.ogImage}`,
+  email: SITE.email,
+  telephone: sede.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: sede.streetAddress,
+    addressLocality: sede.city,
+    addressRegion: sede.region,
+    postalCode: sede.postalCode,
+    addressCountry: sede.country,
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: sede.latitude,
+    longitude: sede.longitude,
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Sunday',
+      opens: '10:30',
+      closes: '12:30',
+      description: 'Servicio dominical (estudio bíblico 10:30, servicio completo 11:00)',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: 'Thursday',
+      opens: '19:30',
+      closes: '21:00',
+      description: 'Tiempos de Mesa (en casa de la familia Jiménez)',
+    },
+  ],
+  parentOrganization: {
+    '@type': 'ReligiousOrganization',
+    name: SITE.parentOrganization.name,
+    url: SITE.parentOrganization.url,
+  },
+  founder: [
+    { '@type': 'Person', name: SITE.pastors.daniel },
+    { '@type': 'Person', name: SITE.pastors.rocio },
+  ],
+  foundingDate: SITE.founded,
+  areaServed: [
+    { '@type': 'City', name: 'Puebla' },
+    { '@type': 'City', name: 'Amozoc' },
+    { '@type': 'City', name: 'Tehuacán' },
+    { '@type': 'City', name: 'Cholula' },
+    { '@type': 'City', name: 'San Andrés Cholula' },
+    { '@type': 'City', name: 'San Pedro Cholula' },
+    { '@type': 'City', name: 'Atlixco' },
+  ],
+  ...(SOCIAL.length > 0 ? { sameAs: SOCIAL } : {}),
+  knowsAbout: [
+    'Estudio bíblico',
+    'Segunda venida de Cristo',
+    'Adoración',
+    'Comunión cristiana',
+    'Oración',
+    'Partimiento del pan',
+    'Sana doctrina',
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

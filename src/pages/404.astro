@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/ui/Button.astro';
+
+const title = 'Página no encontrada';
+const description = 'La página que buscas no existe o se movió. Vuelve al inicio o explora las secciones principales del sitio.';
+---
+
+<BaseLayout title={title} description={description} path="/404" noindex={true} showSiteSchema={false}>
+  <section class="notfound">
+    <div class="container container--narrow text-center stack-lg">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="text-balance">No encontramos esta página.</h1>
+      <p class="lead" style="margin-inline:auto;">
+        Tal vez el enlace cambió, o nunca existió. No es problema — la mesa sigue puesta.
+      </p>
+
+      <div class="notfound__ctas">
+        <Button variant="primary" size="lg" href="/">Volver al inicio</Button>
+        <Button variant="ghost" size="lg" href="/contacto">Escríbenos →</Button>
+      </div>
+
+      <ul class="notfound__links">
+        <li><a href="/lo-que-creemos">Lo que creemos</a></li>
+        <li><a href="/como-nos-reunimos">Cómo nos reunimos</a></li>
+        <li><a href="/recursos">Recursos · serie Crecer</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound { padding-block: clamp(5rem, 12vw, 9rem); }
+  .notfound__ctas { display: flex; gap: var(--sp-4); justify-content: center; flex-wrap: wrap; }
+  .notfound__links {
+    display: flex;
+    list-style: none;
+    margin: 0; padding: 0;
+    gap: var(--sp-5);
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    margin-top: var(--sp-7);
+  }
+</style>
