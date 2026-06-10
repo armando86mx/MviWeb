@@ -11,7 +11,9 @@ const description = 'Blog de MVI Amor y Gracia. Estudios bíblicos, reflexiones 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+// timeZone UTC: pubDate llega como medianoche UTC; sin esto la fecha
+// se corría un día hacia atrás al formatear en horario de México
+const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
 
 <BaseLayout title={title} description={description} path="/blog">
@@ -26,7 +28,7 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
   <section class="section">
     <div class="container">
       {posts.length === 0 ? (
-        <p class="muted">[PLACEHOLDER: aún no hay publicaciones. Volverás a ver entradas cuando se publique el primer post.]</p>
+        <p class="muted">Estamos preparando los primeros estudios. Mientras tanto, conoce <a href="/recursos">la serie Crecer</a> o <a href="/visitanos">visítanos un domingo</a>.</p>
       ) : (
         <ul class="post-list">
           {posts.map((post) => (

@@ -2,7 +2,7 @@
 // Banner LFPDPPP — controla GA4 mediante consent.
 // Aparece sólo si no hay decisión previa.
 ---
-<aside id="cookie-banner" class="cookie-banner" hidden aria-live="polite">
+<aside id="cookie-banner" class="cookie-banner" hidden aria-live="polite" aria-label="Aviso de cookies">
   <div class="cookie-banner__inner">
     <p class="cookie-banner__text">
       Este sitio puede usar Google Analytics para entender cómo se usa la página.
@@ -50,12 +50,18 @@
   .cookie-banner__btn {
     border-radius: var(--radius-pill);
     padding: 0.6rem 1.2rem;
+    min-height: 44px; /* target táctil */
     font-size: var(--fs-sm);
     font-weight: var(--fw-semibold);
     border: 1px solid transparent;
+    transition: background-color var(--dur-2) var(--ease-out),
+                color var(--dur-2) var(--ease-out),
+                border-color var(--dur-2) var(--ease-out);
   }
   .cookie-banner__btn--primary { background: var(--color-azul-deep); color: var(--color-fg-on-deep); }
+  .cookie-banner__btn--primary:hover { background: var(--color-azul-deep-700); }
   .cookie-banner__btn--secondary { background: transparent; color: var(--color-azul-deep); border-color: var(--color-border); }
+  .cookie-banner__btn--secondary:hover { border-color: var(--color-azul-deep); background: var(--color-azul-claro-50); }
 </style>
 
 <script>
@@ -69,6 +75,9 @@
 
   const stored = localStorage.getItem(KEY);
   if (!stored) show();
+
+  // "Preferencias de cookies" en el footer permite revocar/cambiar la decisión
+  document.addEventListener('mvi:open-cookie-prefs', show);
 
   accept?.addEventListener('click', () => {
     localStorage.setItem(KEY, 'granted');

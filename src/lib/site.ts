@@ -1,7 +1,11 @@
 /**
  * Constantes globales del sitio.
- * PLACEHOLDERS están marcados con [PLACEHOLDER:...] y deben reemplazarse
- * con datos reales antes del lanzamiento.
+ *
+ * Datos pendientes de confirmar (dirección exacta, teléfonos, redes):
+ * se dejan VACÍOS y con flags `confirmed: false`. Los componentes solo
+ * los muestran cuando existen — nunca se renderiza texto provisional
+ * al público. Al confirmar un dato: rellenar el campo y poner el flag
+ * en true.
  */
 
 export const SITE = {
@@ -32,31 +36,38 @@ export const SITE = {
       city: 'Amozoc',
       region: 'Puebla',
       country: 'MX',
-      streetAddress: '[PLACEHOLDER: Calle y número, Amozoc, Puebla]',
-      postalCode: '[PLACEHOLDER: CP]',
-      latitude: 19.0414, // PLACEHOLDER aproximado de Amozoc
+      // Dirección exacta pendiente de confirmar — vacío hasta entonces
+      streetAddress: '',
+      postalCode: '',
+      addressConfirmed: false,
+      latitude: 19.0414, // aproximado al centro de Amozoc — NO usar para navegación
       longitude: -98.0386,
-      phone: '[PLACEHOLDER: +52 222 XXX XXXX]',
+      geoConfirmed: false,
+      phone: '',
     },
     tehuacan: {
       city: 'Tehuacán',
       region: 'Puebla',
       country: 'MX',
-      streetAddress: '[PLACEHOLDER: Calle y número, Tehuacán, Puebla]',
-      postalCode: '[PLACEHOLDER: CP]',
-      latitude: 18.4621, // PLACEHOLDER aproximado de Tehuacán
+      streetAddress: '',
+      postalCode: '',
+      addressConfirmed: false,
+      latitude: 18.4621, // aproximado al centro de Tehuacán — NO usar para navegación
       longitude: -97.3923,
-      phone: '[PLACEHOLDER: +52 238 XXX XXXX]',
+      geoConfirmed: false,
+      phone: '',
     },
   },
   social: {
-    facebook: '[PLACEHOLDER: https://www.facebook.com/amorygraciapuebla]',
-    instagram: '[PLACEHOLDER: https://www.instagram.com/amorygraciapuebla]',
-    youtube: '[PLACEHOLDER: https://www.youtube.com/@amorygraciapuebla]',
-    whatsapp: '[PLACEHOLDER: https://wa.me/52XXXXXXXXXX]',
+    // Vacíos hasta que las cuentas estén confirmadas; el Footer y
+    // Contacto solo muestran las redes con URL real.
+    facebook: '',
+    instagram: '',
+    youtube: '',
+    whatsapp: '',
   },
   founded: '2014-03-01',
-  ogImage: '/og-default.svg',
+  ogImage: '/og-default.png',
 } as const;
 
 export const NAV_PRIMARY = [
@@ -68,20 +79,25 @@ export const NAV_PRIMARY = [
   { label: 'Contacto',       href: '/contacto' },
 ] as const;
 
-export const NAV_FOOTER_SITE = [
-  { label: 'Inicio',           href: '/' },
-  { label: 'Nosotros',         href: '/nosotros' },
-  { label: 'Lo que creemos',   href: '/lo-que-creemos' },
-  { label: 'Cómo nos reunimos',href: '/como-nos-reunimos' },
-  { label: 'Visítanos',        href: '/visitanos' },
-  { label: 'Puebla',           href: '/puebla' },
-  { label: 'Sede Amozoc',      href: '/sedes/amozoc' },
-  { label: 'Sede Tehuacán',    href: '/sedes/tehuacan' },
-  { label: 'Recursos',         href: '/recursos' },
-  { label: 'Blog',             href: '/blog' },
-  { label: 'Podcast',          href: '/podcast' },
-  { label: 'Contacto',         href: '/contacto' },
-  { label: 'Ofrendas',         href: '/ofrendas' },
+/** CTA destacado del header: la página con mayor intención de visita. */
+export const NAV_CTA = { label: 'Visítanos', href: '/visitanos' } as const;
+
+export const NAV_FOOTER_CONOCE = [
+  { label: 'Inicio',            href: '/' },
+  { label: 'Nosotros',          href: '/nosotros' },
+  { label: 'Lo que creemos',    href: '/lo-que-creemos' },
+  { label: 'Cómo nos reunimos', href: '/como-nos-reunimos' },
+  { label: 'Visítanos',         href: '/visitanos' },
+] as const;
+
+export const NAV_FOOTER_EXPLORA = [
+  { label: 'Iglesia en Puebla', href: '/puebla' },
+  { label: 'Sede Amozoc',       href: '/sedes/amozoc' },
+  { label: 'Sede Tehuacán',     href: '/sedes/tehuacan' },
+  { label: 'Recursos',          href: '/recursos' },
+  { label: 'Blog',              href: '/blog' },
+  { label: 'Podcast',           href: '/podcast' },
+  { label: 'Ofrendas',          href: '/ofrendas' },
 ] as const;
 
 export const NAV_FOOTER_LEGAL = [
@@ -90,8 +106,9 @@ export const NAV_FOOTER_LEGAL = [
 ] as const;
 
 export const SCRIPTURE_HERO = {
-  // Versículo escogido como provisional alineado al énfasis escatológico.
-  // PLACEHOLDER: los pastores eligen final entre Mateo 24:42, Apocalipsis 22:20 o Tito 2:13.
+  // Versículo provisional alineado al énfasis escatológico.
+  // Los pastores eligen el definitivo entre Mateo 24:42,
+  // Apocalipsis 22:20 o Tito 2:13. Solo se muestra en la home.
   text: 'Velad, pues, porque no sabéis a qué hora ha de venir vuestro Señor.',
   reference: 'Mateo 24:42',
 } as const;

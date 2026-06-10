@@ -5,6 +5,7 @@ import Button from '@components/ui/Button.astro';
 import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 
 const title = 'Crecer 2 — Hábitos del discípulo · Estudio bíblico · Amor y Gracia';
 const description = 'Crecer 2 es el segundo nivel de la serie Crecer. Aborda los hábitos cotidianos del discípulo: estudio bíblico, oración, y cómo la Palabra transforma el entendimiento.';
@@ -28,6 +29,12 @@ const description = 'Crecer 2 es el segundo nivel de la serie Crecer. Aborda los
 
   <section class="section">
     <div class="container container--prose stack-lg">
+      <Breadcrumbs items={[
+        { label: 'Inicio', href: '/' },
+        { label: 'Recursos', href: '/recursos' },
+        { label: 'Crecer 2 — Hábitos del discípulo' },
+      ]} />
+
       <p class="eyebrow">¿De qué trata?</p>
       <h2>La fe se sostiene por hábitos, no por intensidad.</h2>
       <p>
@@ -70,9 +77,10 @@ const description = 'Crecer 2 es el segundo nivel de la serie Crecer. Aborda los
   <section class="section section--alt">
     <div class="container container--narrow text-center stack-lg">
       <p class="eyebrow">Descarga gratuita</p>
-      <h2>Recibe los tres niveles en tu correo</h2>
+      <h2>¿Listo para el nivel 2?</h2>
+      <p class="lead mx-auto">Llévate Crecer 2 junto con los otros dos niveles — directo o en tu correo.</p>
       <div>
-        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
       </div>
     </div>
   </section>

@@ -5,6 +5,7 @@ import Button from '@components/ui/Button.astro';
 import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 
 const title = 'Crecer 1 — Fundamentos · Estudio bíblico introductorio · Amor y Gracia';
 const description = 'Crecer 1 es el primer nivel de la serie Crecer. Una guía sencilla y bíblica para quienes empiezan a seguir a Cristo: qué es la Biblia, qué significa ser hijo de Dios, por qué seguir a Jesús.';
@@ -28,6 +29,12 @@ const description = 'Crecer 1 es el primer nivel de la serie Crecer. Una guía s
 
   <section class="section">
     <div class="container container--prose stack-lg">
+      <Breadcrumbs items={[
+        { label: 'Inicio', href: '/' },
+        { label: 'Recursos', href: '/recursos' },
+        { label: 'Crecer 1 — Fundamentos' },
+      ]} />
+
       <p class="eyebrow">¿De qué trata?</p>
       <h2>El primer paso es saber qué fundamento estás pisando.</h2>
       <p>
@@ -71,12 +78,10 @@ const description = 'Crecer 1 es el primer nivel de la serie Crecer. Una guía s
   <section class="section section--alt">
     <div class="container container--narrow text-center stack-lg">
       <p class="eyebrow">Descarga gratuita</p>
-      <h2>Recibe los tres niveles en tu correo</h2>
-      <p class="lead" style="margin-inline:auto;">
-        Te enviamos los tres PDFs en un solo correo. Empieza por Crecer 1.
-      </p>
+      <h2>Empieza por Crecer 1</h2>
+      <p class="lead mx-auto">Descárgalo directo o recíbelo en tu correo junto con los otros dos niveles.</p>
       <div>
-        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
       </div>
     </div>
   </section>

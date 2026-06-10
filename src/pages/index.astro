@@ -10,7 +10,7 @@ import Button from '@components/ui/Button.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaReligiousOrg from '@components/seo/SchemaReligiousOrg.astro';
 import SchemaEvent from '@components/seo/SchemaEvent.astro';
-import { SITE } from '@lib/site';
+import { SITE, SCRIPTURE_HERO } from '@lib/site';
 
 const title = 'MVI Amor y Gracia · Iglesia Cristiana Evangélica en Puebla';
 const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Servicios dominicales 11:00 AM, Tiempos de Mesa los jueves. Pequeños en tamaño, profundos en doctrina, esperando el regreso de Cristo.';
@@ -23,7 +23,7 @@ const eventos = [
     startTime: '10:30',
     endTime: '12:30',
     locationName: 'MVI Amor y Gracia · Sede Amozoc',
-    streetAddress: SITE.sedes.amozoc.streetAddress,
+    // streetAddress se añadirá cuando la dirección esté confirmada
     addressLocality: 'Amozoc',
     addressRegion: 'Puebla',
     url: `${SITE.url}/sedes/amozoc`,
@@ -35,7 +35,6 @@ const eventos = [
     startTime: '19:30',
     endTime: '21:00',
     locationName: 'Casa de la familia Jiménez · Tiempos de Mesa',
-    streetAddress: '[PLACEHOLDER: Domicilio Tiempos de Mesa, Amozoc]',
     addressLocality: 'Amozoc',
     addressRegion: 'Puebla',
     url: `${SITE.url}/como-nos-reunimos`,
@@ -52,6 +51,7 @@ const eventos = [
     eyebrow="MVI · Amozoc · Tehuacán · Puebla"
     title="Iglesia Cristiana Evangélica en Puebla – MVI Amor y Gracia"
     subtitle="Pequeños en tamaño, profundos en doctrina. Una iglesia que estudia la Biblia con calma y espera con gozo el regreso de Cristo."
+    scripture={SCRIPTURE_HERO}
     primaryCTA={{ label: 'Visítanos un domingo', href: '/visitanos' }}
     secondaryCTA={{ label: 'Conoce lo que creemos', href: '/lo-que-creemos' }}
     variant="home"
@@ -62,15 +62,12 @@ const eventos = [
     <div class="container container--narrow text-center stack-lg">
       <p class="eyebrow">Una invitación honesta</p>
       <h2 class="text-balance">
-        En Amozoc y Tehuacán — abiertos a Puebla — somos una iglesia evangélica pequeña en tamaño pero profunda en doctrina.
+        Una iglesia pequeña en tamaño, profunda en doctrina.
       </h2>
-      <p class="lead" style="margin-inline:auto;">
-        Si estás buscando una congregación donde sentarte con la Palabra sin prisa,
-        donde la mesa sea más importante que el escenario, y donde se hable con seriedad del
-        regreso de Jesús — bienvenido a casa.
-      </p>
-      <p class="lead italic" style="margin-inline:auto; font-family: var(--font-display);">
-        Somos iglesia · Hacemos iglesia · Hacemos familia.
+      <p class="lead mx-auto">
+        Estamos en Amozoc y Tehuacán, abiertos a toda Puebla. Si buscas una congregación
+        donde sentarte con la Palabra sin prisa, donde la mesa sea más importante que el
+        escenario, y donde se hable con seriedad del regreso de Jesús — bienvenido a casa.
       </p>
     </div>
   </section>
@@ -78,7 +75,7 @@ const eventos = [
   <!-- Pilares -->
   <section class="section section--alt">
     <PilaresGrid />
-    <div class="container text-center" style="margin-top: var(--sp-7);">
+    <div class="container text-center mt-7">
       <Button variant="secondary" href="/lo-que-creemos">Lee nuestra confesión completa →</Button>
     </div>
   </section>
@@ -92,12 +89,12 @@ const eventos = [
         <p class="lead">Dos espacios principales cada semana. Uno en el templo, otro alrededor de una mesa.</p>
       </header>
 
-      <div class="grid grid--2" style="margin-top: var(--sp-6);">
+      <div class="grid grid--2 mt-6">
         <EventoCard
           title="Servicio dominical"
           weekday="Domingos"
           time="11:00 AM"
-          location="Sede Amozoc · [PLACEHOLDER: dirección]"
+          location="Sede Amozoc · Amozoc, Puebla"
           description="Estudio bíblico a las 10:30 AM, servicio completo a las 11:00 AM. Familias bienvenidas."
         />
         <EventoCard
@@ -111,8 +108,8 @@ const eventos = [
         />
       </div>
 
-      <div class="text-center" style="margin-top: var(--sp-7);">
-        <Button variant="secondary" href="/como-nos-reunimos">Ver calendario completo →</Button>
+      <div class="text-center mt-7">
+        <Button variant="secondary" href="/como-nos-reunimos">Ver horarios y reuniones →</Button>
       </div>
     </div>
   </section>
@@ -124,10 +121,10 @@ const eventos = [
         <p class="eyebrow">Conoce a los pastores</p>
         <h2>Daniel y Rocío Chávez</h2>
       </header>
-      <div style="margin-top: var(--sp-5);">
-        <PastoresCard />
+      <div class="mt-5">
+        <PastoresCard showHeading={false} />
       </div>
-      <div class="text-center" style="margin-top: var(--sp-6);">
+      <div class="text-center mt-6">
         <Button variant="secondary" href="/nosotros">Conoce su historia →</Button>
       </div>
     </div>
@@ -145,7 +142,7 @@ const eventos = [
         </p>
       </header>
 
-      <div class="grid grid--3" style="margin-top: var(--sp-6);">
+      <div class="grid grid--3 mt-6">
         <Card href="/recursos/crecer-1">
           <p class="recurso__n">01 · Fundamentos</p>
           <h3>Crecer 1</h3>
@@ -163,7 +160,7 @@ const eventos = [
         </Card>
       </div>
 
-      <div class="text-center" style="margin-top: var(--sp-7);">
+      <div class="text-center mt-7">
         <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
       </div>
     </div>

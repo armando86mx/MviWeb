@@ -20,7 +20,7 @@ const { title, description, pubDate, updatedDate, tags = [], author, ogImage, pa
 const url = buildCanonical(path);
 const datePublished = pubDate.toISOString();
 const dateModified = (updatedDate ?? pubDate).toISOString();
-const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
+const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 ---
 
 <BaseLayout
@@ -75,6 +75,8 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
       <a href="/blog" class="post__back">← Volver al blog</a>
     </footer>
   </article>
+
+  <slot name="after" />
 </BaseLayout>
 
 <style>

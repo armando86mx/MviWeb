@@ -1,11 +1,14 @@
 ---
-import { SCRIPTURE_HERO, SITE } from '@lib/site';
+import { SITE } from '@lib/site';
 import Button from '@components/ui/Button.astro';
 
 interface Props {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  /** Cita bíblica opcional. Solo la home la pasa explícitamente:
+      repetirla en cada página la desgastaba y empujaba los CTAs
+      fuera del primer viewport en móvil. */
   scripture?: { text: string; reference: string };
   primaryCTA?: { label: string; href: string };
   secondaryCTA?: { label: string; href: string };
@@ -16,7 +19,7 @@ const {
   eyebrow,
   title,
   subtitle,
-  scripture = SCRIPTURE_HERO,
+  scripture,
   primaryCTA,
   secondaryCTA,
   variant = 'page',
@@ -78,6 +81,12 @@ const {
     margin-bottom: var(--sp-4);
   }
   .hero--home .hero__title { font-size: var(--fs-4xl); }
+  /* En pantallas chicas el H1 de home a 4xl ocupa 5+ líneas y entierra
+     los CTAs: una talla menos mantiene el impacto sin sacrificar el fold */
+  @media (max-width: 480px) {
+    .hero--home .hero__title { font-size: var(--fs-3xl); }
+    .hero--home { padding-block: clamp(3.5rem, 8vw, 5rem); }
+  }
 
   .hero__subtitle {
     font-size: var(--fs-md);
@@ -109,7 +118,8 @@ const {
     font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
-    color: var(--color-azul-claro);
+    /* azul-claro daba 3.89:1 sobre el degradado; claro-200 pasa AA */
+    color: var(--color-azul-claro-200);
   }
 
   .hero__ctas {
@@ -119,8 +129,6 @@ const {
     margin-top: var(--sp-6);
     align-items: center;
   }
-  .hero__ctas :global(.btn--ghost) { color: var(--color-azul-claro-200); }
-  .hero__ctas :global(.btn--ghost):hover { color: var(--color-blanco); }
 
   .hero__tagline {
     margin-top: var(--sp-9);

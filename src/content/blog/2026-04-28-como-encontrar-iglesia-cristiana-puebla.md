@@ -1,4 +1,5 @@
 ---
+slug: "como-encontrar-iglesia-cristiana-puebla"
 title: "Cómo encontrar una iglesia cristiana evangélica en Puebla (guía 2026)"
 description: "Una guía honesta para quien está buscando una iglesia cristiana evangélica en Puebla: qué preguntar, qué evitar y cómo distinguir una iglesia bíblica de una que solo lo parece."
 pubDate: 2026-04-28

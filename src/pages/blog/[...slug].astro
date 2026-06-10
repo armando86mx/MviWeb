@@ -1,5 +1,7 @@
 ---
 import BlogLayout from '@layouts/BlogLayout.astro';
+import CTABand from '@components/sections/CTABand.astro';
+import Card from '@components/ui/Card.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -15,6 +17,12 @@ interface Props { post: CollectionEntry<'blog'> }
 const { post } = Astro.props;
 const { Content } = await post.render();
 const path = `/blog/${post.slug}`;
+
+// "Sigue leyendo": el post más reciente distinto al actual
+const others = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((p) => p.slug !== post.slug)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const nextPost = others[0];
 ---
 
 <BlogLayout
@@ -28,4 +36,32 @@ const path = `/blog/${post.slug}`;
   path={path}
 >
   <Content />
+
+  <Fragment slot="after">
+    {nextPost && (
+      <section class="section--tight related">
+        <div class="container container--prose">
+          <p class="eyebrow">Sigue leyendo</p>
+          <Card href={`/blog/${nextPost.slug}`}>
+            <h2 class="related__title">{nextPost.data.title}</h2>
+            <p>{nextPost.data.description}</p>
+          </Card>
+        </div>
+      </section>
+    )}
+
+    <CTABand
+      eyebrow="Visítanos"
+      title="¿Buscas una iglesia donde estudiar esto en comunidad?"
+      subtitle="Lo que lees aquí es lo que vivimos los domingos y los jueves. Ven a sentarte con nosotros — sin requisitos, solo bienvenida."
+      primaryCTA={{ label: 'Tu primera visita', href: '/visitanos' }}
+      secondaryCTA={{ label: 'Cómo nos reunimos', href: '/como-nos-reunimos' }}
+    />
+  </Fragment>
 </BlogLayout>
+
+<style>
+  .related { padding-bottom: var(--sp-9); }
+  .related .eyebrow { margin-bottom: var(--sp-4); }
+  .related__title { font-size: var(--fs-lg); margin-bottom: var(--sp-3); text-wrap: balance; }
+</style>

@@ -5,6 +5,7 @@ import Button from '@components/ui/Button.astro';
 import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 
 const title = 'Crecer 3 — La iglesia que crece · 5 pilares Hechos 2:42 · Amor y Gracia';
 const description = 'Crecer 3 es el tercer nivel de la serie Crecer. Aborda los 5 pilares de la iglesia primitiva según Hechos 2:42: adoración, enseñanza, comunión, oración y partimiento del pan.';
@@ -28,6 +29,12 @@ const description = 'Crecer 3 es el tercer nivel de la serie Crecer. Aborda los 
 
   <section class="section">
     <div class="container container--prose stack-lg">
+      <Breadcrumbs items={[
+        { label: 'Inicio', href: '/' },
+        { label: 'Recursos', href: '/recursos' },
+        { label: 'Crecer 3 — La iglesia que crece' },
+      ]} />
+
       <p class="eyebrow">¿De qué trata?</p>
       <h2>Hechos 2:42 — los hábitos que sostuvieron a la iglesia primitiva.</h2>
       <p>
@@ -73,9 +80,10 @@ const description = 'Crecer 3 es el tercer nivel de la serie Crecer. Aborda los 
   <section class="section section--alt">
     <div class="container container--narrow text-center stack-lg">
       <p class="eyebrow">Descarga gratuita</p>
-      <h2>Recibe los tres niveles en tu correo</h2>
+      <h2>Completa la serie</h2>
+      <p class="lead mx-auto">Los tres niveles, gratis: descárgalos directo o pídelos a tu correo.</p>
       <div>
-        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie Crecer completa</Button>
+        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
       </div>
     </div>
   </section>

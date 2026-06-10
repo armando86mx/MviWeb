@@ -7,11 +7,12 @@ interface Props {
 
 const { variant = 'main' } = Astro.props;
 
-const SOCIAL = [
+// Solo URLs reales — los campos vacíos no entran al JSON-LD
+const SOCIAL: string[] = [
   SITE.social.facebook,
   SITE.social.instagram,
   SITE.social.youtube,
-].filter((x) => !x.startsWith('[PLACEHOLDER'));
+].filter((x) => x.length > 0);
 
 const sede = variant === 'tehuacan' ? SITE.sedes.tehuacan : SITE.sedes.amozoc;
 const id = variant === 'tehuacan'
@@ -37,20 +38,26 @@ const schema = {
   logo: `${SITE.url}/favicon.svg`,
   image: `${SITE.url}${SITE.ogImage}`,
   email: SITE.email,
-  telephone: sede.phone,
+  // Teléfono, calle, CP y geo entran al schema solo cuando son datos
+  // confirmados: un dato provisional en Google es peor que ninguno.
+  ...(sede.phone ? { telephone: sede.phone } : {}),
   address: {
     '@type': 'PostalAddress',
-    streetAddress: sede.streetAddress,
+    ...(sede.streetAddress ? { streetAddress: sede.streetAddress } : {}),
     addressLocality: sede.city,
     addressRegion: sede.region,
-    postalCode: sede.postalCode,
+    ...(sede.postalCode ? { postalCode: sede.postalCode } : {}),
     addressCountry: sede.country,
   },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: sede.latitude,
-    longitude: sede.longitude,
-  },
+  ...(sede.geoConfirmed
+    ? {
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: sede.latitude,
+          longitude: sede.longitude,
+        },
+      }
+    : {}),
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',

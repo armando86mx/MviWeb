@@ -18,6 +18,10 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: clamp(1.25rem, 2vw, 1.75rem);
+  }
+  /* Solo las tarjetas-enlace transicionan/levantan: una tarjeta
+     informativa que "flota" al hover sugiere un clic que no existe */
+  .card--link {
     transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
   }
   .card--subtle {
@@ -26,8 +30,8 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
   }
   .card--mesa {
     /* Pieza temática Tiempo de Mesa: paleta cálida marrón/vino, no se fuerza al azul */
-    background: linear-gradient(180deg, #fbf3df 0%, #f3e2bf 100%);
-    border-color: #e7d2a3;
+    background: linear-gradient(180deg, var(--color-mesa-crema-50) 0%, var(--color-mesa-crema-200) 100%);
+    border-color: var(--color-mesa-crema-300);
     color: var(--color-mesa-vino);
   }
   .card--mesa h2, .card--mesa h3 { color: var(--color-mesa-vino); }

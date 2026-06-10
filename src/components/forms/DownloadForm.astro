@@ -16,21 +16,23 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
   </p>
 
   <div class="form__row">
-    <label class="field">
-      <span class="field__label">Nombre <span aria-hidden="true">*</span></span>
-      <input type="text" name="nombre" required minlength="2" maxlength="50" autocomplete="given-name" />
-    </label>
-    <label class="field">
-      <span class="field__label">Apellido <span aria-hidden="true">*</span></span>
-      <input type="text" name="apellido" required minlength="2" maxlength="50" autocomplete="family-name" />
-    </label>
+    <div class="field" data-field>
+      <label class="field__label" for="dl-nombre">Nombre <span aria-hidden="true">*</span></label>
+      <input id="dl-nombre" type="text" name="nombre" required minlength="2" maxlength="50" autocomplete="given-name" aria-describedby="dl-nombre-error" data-error-label="tu nombre" />
+      <span class="field__error" id="dl-nombre-error" hidden></span>
+    </div>
+    <div class="field" data-field>
+      <label class="field__label" for="dl-apellido">Apellido <span class="field__optional">(opcional)</span></label>
+      <input id="dl-apellido" type="text" name="apellido" maxlength="50" autocomplete="family-name" />
+    </div>
   </div>
 
-  <label class="field">
-    <span class="field__label">Correo <span aria-hidden="true">*</span></span>
-    <input type="email" name="email" required maxlength="120" autocomplete="email" inputmode="email" />
-    <span class="field__hint">Solo lo usaremos para enviarte el material y, si lo decides después, el boletín.</span>
-  </label>
+  <div class="field" data-field>
+    <label class="field__label" for="dl-email">Correo <span aria-hidden="true">*</span></label>
+    <input id="dl-email" type="email" name="email" required maxlength="120" autocomplete="email" inputmode="email" aria-describedby="dl-email-hint dl-email-error" data-error-label="tu correo" />
+    <span class="field__hint" id="dl-email-hint">Solo lo usaremos para enviarte el material y, si lo decides después, el boletín.</span>
+    <span class="field__error" id="dl-email-error" hidden></span>
+  </div>
 
   <div class="hp" aria-hidden="true">
     <label>No llenar este campo:
@@ -41,7 +43,7 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
   <input type="hidden" name="g-recaptcha-response" data-recaptcha-token />
 
   <div class="form__actions">
-    <button type="submit" class="btn btn--primary btn--lg">Enviar a mi correo</button>
+    <button type="submit" class="btn btn--primary btn--lg" data-submit>Enviar a mi correo</button>
     <p class="form__legal">
       Al enviar aceptas nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>.
     </p>
@@ -49,6 +51,10 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
   <p class="form__status" data-form-status role="status" aria-live="polite"></p>
 </form>
+
+{recaptchaSiteKey && (
+  <script is:inline async src={`https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`}></script>
+)}
 
 <style>
   .form { display: grid; gap: var(--sp-5); max-width: 600px; }
@@ -58,6 +64,7 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
   .field { display: grid; gap: var(--sp-2); }
   .field__label { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
+  .field__optional { font-weight: var(--fw-regular); color: var(--color-fg-muted); }
   .field__hint { font-size: var(--fs-xs); color: var(--color-fg-muted); }
   .field input {
     width: 100%;
@@ -74,6 +81,12 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
     box-shadow: 0 0 0 3px var(--color-azul-claro-50);
     outline: none;
   }
+
+  /* Error solo tras interacción (JS), nunca al cargar */
+  .field.is-invalid input { border-color: var(--color-error); }
+  .field__error { font-size: var(--fs-xs); color: var(--color-error); }
+  .field__error[hidden] { display: none; }
+
   .hp { position: absolute; left: -9999px; top: -9999px; visibility: hidden; }
 
   .form__actions { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
@@ -88,15 +101,52 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
     font-size: var(--fs-sm);
   }
   .form__status[data-state="error"]:not(:empty) {
-    background: #fde7e7;
+    background: var(--color-error-bg);
     color: var(--color-error);
   }
 </style>
 
 <script define:vars={{ recaptchaSiteKey }}>
   const form = document.querySelector('[data-form="descarga"]');
-  const status = document.querySelector('[data-form-status]');
-  const tokenInput = document.querySelector('[data-recaptcha-token]');
+  const status = form?.querySelector('[data-form-status]');
+  const tokenInput = form?.querySelector('[data-recaptcha-token]');
+  const submitBtn = form?.querySelector('[data-submit]');
+
+  function messageFor(el) {
+    const label = el.dataset.errorLabel || 'este campo';
+    const v = el.validity;
+    if (v.valueMissing) return `Escribe ${label}.`;
+    if (v.typeMismatch && el.type === 'email') return 'Revisa el formato del correo (ej. nombre@correo.com).';
+    if (v.tooShort) return `Un poco más largo, por favor (mínimo ${el.minLength} caracteres).`;
+    return 'Revisa este campo.';
+  }
+
+  function setFieldState(el, touched) {
+    const field = el.closest('[data-field]');
+    const errorEl = field?.querySelector('.field__error');
+    const valid = el.checkValidity();
+    if (!field || !errorEl) return valid;
+    if (valid || !touched) {
+      field.classList.remove('is-invalid');
+      el.removeAttribute('aria-invalid');
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    } else {
+      field.classList.add('is-invalid');
+      el.setAttribute('aria-invalid', 'true');
+      errorEl.hidden = false;
+      errorEl.textContent = messageFor(el);
+    }
+    return valid;
+  }
+
+  const controls = form ? [...form.querySelectorAll('input[required]')] : [];
+  controls.forEach((el) => {
+    el.addEventListener('blur', () => setFieldState(el, true));
+    el.addEventListener('input', () => {
+      if (el.closest('[data-field]')?.classList.contains('is-invalid')) setFieldState(el, true);
+    });
+  });
 
   async function getRecaptchaToken() {
     if (!recaptchaSiteKey || !window.grecaptcha) return '';
@@ -113,8 +163,25 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!status) return;
-    status.textContent = 'Enviando…';
+
+    let firstInvalid = null;
+    for (const el of controls) {
+      const ok = setFieldState(el, true);
+      if (!ok && !firstInvalid) firstInvalid = el;
+    }
+    if (firstInvalid) {
+      firstInvalid.focus();
+      status.setAttribute('data-state', 'error');
+      status.textContent = 'Revisa los campos marcados antes de enviar.';
+      return;
+    }
+
     status.removeAttribute('data-state');
+    status.textContent = 'Enviando…';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando…';
+    }
 
     const t = await getRecaptchaToken();
     if (tokenInput) tokenInput.value = t;
@@ -128,7 +195,12 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
       form.reset();
     } catch (err) {
       status.setAttribute('data-state', 'error');
-      status.textContent = 'No pudimos procesar tu solicitud. Intenta de nuevo o escríbenos a contacto@amorygraciapuebla.org';
+      status.textContent = 'No pudimos procesar tu solicitud. Usa la descarga directa de arriba o escríbenos a contacto@amorygraciapuebla.org';
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar a mi correo';
+      }
     }
   });
 </script>

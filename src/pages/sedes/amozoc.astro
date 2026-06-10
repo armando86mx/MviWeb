@@ -7,6 +7,7 @@ import Button from '@components/ui/Button.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import { SITE } from '@lib/site';
 
 const title = 'Iglesia Cristiana en Amozoc, Puebla · Amor y Gracia';
@@ -19,8 +20,7 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
     slot="head"
     items={[
       { name: 'Inicio', href: '/' },
-      { name: 'Sedes', href: '/sedes/amozoc' },
-      { name: 'Amozoc', href: '/sedes/amozoc' },
+      { name: 'Sede Amozoc', href: '/sedes/amozoc' },
     ]}
   />
 
@@ -32,40 +32,44 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
 
   <section class="section">
     <div class="container">
-      <div class="grid grid--2">
+      <Breadcrumbs items={[
+        { label: 'Inicio', href: '/' },
+        { label: 'Sede Amozoc' },
+      ]} />
+      <div class="grid grid--2 mt-5">
         <article class="info">
           <p class="eyebrow">Cómo llegar</p>
           <h2>Dirección y referencias</h2>
           <address class="address">
             <strong>MVI Amor y Gracia · Sede Amozoc</strong><br />
-            {SITE.sedes.amozoc.streetAddress}<br />
-            Amozoc de Mota, Puebla<br />
-            CP {SITE.sedes.amozoc.postalCode}, México
+            Amozoc de Mota, Puebla, México
           </address>
+          <p>
+            Estamos confirmando la dirección exacta del templo para publicarla aquí
+            con mapa y referencias. Mientras tanto, <a href="/contacto">escríbenos</a>
+            y te compartimos la ubicación precisa y cómo llegar — con gusto te
+            esperamos en la puerta tu primera vez.
+          </p>
           <p class="muted">
-            <strong>Teléfono / WhatsApp:</strong> {SITE.sedes.amozoc.phone}<br />
             <strong>Correo:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
           </p>
-
-          <p style="margin-top: var(--sp-5);">
-            <Button variant="primary" href={`https://www.google.com/maps/search/?api=1&query=${SITE.sedes.amozoc.latitude},${SITE.sedes.amozoc.longitude}`} target="_blank" rel="noopener">
-              Abrir en Google Maps
-            </Button>
-          </p>
-
-          <p class="muted" style="margin-top: var(--sp-4); font-size: var(--fs-sm);">
-            <em>[PLACEHOLDER: agregar referencia visual ("a media cuadra de…", "a un costado de…") cuando se confirme dirección final.]</em>
-          </p>
+          {/* Cuando SITE.sedes.amozoc esté confirmada (addressConfirmed/geoConfirmed):
+              restaurar aquí el botón "Abrir en Google Maps" y el iframe del mapa. */}
         </article>
 
-        <article class="map" aria-label="Mapa de la ubicación">
-          <div class="map__placeholder">
-            <p>[PLACEHOLDER: mapa de Google embebido]</p>
-            <p class="muted" style="font-size: var(--fs-xs);">
-              Cuando se confirme la dirección final, embeber un &lt;iframe&gt; de Google Maps centrado en la sede de Amozoc.
-            </p>
-          </div>
-        </article>
+        <Card variant="subtle">
+          <h3>Te ayudamos a llegar</h3>
+          <p>
+            Si nos avisas que vienes, te mandamos la ubicación por correo
+            y te explicamos referencias y dónde estacionarte.
+          </p>
+          <p class="mt-4">
+            <Button variant="primary" href="/contacto">Pedir ubicación exacta</Button>
+          </p>
+          <p class="mt-3">
+            <Button variant="ghost" href="/visitanos">Qué esperar tu primera vez →</Button>
+          </p>
+        </Card>
       </div>
     </div>
   </section>
@@ -121,7 +125,7 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
             Cada domingo nos visita gente que viene desde la capital, las Cholulas y zonas
             cercanas. La sede en Amozoc está pensada también para ti.
           </p>
-          <p style="margin-top: var(--sp-3);">
+          <p class="mt-3">
             <Button variant="ghost" href="/puebla">Más para gente de Puebla →</Button>
           </p>
         </Card>
@@ -146,18 +150,6 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
     padding: var(--sp-4);
     background: var(--color-bg-alt);
     border-radius: var(--radius-md);
-  }
-  .map__placeholder {
-    aspect-ratio: 4 / 3;
-    background: var(--color-bg-alt);
-    border: 1px dashed var(--color-azul-deep);
-    border-radius: var(--radius-md);
-    display: grid;
-    place-content: center;
-    text-align: center;
-    padding: var(--sp-5);
-    color: var(--color-azul-deep);
-    font-family: var(--font-mono);
   }
   .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
 </style>

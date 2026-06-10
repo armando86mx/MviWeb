@@ -50,7 +50,7 @@ const pilares = [
       {pilares.map((p) => (
         <li>
           <Card variant="subtle">
-            <p class="pilar__n">{p.n}</p>
+            <p class="pilar__n" aria-hidden="true">{p.n}</p>
             <h3>{p.titulo}</h3>
             <p>{p.descripcion}</p>
             <p class="pilar__ref">{p.versiculo}</p>
@@ -62,7 +62,8 @@ const pilares = [
 </section>
 
 <style>
-  .pilares { padding-block: clamp(3rem, 5vw, 6rem); }
+  /* Sin padding propio: el espaciado vertical lo pone la .section que
+     envuelve al componente (antes se duplicaban ambos paddings) */
   .pilares__header { max-width: 60ch; margin-bottom: var(--sp-7); }
   .pilares__grid {
     list-style: none;
@@ -71,15 +72,32 @@ const pilares = [
     grid-template-columns: 1fr;
     gap: var(--sp-5);
   }
-  @media (min-width: 700px) { .pilares__grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 1100px) { .pilares__grid { grid-template-columns: repeat(3, 1fr); } }
+  .pilares__grid li :global(.card) { height: 100%; }
+  @media (min-width: 700px) {
+    .pilares__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1100px) {
+    /* 6 columnas: cada pilar abarca 2 → fila de 3 arriba;
+       los pilares 4 y 5 se desplazan para quedar centrados (sin hueco) */
+    .pilares__grid { grid-template-columns: repeat(6, 1fr); }
+    .pilares__grid li { grid-column: span 2; }
+    .pilares__grid li:nth-child(4) { grid-column: 2 / span 2; }
+  }
 
+  /* Número en insignia circular — mismo lenguaje visual que la página
+     "Lo que creemos" (antes había dos diseños para los mismos pilares) */
   .pilar__n {
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--color-azul-deep);
-    letter-spacing: var(--tracking-wide);
-    margin-bottom: var(--sp-2);
+    display: inline-grid;
+    place-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-azul-deep);
+    color: var(--color-blanco-roto);
+    font-family: var(--font-display);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    margin-bottom: var(--sp-3);
   }
   .pilar__ref {
     margin-top: var(--sp-4);

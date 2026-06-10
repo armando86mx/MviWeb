@@ -53,6 +53,18 @@ a:hover { color: var(--color-link-hover); }
   border-radius: 3px;
 }
 
+/* En fondos oscuros el anillo azul oscuro no se ve: usar azul claro */
+.section--invert :focus-visible,
+.hero :focus-visible,
+.site-footer :focus-visible,
+.cookie-banner :focus-visible {
+  outline-color: var(--color-focus-invert);
+}
+
+/* Safari muestra su triángulo nativo en <summary> aunque se quite list-style */
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
+
 ::selection {
   background-color: var(--color-azul-claro-200);
   color: var(--color-azul-deep-900);

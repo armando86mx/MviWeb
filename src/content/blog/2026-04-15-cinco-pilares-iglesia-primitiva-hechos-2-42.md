@@ -1,4 +1,5 @@
 ---
+slug: "cinco-pilares-iglesia-primitiva-hechos-2-42"
 title: "Los 5 pilares de la iglesia primitiva (Hechos 2:42) y cómo los vivimos hoy"
 description: "Hechos 2:42 describe cinco hábitos que sostuvieron a la iglesia primitiva: enseñanza, comunión, partimiento del pan y oración. Cómo se viven hoy en una iglesia local."
 pubDate: 2026-04-15

@@ -17,12 +17,12 @@ const podcastSchema = {
   description,
   url: `${SITE.url}/podcast`,
   inLanguage: SITE.locale,
-  webFeed: `${SITE.url}/rss.xml`,
+  // webFeed se añadirá cuando exista el feed real del podcast
   publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
 };
 ---
 
-<BaseLayout title={title} description={description} path="/podcast">
+<BaseLayout title={title} description={description} path="/podcast" noindex>
   <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Podcast', href: '/podcast' }]} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(podcastSchema)} />
 
@@ -37,14 +37,13 @@ const podcastSchema = {
       <p class="eyebrow">Plataformas</p>
       <h2>Dónde encontrarnos</h2>
       <p>
-        Estamos preparando el feed RSS del podcast y el canal de YouTube. Mientras tanto, las
-        prédicas en video están en redes sociales y en plataformas de streaming.
+        Estamos preparando el canal de YouTube y el feed del podcast. En cuanto estén
+        activos, los enlaces a YouTube, Spotify y Apple Podcasts aparecerán aquí.
+        Si quieres que te avisemos, <a href="/recursos/descargar">suscríbete al boletín</a>.
       </p>
       <ul class="platforms">
-        <li><strong>YouTube:</strong> <em>[PLACEHOLDER: link al canal de YouTube de Amor y Gracia]</em></li>
-        <li><strong>Spotify (podcast):</strong> <em>[PLACEHOLDER: link al show de Spotify cuando se cree]</em></li>
-        <li><strong>Apple Podcasts:</strong> <em>[PLACEHOLDER: link a Apple Podcasts cuando se cree]</em></li>
-        <li><strong>RSS feed:</strong> <a href="/rss.xml">/rss.xml</a> (blog; el feed del podcast vendrá después)</li>
+        <li><strong>Blog y estudios escritos:</strong> disponibles ya en <a href="/blog">el blog</a> (<a href="/rss.xml">RSS</a>).</li>
+        <li><strong>Prédicas en persona:</strong> cada domingo 11:00 AM en <a href="/sedes/amozoc">la sede de Amozoc</a>.</li>
       </ul>
     </div>
   </section>
@@ -54,7 +53,7 @@ const podcastSchema = {
       <header class="block-header">
         <p class="eyebrow">Prédicas recientes</p>
         <h2>Últimas enseñanzas</h2>
-        <p class="lead">[PLACEHOLDER: cuando el canal esté activo, aquí se listarán automáticamente las últimas 6 prédicas vía YouTube Data API v3 en build time.]</p>
+        <p class="lead">Estas son las primeras series que publicaremos. Cuando el canal esté activo, aquí verás las prédicas más recientes.</p>
       </header>
 
       <div class="grid grid--3">
@@ -81,7 +80,7 @@ const podcastSchema = {
     eyebrow="Suscríbete"
     title="Te avisamos cuando publiquemos prédicas nuevas"
     subtitle="Suscríbete al boletín de la iglesia y recibe avisos cuando salga material nuevo."
-    primaryCTA={{ label: 'Recibir el boletín', href: '/recursos/descargar' }}
+    primaryCTA={{ label: 'Suscribirme desde la serie Crecer', href: '/recursos/descargar' }}
     secondaryCTA={{ label: 'Lo que creemos', href: '/lo-que-creemos' }}
   />
 </BaseLayout>

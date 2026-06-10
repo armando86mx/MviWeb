@@ -52,22 +52,25 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
         Hoy seguimos siendo pequeños, pero el Señor nos ha extendido. Tenemos una iglesia hija
         en Tehuacán con su propio liderazgo local, abrimos las puertas para hermanos de Puebla
         capital y zonas conurbadas que viajan los domingos, y operamos bajo la cobertura de
-        <a href={SITE.parentOrganization.url} rel="noopener" target="_blank">Ministerios Visión Internacional</a>,
+        <a href={SITE.parentOrganization.url} rel="noopener noreferrer" target="_blank">Ministerios Visión Internacional<span class="sr-only"> (se abre en ventana nueva)</span></a>,
         red ministerial seria con presencia en varias ciudades de México y el mundo.
       </p>
 
       <figure class="founding">
-        <div class="founding__img" aria-hidden="true">
-          <span>[PLACEHOLDER: foto de la fundación, 4 de marzo de 2025]</span>
-        </div>
-        <figcaption>Fundación de la iglesia · marzo de 2014</figcaption>
+        <blockquote class="founding__quote">
+          En marzo del 2014 Dios nos llamó a formar parte de sus mensajeros para
+          extender su mensaje — el evangelio completo: ser testigos fieles de su
+          Palabra, de lo que Él hizo, está haciendo y hará. El anhelo de nuestro
+          corazón es preparar una iglesia digna de Él.
+        </blockquote>
+        <figcaption>Del testimonio de fundación de los pastores · el llamado de marzo de 2014</figcaption>
       </figure>
     </div>
   </section>
 
   <section class="section section--alt">
     <div class="container container--narrow">
-      <p class="eyebrow text-center" style="display:block;">Frase pastoral</p>
+      <p class="eyebrow eyebrow--block text-center">Frase pastoral</p>
       <blockquote class="quote-pastoral">
         “{PASTORAL_QUOTE.text}”
         <cite>— {PASTORAL_QUOTE.attribution}</cite>
@@ -85,15 +88,15 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
           comprometidos con la sana doctrina y con caminar cerca de cada miembro de la familia.
         </p>
       </header>
-      <div style="margin-top: var(--sp-5);">
-        <PastoresCard />
+      <div class="mt-5">
+        <PastoresCard showHeading={false} />
       </div>
     </div>
   </section>
 
   <section class="section section--alt">
     <div class="container">
-      <header class="block-header text-center" style="margin-inline:auto; max-width:60ch;">
+      <header class="block-header text-center mx-auto">
         <p class="eyebrow">Nuestra cobertura</p>
         <h2>Bajo Ministerios Visión Internacional (MVI)</h2>
         <p class="lead">
@@ -103,21 +106,21 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
         </p>
       </header>
 
-      <div class="grid grid--3" style="margin-top: var(--sp-6);">
+      <div class="grid grid--3 mt-6">
         <Card variant="subtle">
           <h3>Sede principal</h3>
           <p>Amozoc, Puebla. Servicios dominicales y Tiempos de Mesa los jueves.</p>
-          <p style="margin-top: var(--sp-4);"><Button variant="ghost" href="/sedes/amozoc">Conocer la sede →</Button></p>
+          <p class="mt-4"><Button variant="ghost" href="/sedes/amozoc">Conocer la sede →</Button></p>
         </Card>
         <Card variant="subtle">
           <h3>Iglesia hija</h3>
           <p>Tehuacán, Puebla, con su propio liderazgo local pero gestionada en comunión con la sede principal.</p>
-          <p style="margin-top: var(--sp-4);"><Button variant="ghost" href="/sedes/tehuacan">Conocer Tehuacán →</Button></p>
+          <p class="mt-4"><Button variant="ghost" href="/sedes/tehuacan">Conocer Tehuacán →</Button></p>
         </Card>
         <Card variant="subtle">
           <h3>Puebla capital</h3>
           <p>Sin sede física, pero abiertos a recibir a quien venga desde la capital y zonas satélites cada domingo.</p>
-          <p style="margin-top: var(--sp-4);"><Button variant="ghost" href="/puebla">Cómo nos visita Puebla →</Button></p>
+          <p class="mt-4"><Button variant="ghost" href="/puebla">Cómo nos visita Puebla →</Button></p>
         </Card>
       </div>
     </div>
@@ -150,18 +153,18 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
   }
 
   .founding { margin: var(--sp-6) 0; }
-  .founding__img {
-    aspect-ratio: 16 / 9;
+  .founding__quote {
     background: linear-gradient(180deg, var(--color-azul-claro-50), var(--color-azul-claro-200));
-    border: 1px dashed var(--color-azul-deep);
+    border: 0;
     border-radius: var(--radius-md);
-    display: grid;
-    place-content: center;
-    color: var(--color-azul-deep);
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    text-align: center;
-    padding: var(--sp-6);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    margin: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: var(--fs-lg);
+    line-height: var(--lh-snug);
+    color: var(--color-azul-deep-900);
+    text-wrap: pretty;
   }
   .founding figcaption {
     text-align: center;

@@ -1,11 +1,19 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
 import DownloadForm from '@components/forms/DownloadForm.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import Card from '@components/ui/Card.astro';
 
 const title = 'Descargar la serie Crecer · Estudios bíblicos · Amor y Gracia';
-const description = 'Recibe en tu correo los tres niveles de la serie Crecer (Fundamentos, Hábitos del discípulo, La iglesia que crece). Descarga gratuita, sin spam.';
+const description = 'Descarga gratis los tres niveles de la serie Crecer (Fundamentos, Hábitos del discípulo, La iglesia que crece) — directo o en tu correo. Sin spam.';
+
+const pdfs = [
+  { nivel: 'Crecer 1', tema: 'Fundamentos', href: '/descargas/crecer-1.pdf' },
+  { nivel: 'Crecer 2', tema: 'Hábitos del discípulo', href: '/descargas/crecer-2.pdf' },
+  { nivel: 'Crecer 3', tema: 'La iglesia que crece', href: '/descargas/crecer-3.pdf' },
+];
 ---
 
 <BaseLayout title={title} description={description} path="/recursos/descargar">
@@ -18,21 +26,43 @@ const description = 'Recibe en tu correo los tres niveles de la serie Crecer (Fu
     ]}
   />
 
-  <section class="section--invert" style="padding-block: clamp(3rem, 6vw, 5rem);">
-    <div class="container container--narrow">
-      <p class="eyebrow">Descarga gratuita</p>
-      <h1>Recibe la serie Crecer en tu correo</h1>
-      <p class="lead" style="color: var(--color-azul-claro-200); max-width: 60ch;">
-        Te enviamos los tres niveles en un solo correo. Sin spam. Sin sorpresas. Si después
-        decides suscribirte al boletín de la iglesia, puedes hacerlo desde el correo que recibas
-        — pero no es obligatorio.
-      </p>
-    </div>
-  </section>
+  <Hero
+    eyebrow="Descarga gratuita"
+    title="La serie Crecer, gratis"
+    subtitle="Tres niveles de estudio bíblico introductorio. Descárgalos directo aquí, o pídelos a tu correo si prefieres tenerlos en tu bandeja. Sin spam, sin sorpresas."
+  />
 
   <section class="section">
     <div class="container container--prose">
-      <div class="form-wrap">
+      <Breadcrumbs items={[
+        { label: 'Inicio', href: '/' },
+        { label: 'Recursos', href: '/recursos' },
+        { label: 'Descargar' },
+      ]} />
+
+      <h2 class="mt-6">Descarga directa</h2>
+      <p class="lead">El material es gratuito y sin condiciones — un clic y es tuyo.</p>
+      <ul class="pdf-list mt-5" role="list">
+        {pdfs.map((p) => (
+          <li>
+            <a class="pdf-item" href={p.href} download>
+              <span class="pdf-item__icon" aria-hidden="true">PDF</span>
+              <span class="pdf-item__text">
+                <strong>{p.nivel}</strong>
+                <span>{p.tema}</span>
+              </span>
+              <span class="pdf-item__action" aria-hidden="true">Descargar ↓</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class="mt-8">¿Prefieres recibirlo por correo?</h2>
+      <p class="lead">
+        Te mandamos los tres PDFs en un solo mensaje y, si lo decides después,
+        una invitación al boletín de la iglesia.
+      </p>
+      <div class="form-wrap mt-5">
         <DownloadForm />
       </div>
 
@@ -59,6 +89,60 @@ const description = 'Recibe en tu correo los tres niveles de la serie Crecer (Fu
 </BaseLayout>
 
 <style>
+  .pdf-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--sp-3);
+  }
+  .pdf-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    padding: var(--sp-4) var(--sp-5);
+    background: var(--color-blanco);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-fg);
+    transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  }
+  .pdf-item:hover {
+    border-color: var(--color-azul-claro);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-fg);
+  }
+  .pdf-item__icon {
+    flex: 0 0 auto;
+    display: grid;
+    place-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--color-azul-deep);
+    color: var(--color-blanco-roto);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    letter-spacing: var(--tracking-wide);
+  }
+  .pdf-item__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pdf-item__text strong { font-family: var(--font-display); font-size: var(--fs-md); }
+  .pdf-item__text span:last-child { font-size: var(--fs-sm); color: var(--color-fg-muted); }
+  .pdf-item__action {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-azul-deep);
+    white-space: nowrap;
+  }
+
   .form-wrap {
     background: var(--color-blanco);
     border: 1px solid var(--color-border);

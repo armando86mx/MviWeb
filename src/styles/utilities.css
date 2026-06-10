@@ -40,6 +40,9 @@
 
 .section--invert .eyebrow { color: var(--color-azul-claro-200); }
 
+/* El eyebrow es inline-block; como bloque centrado necesita esta variante */
+.eyebrow--block { display: block; }
+
 .lead {
   font-size: var(--fs-md);
   line-height: var(--lh-relaxed);
@@ -75,23 +78,14 @@
 .grid { display: grid; gap: var(--sp-5); }
 .grid--2 { grid-template-columns: 1fr; }
 .grid--3 { grid-template-columns: 1fr; }
-.grid--4 { grid-template-columns: 1fr; }
 
 @media (min-width: 700px) {
   .grid--2 { grid-template-columns: repeat(2, 1fr); }
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
-  .grid--4 { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
 }
 @media (min-width: 1000px) {
   .grid--3 { grid-template-columns: repeat(3, 1fr); }
-  .grid--4 { grid-template-columns: repeat(4, 1fr); }
 }
-
-.flex { display: flex; }
-.flex--gap { gap: var(--sp-4); }
-.flex--wrap { flex-wrap: wrap; }
-.flex--center { align-items: center; justify-content: center; }
-.flex--between { justify-content: space-between; align-items: center; }
 
 .stack > * + * { margin-top: var(--sp-4); }
 .stack-lg > * + * { margin-top: var(--sp-6); }
@@ -102,11 +96,19 @@
 .text-pretty { text-wrap: pretty; }
 .italic { font-style: italic; }
 
-.visually-hidden { @extend .sr-only; }
+/* Espaciado utilitario (reemplaza estilos inline en páginas) */
+.mx-auto { margin-inline: auto; }
+.mt-2 { margin-top: var(--sp-2); }
+.mt-3 { margin-top: var(--sp-3); }
+.mt-4 { margin-top: var(--sp-4); }
+.mt-5 { margin-top: var(--sp-5); }
+.mt-6 { margin-top: var(--sp-6); }
+.mt-7 { margin-top: var(--sp-7); }
+.mt-8 { margin-top: var(--sp-8); }
+.mt-9 { margin-top: var(--sp-9); }
 
-.divider {
-  height: 1px;
-  background-color: var(--color-border);
-  border: 0;
-  margin-block: var(--sp-7);
+/* Cuando la página termina con una banda azul, el footer (azul) va pegado:
+   evita el sándwich azul–blanco–azul del margen global del footer */
+main:has(> .section--invert:last-child) + .site-footer {
+  margin-top: 0;
 }

@@ -34,6 +34,10 @@ const {
 const pageTitle = buildPageTitle(title);
 const canonical = buildCanonical(path);
 const ogImageURL = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}`;
+
+// El banner de cookies solo tiene sentido cuando GA4 está configurado:
+// sin Measurement ID no hay nada que consentir y el banner sería fricción.
+const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
 ---
 <!doctype html>
 <html lang={SITE.language}>
@@ -72,12 +76,14 @@ const ogImageURL = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    {/* Fonts: Fraunces (display) + Geist (body) + Geist Mono */}
+    {/* Fonts: Fraunces (display) + Geist (body) + Geist Mono.
+        Solo las variantes realmente usadas (8 en vez de 13) para
+        reducir peso y el flash de fuente (FOUT/CLS). */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
     />
 
     {showSiteSchema && <SchemaWebSite />}
@@ -91,12 +97,38 @@ const ogImageURL = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}
       <slot />
     </main>
     <Footer />
-    <CookieBanner />
+    {GA4_ID && <CookieBanner />}
+    {GA4_ID && (
+      <script is:inline define:vars={{ GA4_ID }}>
+        // Carga GA4 únicamente con consentimiento explícito (LFPDPPP).
+        (function () {
+          var loaded = false;
+          function loadGA() {
+            if (loaded) return;
+            loaded = true;
+            var s = document.createElement('script');
+            s.async = true;
+            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+            document.head.appendChild(s);
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { window.dataLayer.push(arguments); }
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', GA4_ID, { anonymize_ip: true });
+          }
+          if (localStorage.getItem('mvi-cookie-consent-v1') === 'granted') loadGA();
+          document.addEventListener('mvi:consent-granted', loadGA);
+        })();
+      </script>
+    )}
   </body>
 </html>
 
 <style is:global>
-  html { scroll-behavior: smooth; }
+  /* Scroll suave solo para quienes no piden movimiento reducido */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
   main { display: block; }
   main:focus { outline: none; }
 </style>

@@ -1,7 +1,13 @@
 ---
-import { NAV_PRIMARY, SITE } from '@lib/site';
+import { NAV_PRIMARY, NAV_CTA, SITE } from '@lib/site';
+import Button from '@components/ui/Button.astro';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const isActivePath = (href: string) => {
+  const cleanHref = href.replace(/\/$/, '') || '/';
+  return cleanHref === pathname || (cleanHref !== '/' && pathname.startsWith(cleanHref));
+};
 ---
 
 <header class="site-header" data-header>
@@ -21,14 +27,16 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     <nav aria-label="Navegación principal" class="nav">
       <ul class="nav__list">
         {NAV_PRIMARY.map(({ label, href }) => {
-          const cleanHref = href.replace(/\/$/, '') || '/';
-          const isActive = cleanHref === pathname || (cleanHref !== '/' && pathname.startsWith(cleanHref));
+          const isActive = isActivePath(href);
           return (
             <li>
               <a href={href} class={`nav__link ${isActive ? 'is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>{label}</a>
             </li>
           );
         })}
+        <li class="nav__cta">
+          <Button href={NAV_CTA.href} variant="primary" size="sm">{NAV_CTA.label}</Button>
+        </li>
       </ul>
     </nav>
 
@@ -41,9 +49,21 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   <nav id="mobile-nav" class="mobile-nav" aria-label="Navegación móvil" data-mobile-nav hidden>
     <ul class="mobile-nav__list">
-      {NAV_PRIMARY.map(({ label, href }) => (
-        <li><a href={href} class="mobile-nav__link">{label}</a></li>
-      ))}
+      {NAV_PRIMARY.map(({ label, href }) => {
+        const isActive = isActivePath(href);
+        return (
+          <li>
+            <a
+              href={href}
+              class={`mobile-nav__link ${isActive ? 'is-active' : ''}`}
+              aria-current={isActive ? 'page' : undefined}
+            >{label}</a>
+          </li>
+        );
+      })}
+      <li class="mobile-nav__cta">
+        <Button href={NAV_CTA.href} variant="primary" fullWidth>{NAV_CTA.label}</Button>
+      </li>
     </ul>
   </nav>
 </header>
@@ -80,7 +100,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     text-decoration: none;
     color: var(--color-azul-deep);
   }
-  .brand__mark { flex: 0 0 auto; border-radius: 10px; }
+  .brand__mark { flex: 0 0 auto; border-radius: var(--radius-md); }
   .brand__text { display: flex; flex-direction: column; line-height: 1.1; }
   .brand__name {
     font-family: var(--font-display);
@@ -122,11 +142,17 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     background-color: var(--color-azul-deep);
     border-radius: 2px;
   }
+  .nav__cta { margin-left: var(--sp-2); }
 
   .nav-toggle {
     display: inline-flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
+    /* Target táctil ≥ 44×44 px */
+    min-width: 44px;
+    min-height: 44px;
     padding: 10px;
     border-radius: var(--radius-sm);
   }
@@ -144,13 +170,17 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
   .mobile-nav {
     border-top: 1px solid var(--color-border);
     background: var(--color-blanco-roto);
+    /* En landscape el panel puede ser más alto que el viewport:
+       que scrollee él, no que esconda items */
+    max-height: calc(100dvh - var(--header-h));
+    overflow-y: auto;
   }
   .mobile-nav[hidden] { display: none; }
   .mobile-nav__list {
     display: flex;
     flex-direction: column;
     list-style: none;
-    margin: 0; padding: var(--sp-2) var(--container-pad);
+    margin: 0; padding: var(--sp-2) var(--container-pad) var(--sp-5);
   }
   .mobile-nav__link {
     display: block;
@@ -161,7 +191,13 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
     color: var(--color-fg);
     border-bottom: 1px solid var(--color-border);
   }
-  .mobile-nav__link:last-child { border-bottom: 0; }
+  .mobile-nav__link.is-active {
+    color: var(--color-azul-deep);
+    font-weight: var(--fw-semibold);
+    box-shadow: inset 3px 0 0 var(--color-azul-deep);
+    padding-left: var(--sp-3);
+  }
+  .mobile-nav__cta { padding-top: var(--sp-4); }
 
   @media (min-width: 880px) {
     .nav { display: block; }
@@ -171,7 +207,7 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 </style>
 
 <script>
-  // Sticky header shadow + mobile toggle
+  // Sticky header shadow + menú móvil (toggle, Escape, clic fuera)
   const header = document.querySelector('[data-header]');
   const toggle = document.querySelector('[data-nav-toggle]') as HTMLButtonElement | null;
   const mobile = document.querySelector('[data-mobile-nav]') as HTMLElement | null;
@@ -185,11 +221,30 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
   }
 
   if (toggle && mobile) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      mobile.hidden = !open;
+    };
+
     toggle.addEventListener('click', () => {
       const expanded = toggle.getAttribute('aria-expanded') === 'true';
-      toggle.setAttribute('aria-expanded', String(!expanded));
-      toggle.setAttribute('aria-label', expanded ? 'Abrir menú' : 'Cerrar menú');
-      mobile.hidden = expanded;
+      setOpen(!expanded);
+    });
+
+    // Escape cierra y devuelve el foco al botón
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !mobile.hidden) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Clic fuera del header cierra el panel
+    document.addEventListener('click', (e) => {
+      if (mobile.hidden) return;
+      const target = e.target as Node;
+      if (header && !header.contains(target)) setOpen(false);
     });
   }
 </script>

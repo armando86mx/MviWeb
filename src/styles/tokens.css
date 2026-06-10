@@ -25,12 +25,19 @@
 
   /* Acento cálido para Tiempo de Mesa (no usar en UI institucional general) */
   --color-mesa-vino:    #6f2a2a;
+  --color-mesa-vino-900:#5a2727;
   --color-mesa-cobre:   #b06a3a;
   --color-mesa-crema:   #f5ead4;
+  --color-mesa-crema-50:  #fbf3df;
+  --color-mesa-crema-200: #f3e2bf;
+  --color-mesa-crema-300: #e7d2a3;
+  --color-mesa-dorado-300:#e9cd95;
+  --color-mesa-dorado-400:#e2c790;
 
   /* Estado */
   --color-success: #1f7a4a;
   --color-error:   #b3261e;
+  --color-error-bg:#fde7e7;
   --color-warning: #b07b00;
 
   /* Roles semánticos (para componentes) */
@@ -43,7 +50,10 @@
   --color-link:         var(--color-azul-deep);
   --color-link-hover:   var(--color-azul-deep-700);
   --color-border:       var(--color-gris-claro);
-  --color-focus:        var(--color-azul-claro);
+  /* Foco: azul oscuro sobre fondos claros (≥3:1, WCAG 1.4.11);
+     en contextos invertidos se anula con --color-focus-invert */
+  --color-focus:        var(--color-azul-deep);
+  --color-focus-invert: var(--color-azul-claro);
 
   /* ── Tipografía ──────────────────────────────────────────── */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -51,7 +61,7 @@
   --font-mono:    "Geist Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 
   /* Escala tipográfica fluida (clamp min, fluid, max) */
-  --fs-xs:   clamp(0.78rem, 0.76rem + 0.1vw, 0.82rem);
+  --fs-xs:   clamp(0.8125rem, 0.79rem + 0.1vw, 0.85rem);
   --fs-sm:   clamp(0.88rem, 0.85rem + 0.15vw, 0.94rem);
   --fs-base: clamp(1rem, 0.97rem + 0.18vw, 1.08rem);
   --fs-md:   clamp(1.125rem, 1.08rem + 0.22vw, 1.25rem);

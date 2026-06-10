@@ -15,10 +15,9 @@ const faq = [
   { question: '¿Cuánto duran los servicios?', answer: 'El servicio dominical dura aproximadamente hora y media. Si vienes al estudio bíblico previo de las 10:30 AM, suma una hora más.' },
   { question: '¿Cómo me visto para ir a una iglesia evangélica?', answer: 'Como te sientas cómodo. La gente viste casual o semi-formal. No hay código de vestimenta. Lo importante es que vengas, no cómo vienes.' },
   { question: '¿Tengo que ser miembro para asistir?', answer: 'No. Puedes asistir como visitante el tiempo que quieras. Nadie te va a presionar para nada. La membresía formal viene mucho después, si tras conocernos tú eliges ser parte de la familia.' },
-  { question: '¿Hay actividades para niños?', answer: '[PLACEHOLDER: completar con actividades para niños cuando estén formalizadas.] En general, las familias permanecen juntas y los niños son bienvenidos en el servicio.' },
+  { question: '¿Hay actividades para niños?', answer: 'Las familias permanecen juntas y los niños son bienvenidos en el servicio. Si más adelante se formaliza un espacio infantil, lo anunciaremos aquí.' },
   { question: '¿Aceptan ofrendas?', answer: 'Hay una caja para ofrenda voluntaria, sin presión. Si vienes de visita, no te preocupes por dar nada. La ofrenda es un acto de los que ya son parte de la familia.' },
   { question: '¿Tengo que hablar adelante o presentarme?', answer: 'No. Si quieres saludar al pastor al final, eres bienvenido. Si prefieres pasar inadvertido tu primera vez, también está bien.' },
-  { question: '¿Hay estacionamiento?', answer: '[PLACEHOLDER: detallar opciones de estacionamiento cerca del templo en Amozoc.]' },
 ];
 ---
 
@@ -82,7 +81,7 @@ const faq = [
     <div class="container container--prose">
       <p class="eyebrow">Preguntas frecuentes</p>
       <h2>Lo que la gente nos pregunta antes de venir</h2>
-      <div class="faq" style="margin-top: var(--sp-5);">
+      <div class="faq mt-5">
         {faq.map((qa) => (
           <details class="faq__item">
             <summary>{qa.question}</summary>

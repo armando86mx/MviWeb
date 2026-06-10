@@ -1,0 +1,60 @@
+---
+/**
+ * Migas de pan visibles para páginas profundas (sedes, recursos).
+ * Complementan al SchemaBreadcrumb: Google espera que el dato
+ * estructurado corresponda con algo visible en la página.
+ */
+interface Crumb {
+  label: string;
+  href?: string; // el último elemento (página actual) va sin href
+}
+interface Props {
+  items: Crumb[];
+  /** En héroes azules usar la variante invertida */
+  invert?: boolean;
+}
+const { items, invert = false } = Astro.props;
+---
+<nav class={`crumbs ${invert ? 'crumbs--invert' : ''}`} aria-label="Ubicación en el sitio">
+  <ol>
+    {items.map((item, i) => (
+      <li>
+        {item.href ? (
+          <a href={item.href}>{item.label}</a>
+        ) : (
+          <span aria-current="page">{item.label}</span>
+        )}
+        {i < items.length - 1 && <span class="crumbs__sep" aria-hidden="true">/</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+  .crumbs li { display: inline-flex; align-items: center; gap: var(--sp-2); }
+  .crumbs a {
+    color: var(--color-fg-muted);
+    text-decoration: none;
+    padding-block: var(--sp-1);
+  }
+  .crumbs a:hover { color: var(--color-azul-deep); text-decoration: underline; }
+  .crumbs [aria-current="page"] { color: var(--color-fg); }
+  .crumbs__sep { color: var(--color-fg-muted); }
+
+  .crumbs--invert a { color: var(--color-azul-claro-200); }
+  .crumbs--invert a:hover { color: var(--color-blanco); }
+  .crumbs--invert [aria-current="page"] { color: var(--color-blanco); }
+  .crumbs--invert .crumbs__sep { color: var(--color-azul-claro-200); }
+</style>

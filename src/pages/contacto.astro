@@ -6,6 +6,15 @@ import Card from '@components/ui/Card.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import { SITE } from '@lib/site';
 
+// Solo lo confirmado se muestra: nada de placeholders en la página
+// más sensible del sitio
+const social = [
+  { label: 'Facebook', href: SITE.social.facebook },
+  { label: 'Instagram', href: SITE.social.instagram },
+  { label: 'YouTube', href: SITE.social.youtube },
+].filter((s) => Boolean(s.href));
+const whatsapp = SITE.social.whatsapp || '';
+
 const title = 'Contacto · MVI Amor y Gracia · Iglesia en Puebla';
 const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Puebla, Amozoc o Tehuacán y quieres conocer la iglesia, agendar una visita o pedir oración, este es el camino.';
 ---
@@ -23,8 +32,8 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
     <div class="container">
       <div class="contact-grid">
         <article class="contact-form">
-          <h2>Formulario de contacto</h2>
-          <p class="lead" style="margin-bottom: var(--sp-5);">
+          <h2>Cuéntanos en qué te servimos</h2>
+          <p class="lead contact-form__lead">
             Tu mensaje llega directo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
             Te respondemos en uno o dos días hábiles.
           </p>
@@ -39,10 +48,12 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
               <strong>Correo general:</strong><br />
               <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
             </p>
-            <p>
-              <strong>WhatsApp pastoral:</strong><br />
-              <em>[PLACEHOLDER: número de WhatsApp pastoral si aplica]</em>
-            </p>
+            {whatsapp && (
+              <p>
+                <strong>WhatsApp pastoral:</strong><br />
+                <a href={whatsapp} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp<span class="sr-only"> (se abre en ventana nueva)</span></a>
+              </p>
+            )}
             <p>
               <strong>Sede principal:</strong><br />
               Amozoc, Puebla<br />
@@ -55,15 +66,17 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
             </p>
           </Card>
 
-          <Card variant="subtle" class="redes">
-            <p class="eyebrow">Redes sociales</p>
-            <h3>Síguenos</h3>
-            <ul>
-              <li>Facebook · <em>[PLACEHOLDER]</em></li>
-              <li>Instagram · <em>[PLACEHOLDER]</em></li>
-              <li>YouTube · <em>[PLACEHOLDER]</em></li>
-            </ul>
-          </Card>
+          {social.length > 0 && (
+            <Card variant="subtle" class="redes">
+              <p class="eyebrow">Redes sociales</p>
+              <h3>Síguenos</h3>
+              <ul>
+                {social.map((s) => (
+                  <li><a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}<span class="sr-only"> (se abre en ventana nueva)</span></a></li>
+                ))}
+              </ul>
+            </Card>
+          )}
 
           <Card variant="subtle">
             <p class="eyebrow">Horarios</p>
@@ -87,6 +100,7 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
   @media (min-width: 900px) {
     .contact-grid { grid-template-columns: 1.5fr 1fr; gap: var(--sp-9); align-items: flex-start; }
   }
+  .contact-form__lead { margin-bottom: var(--sp-5); }
   .contact-info { display: grid; gap: var(--sp-4); }
   .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); }
 </style>

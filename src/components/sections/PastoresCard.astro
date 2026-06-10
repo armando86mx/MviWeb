@@ -1,19 +1,29 @@
 ---
 interface Props {
   layout?: 'horizontal' | 'stacked';
+  /** Cuando la sección que envuelve la tarjeta ya muestra el nombre
+      como encabezado, pasar false para no duplicarlo dentro. */
+  showHeading?: boolean;
 }
-const { layout = 'horizontal' } = Astro.props;
+const { layout = 'horizontal', showHeading = true } = Astro.props;
 ---
 <aside class={`pastores pastores--${layout}`}>
+  {/* Mosaico tipográfico provisional mientras llega la fotografía
+      profesional de los pastores — sin texto de placeholder visible */}
   <div class="pastores__media" aria-hidden="true">
-    <div class="pastores__placeholder">
-      <span>Daniel & Rocío</span>
-      <em>[PLACEHOLDER: foto profesional de los pastores]</em>
+    <div class="pastores__tile">
+      <span class="pastores__initials">D&amp;R</span>
+      <span class="pastores__names">Daniel &amp; Rocío</span>
+      <span class="pastores__since">Pastoreando desde 2014</span>
     </div>
   </div>
   <div class="pastores__body">
-    <p class="eyebrow">Pastores fundadores</p>
-    <h3>Daniel y Rocío Chávez</h3>
+    {showHeading && (
+      <>
+        <p class="eyebrow">Pastores fundadores</p>
+        <h3>Daniel y Rocío Chávez</h3>
+      </>
+    )}
     <p>
       Matrimonio que pastorea Amor y Gracia desde su fundación en marzo de 2014. Cálidos por
       naturaleza, profundos en la enseñanza, comprometidos con caminar de cerca con la familia
@@ -39,7 +49,7 @@ const { layout = 'horizontal' } = Astro.props;
     .pastores--horizontal { grid-template-columns: minmax(220px, 280px) 1fr; gap: var(--sp-7); align-items: center; }
   }
 
-  .pastores__placeholder {
+  .pastores__tile {
     aspect-ratio: 4 / 5;
     background: linear-gradient(160deg, var(--color-azul-deep) 0%, var(--color-azul-deep-700) 100%);
     border-radius: var(--radius-md);
@@ -50,10 +60,20 @@ const { layout = 'horizontal' } = Astro.props;
     padding: var(--sp-5);
     font-family: var(--font-display);
   }
-  .pastores__placeholder span { font-size: var(--fs-xl); }
-  .pastores__placeholder em {
+  .pastores__initials {
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-semibold);
+    color: var(--color-azul-claro-200);
+    line-height: 1;
+  }
+  .pastores__names {
     display: block;
-    font-style: normal;
+    margin-top: var(--sp-3);
+    font-size: var(--fs-md);
+    font-style: italic;
+  }
+  .pastores__since {
+    display: block;
     margin-top: var(--sp-2);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);

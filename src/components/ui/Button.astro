@@ -61,7 +61,7 @@ const cls = [
                 transform var(--dur-1) var(--ease-out),
                 box-shadow var(--dur-2) var(--ease-out);
     border: 1px solid transparent;
-    white-space: nowrap;
+    text-align: center;
   }
 
   .btn:active { transform: translateY(1px); }
@@ -108,4 +108,25 @@ const cls = [
     color: var(--color-azul-deep);
   }
   .btn--invert:hover { background-color: var(--color-azul-claro-50); }
+
+  /* Sobre fondos invertidos (hero, bandas CTA), ghost y secondary
+     heredarían azul sobre azul → texto invisible. Variantes claras: */
+  :global(.section--invert) .btn--ghost,
+  :global(.hero) .btn--ghost {
+    color: var(--color-azul-claro-200);
+  }
+  :global(.section--invert) .btn--ghost:hover,
+  :global(.hero) .btn--ghost:hover {
+    color: var(--color-blanco);
+  }
+  :global(.section--invert) .btn--secondary,
+  :global(.hero) .btn--secondary {
+    color: var(--color-blanco-roto);
+    border-color: var(--color-azul-claro-200);
+  }
+  :global(.section--invert) .btn--secondary:hover,
+  :global(.hero) .btn--secondary:hover {
+    background-color: var(--color-blanco-roto);
+    color: var(--color-azul-deep);
+  }
 </style>

@@ -28,20 +28,19 @@ const { title, weekday, time, location, description, variant = 'default', badge 
     border-radius: var(--radius-lg);
     padding: clamp(1.5rem, 2vw, 2rem);
     position: relative;
-    transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out);
+    /* Sin hover-lift: la tarjeta es informativa, no un enlace */
   }
-  .evento:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 
   .evento--mesa {
-    background: linear-gradient(160deg, #fbf3df 0%, #f3e2bf 60%, #e9cd95 100%);
-    border-color: #e2c790;
+    background: linear-gradient(160deg, var(--color-mesa-crema-50) 0%, var(--color-mesa-crema-200) 60%, var(--color-mesa-dorado-300) 100%);
+    border-color: var(--color-mesa-dorado-400);
     color: var(--color-mesa-vino);
   }
   .evento--mesa .evento__day,
   .evento--mesa .evento__time,
   .evento--mesa .evento__title,
   .evento--mesa .evento__location { color: var(--color-mesa-vino); }
-  .evento--mesa .evento__desc { color: #5a2727; }
+  .evento--mesa .evento__desc { color: var(--color-mesa-vino-900); }
 
   .evento__badge {
     position: absolute;
