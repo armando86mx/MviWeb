@@ -1,60 +1,66 @@
 ---
-import Card from '@components/ui/Card.astro';
-
 const pilares = [
   {
     n: '01',
     titulo: 'Intimidad en adoración',
-    descripcion: 'No buscamos espectáculo. Buscamos rostro. La adoración es respuesta del corazón a un Dios real.',
-    versiculo: 'Hechos 2:42, Juan 4:23',
+    descripcion: 'No buscamos espectáculo. Buscamos rostro. La adoración es respuesta del corazón a un Dios real — sencilla, sostenida y central en todo lo que hacemos.',
+    versiculo: 'Hechos 2:42 · Juan 4:23',
   },
   {
     n: '02',
     titulo: 'Enseñanza',
-    descripcion: 'Sentarse con la Palabra, sin atajos. La sana doctrina edifica y sostiene en el tiempo.',
+    descripcion: 'Sentarse con la Palabra, sin atajos. Abrimos la Biblia, la leemos en su contexto y dejamos que diga lo que dice. La sana doctrina edifica y sostiene en el tiempo.',
     versiculo: '2 Timoteo 3:16-17',
   },
   {
     n: '03',
     titulo: 'Comunión',
-    descripcion: 'Hacer iglesia es hacer familia. Conocernos, cuidarnos y caminar juntos.',
+    descripcion: 'Hacer iglesia es hacer familia. Conocernos por nombre, cuidarnos en lo concreto y caminar juntos en lo cotidiano. El evangelio se ve mejor en la mesa que en el escenario.',
     versiculo: 'Hechos 2:44-46',
   },
   {
     n: '04',
     titulo: 'Oración',
-    descripcion: 'No como recurso de emergencia, sino como aire de la iglesia.',
-    versiculo: 'Hechos 2:42, 1 Tesalonicenses 5:17',
+    descripcion: 'No como recurso de emergencia, sino como aire de la iglesia. Oramos juntos y le pedimos al Señor que sostenga lo que hace. Sin oración, lo demás es activismo religioso.',
+    versiculo: 'Hechos 2:42 · 1 Tesalonicenses 5:17',
   },
   {
     n: '05',
     titulo: 'Partimiento del pan',
-    descripcion: 'La mesa de la comunión nos recuerda quiénes somos: la novia que espera al novio.',
+    descripcion: 'La mesa de la comunión nos recuerda quiénes somos: la novia que espera al novio, sostenida por la cruz, esperando con gozo el regreso de Cristo.',
     versiculo: 'Lucas 22:19-20',
   },
 ];
 ---
 
 <section class="pilares" aria-labelledby="pilares-heading">
-  <div class="container">
+  <div class="container container--narrow">
     <header class="pilares__header">
       <p class="eyebrow">Hechos 2:42</p>
       <h2 id="pilares-heading">Los 5 pilares de la iglesia primitiva</h2>
       <p class="lead">
         Cinco prácticas que sostuvieron a la iglesia en sus primeros días y siguen sosteniendo
-        a Amor y Gracia hoy.
+        a Amor y Gracia hoy. <span class="pilares__hint">Toca cada una para conocerla.</span>
       </p>
     </header>
 
-    <ol class="pilares__grid" role="list">
-      {pilares.map((p) => (
-        <li>
-          <Card variant="subtle">
-            <p class="pilar__n" aria-hidden="true">{p.n}</p>
-            <h3>{p.titulo}</h3>
-            <p>{p.descripcion}</p>
-            <p class="pilar__ref">{p.versiculo}</p>
-          </Card>
+    <ol class="pilares__list" role="list">
+      {pilares.map((p, i) => (
+        <li class="pilar">
+          {/* details[name] = acordeón exclusivo nativo (1 abierto), sin JS */}
+          <details class="pilar__card" name="pilar" open={i === 0}>
+            <summary class="pilar__summary">
+              <span class="pilar__num" aria-hidden="true">{p.n}</span>
+              <span class="pilar__head">
+                <span class="pilar__title">{p.titulo}</span>
+                <span class="pilar__ref">{p.versiculo}</span>
+              </span>
+              <span class="pilar__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="pilar__panel">
+              <p>{p.descripcion}</p>
+            </div>
+          </details>
         </li>
       ))}
     </ol>
@@ -62,49 +68,130 @@ const pilares = [
 </section>
 
 <style>
-  /* Sin padding propio: el espaciado vertical lo pone la .section que
-     envuelve al componente (antes se duplicaban ambos paddings) */
   .pilares__header { max-width: 60ch; margin-bottom: var(--sp-7); }
-  .pilares__grid {
+  .pilares__hint {
+    display: inline-block;
+    font-size: var(--fs-sm);
+    color: var(--color-fg-muted);
+  }
+
+  .pilares__list {
     list-style: none;
     margin: 0; padding: 0;
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-5);
-  }
-  .pilares__grid li :global(.card) { height: 100%; }
-  @media (min-width: 700px) {
-    .pilares__grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 1100px) {
-    /* 6 columnas: cada pilar abarca 2 → fila de 3 arriba;
-       los pilares 4 y 5 se desplazan para quedar centrados (sin hueco) */
-    .pilares__grid { grid-template-columns: repeat(6, 1fr); }
-    .pilares__grid li { grid-column: span 2; }
-    .pilares__grid li:nth-child(4) { grid-column: 2 / span 2; }
+    gap: var(--sp-4);
   }
 
-  /* Número en insignia circular — mismo lenguaje visual que la página
-     "Lo que creemos" (antes había dos diseños para los mismos pilares) */
-  .pilar__n {
-    display: inline-grid;
+  /* Cada pilar es una tarjeta que flota del fondo y se expande al tocarla */
+  .pilar__card {
+    position: relative;
+    background: var(--color-blanco);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-azul-claro-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+    overflow: hidden;
+    transition: box-shadow var(--dur-2) var(--ease-out),
+                border-color var(--dur-2) var(--ease-out);
+  }
+  .pilar__card[open] {
+    box-shadow: var(--shadow-md);
+    border-left-color: var(--color-azul-deep);
+  }
+
+  .pilar__summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--sp-4);
+    padding: var(--sp-5);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+  .pilar__summary::-webkit-details-marker { display: none; }
+  .pilar__summary:hover { background: var(--color-azul-claro-50); }
+  .pilar__summary:hover .pilar__num { border-color: var(--color-azul-claro); }
+
+  /* Insignia numerada: aro en reposo, sólida al abrir */
+  .pilar__num {
+    display: grid;
     place-content: center;
-    width: 44px;
-    height: 44px;
+    width: 46px; height: 46px;
     border-radius: 50%;
+    border: 1.5px solid var(--color-azul-claro-200);
+    background: var(--color-blanco);
+    color: var(--color-azul-deep);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    transition: background-color var(--dur-2) var(--ease-out),
+                color var(--dur-2) var(--ease-out),
+                border-color var(--dur-2) var(--ease-out);
+  }
+  .pilar__card[open] .pilar__num {
     background: var(--color-azul-deep);
+    border-color: var(--color-azul-deep);
     color: var(--color-blanco-roto);
+  }
+
+  .pilar__head { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pilar__title {
     font-family: var(--font-display);
-    font-size: var(--fs-base);
+    font-size: var(--fs-lg);
     font-weight: var(--fw-semibold);
-    margin-bottom: var(--sp-3);
+    line-height: var(--lh-snug);
+    color: var(--color-fg);
   }
   .pilar__ref {
-    margin-top: var(--sp-4);
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
-    color: var(--color-fg-muted);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
+    color: var(--color-fg-muted);
+  }
+
+  /* Indicador +/– que gira al abrir */
+  .pilar__toggle {
+    position: relative;
+    width: 18px; height: 18px;
+    flex: 0 0 auto;
+  }
+  .pilar__toggle::before,
+  .pilar__toggle::after {
+    content: "";
+    position: absolute;
+    background: var(--color-azul-deep);
+    border-radius: 2px;
+    transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
+  }
+  .pilar__toggle::before { inset: 8px 0; height: 2px; }       /* barra horizontal */
+  .pilar__toggle::after { inset: 0 8px; width: 2px; }         /* barra vertical */
+  .pilar__card[open] .pilar__toggle::after { opacity: 0; transform: rotate(90deg); }
+
+  .pilar__panel {
+    padding: 0 var(--sp-5) var(--sp-5) calc(var(--sp-5) + 46px + var(--sp-4));
+  }
+  .pilar__panel p {
+    margin: 0;
+    max-width: 56ch;
+    color: var(--color-fg);
+    line-height: var(--lh-relaxed);
+  }
+  /* Suaviza la aparición del contenido al abrir (la altura es nativa) */
+  @media (prefers-reduced-motion: no-preference) {
+    .pilar__card[open] .pilar__panel p {
+      animation: pilar-in var(--dur-3) var(--ease-out) both;
+    }
+  }
+  @keyframes pilar-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 540px) {
+    .pilar__summary { padding: var(--sp-4); gap: var(--sp-3); }
+    .pilar__num { width: 40px; height: 40px; }
+    .pilar__panel { padding: 0 var(--sp-4) var(--sp-4) var(--sp-4); }
   }
 </style>

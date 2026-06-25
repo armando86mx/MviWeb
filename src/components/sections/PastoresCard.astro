@@ -16,8 +16,9 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
       src={pastoresFoto}
       alt="Los pastores Daniel y Rocío Chávez, fundadores de MVI Amor y Gracia"
       class="pastores__photo"
-      widths={[280, 560, 840]}
-      sizes="(max-width: 800px) 100vw, 280px"
+      widths={[600, 900, 1280]}
+      sizes="(max-width: 800px) 100vw, 460px"
+      quality={82}
     />
   </div>
   <div class="pastores__body">
@@ -57,7 +58,8 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
-    object-position: center;
+    /* Encuadre hacia la izquierda para que Rocío y Daniel queden centrados */
+    object-position: 38% center;
     border-radius: var(--radius-md);
     display: block;
   }
