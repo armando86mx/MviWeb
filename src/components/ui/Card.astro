@@ -18,6 +18,8 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     padding: clamp(1.25rem, 2vw, 1.75rem);
+    /* Sombra de reposo: despega la tarjeta del fondo (antes era plana) */
+    box-shadow: var(--shadow-xs);
   }
   /* Solo las tarjetas-enlace transicionan/levantan: una tarjeta
      informativa que "flota" al hover sugiere un clic que no existe */

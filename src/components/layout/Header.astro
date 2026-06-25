@@ -77,11 +77,12 @@ const isActivePath = (href: string) => {
     backdrop-filter: saturate(180%) blur(10px);
     -webkit-backdrop-filter: saturate(180%) blur(10px);
     border-bottom: 1px solid transparent;
-    transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+    transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
   }
   .site-header.is-scrolled {
     border-bottom-color: var(--color-border);
     background-color: rgba(250, 250, 250, 0.97);
+    box-shadow: var(--shadow-sm);
   }
 
   .site-header__inner {
