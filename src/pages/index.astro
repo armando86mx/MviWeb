@@ -30,11 +30,11 @@ const eventos = [
   },
   {
     name: 'Tiempos de Mesa',
-    description: 'Estudio en casa de la familia Jiménez, jueves 7:30 PM.',
+    description: 'Estudio en una casa familiar, jueves 7:30 PM.',
     recurringDayOfWeek: 'Thursday' as const,
     startTime: '19:30',
     endTime: '21:00',
-    locationName: 'Casa de la familia Jiménez · Tiempos de Mesa',
+    locationName: 'Casa familiar · Tiempos de Mesa',
     addressLocality: 'Amozoc',
     addressRegion: 'Puebla',
     url: `${SITE.url}/como-nos-reunimos`,
@@ -48,9 +48,9 @@ const eventos = [
   <SchemaEvent slot="head" events={eventos} />
 
   <Hero
-    eyebrow="MVI · Amozoc · Tehuacán · Puebla"
+    eyebrow="Amozoc · Tehuacán"
     title="Iglesia Cristiana Evangélica en Puebla – MVI Amor y Gracia"
-    subtitle="Pequeños en tamaño, profundos en doctrina. Una iglesia que estudia la Biblia con calma y espera con gozo el regreso de Cristo."
+    subtitle="Una iglesia que estudia la Biblia con calma y profundidad en doctrina mientras espera con gozo el regreso de Cristo."
     scripture={SCRIPTURE_HERO}
     primaryCTA={{ label: 'Visítanos un domingo', href: '/visitanos' }}
     secondaryCTA={{ label: 'Conoce lo que creemos', href: '/lo-que-creemos' }}
@@ -101,7 +101,7 @@ const eventos = [
           title="Tiempos de Mesa"
           weekday="Jueves"
           time="7:30 PM"
-          location="Casa de la familia Jiménez, Amozoc"
+          location="Casa familiar, Amozoc"
           description="Estudio bíblico en casa, alrededor de una mesa. Pequeños grupos, conversación profunda, comida compartida."
           variant="mesa"
           badge="Hogar"

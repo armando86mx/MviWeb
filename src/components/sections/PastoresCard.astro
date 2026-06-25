@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import pastoresFoto from '@assets/img/pastores.jpg';
+
 interface Props {
   layout?: 'horizontal' | 'stacked';
   /** Cuando la sección que envuelve la tarjeta ya muestra el nombre
@@ -8,14 +11,14 @@ interface Props {
 const { layout = 'horizontal', showHeading = true } = Astro.props;
 ---
 <aside class={`pastores pastores--${layout}`}>
-  {/* Mosaico tipográfico provisional mientras llega la fotografía
-      profesional de los pastores — sin texto de placeholder visible */}
-  <div class="pastores__media" aria-hidden="true">
-    <div class="pastores__tile">
-      <span class="pastores__initials">D&amp;R</span>
-      <span class="pastores__names">Daniel &amp; Rocío</span>
-      <span class="pastores__since">Pastoreando desde 2014</span>
-    </div>
+  <div class="pastores__media">
+    <Image
+      src={pastoresFoto}
+      alt="Los pastores Daniel y Rocío Chávez, fundadores de MVI Amor y Gracia"
+      class="pastores__photo"
+      widths={[280, 560, 840]}
+      sizes="(max-width: 800px) 100vw, 280px"
+    />
   </div>
   <div class="pastores__body">
     {showHeading && (
@@ -30,7 +33,7 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
       de la iglesia.
     </p>
     <blockquote class="pastores__quote">
-      Somos enseñables. Nosotros no lo sabemos todo. Y seguimos aprendiendo día con día buscando a Dios.
+      Somos enseñables. Y seguimos aprendiendo día con día buscando a Dios.
     </blockquote>
   </div>
 </aside>
@@ -50,37 +53,18 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
     .pastores--horizontal { grid-template-columns: minmax(220px, 280px) 1fr; gap: var(--sp-7); align-items: center; }
   }
 
-  .pastores__tile {
+  .pastores__photo {
+    width: 100%;
     aspect-ratio: 4 / 5;
-    background: linear-gradient(160deg, var(--color-azul-deep) 0%, var(--color-azul-deep-700) 100%);
+    object-fit: cover;
+    object-position: center;
     border-radius: var(--radius-md);
-    color: var(--color-fg-on-deep);
-    display: grid;
-    place-content: center;
-    text-align: center;
-    padding: var(--sp-5);
-    font-family: var(--font-display);
-  }
-  .pastores__initials {
-    font-size: var(--fs-3xl);
-    font-weight: var(--fw-semibold);
-    color: var(--color-azul-claro-200);
-    line-height: 1;
-  }
-  .pastores__names {
     display: block;
-    margin-top: var(--sp-3);
-    font-size: var(--fs-md);
-    font-style: italic;
   }
-  .pastores__since {
-    display: block;
-    margin-top: var(--sp-2);
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--color-azul-claro-200);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
+  @media (min-width: 800px) {
+    /* Algo más alto que el texto para anclar visualmente la tarjeta */
+    .pastores--horizontal .pastores__media { align-self: stretch; }
+    .pastores--horizontal .pastores__photo { height: 100%; aspect-ratio: auto; min-height: 340px; }
   }
 
   .pastores__quote {

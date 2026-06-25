@@ -114,6 +114,6 @@ export const SCRIPTURE_HERO = {
 } as const;
 
 export const PASTORAL_QUOTE = {
-  text: 'Somos enseñables. Nosotros no lo sabemos todo. Y seguimos aprendiendo día con día buscando a Dios.',
+  text: 'Somos enseñables. Y seguimos aprendiendo día con día buscando a Dios.',
   attribution: 'Pastores Daniel y Rocío Chávez',
 } as const;
