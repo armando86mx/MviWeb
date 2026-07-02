@@ -65,7 +65,8 @@ const { text, reference, tone = 'cream' } = Astro.props;
   .quote--navy::before {
     content: "";
     position: absolute;
-    left: 0;
+    /* A medio camino entre el borde del panel y el texto (padding-left / 2) */
+    left: calc(clamp(1.75rem, 4vw, 3rem) / 2 - 2px);
     top: clamp(2rem, 4vw, 3rem);
     bottom: clamp(2rem, 4vw, 3rem);
     width: 4px;

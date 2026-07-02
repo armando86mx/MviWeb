@@ -67,18 +67,16 @@ export const SITE = {
     // El Footer y Contacto solo muestran las redes con URL real.
     facebook: 'https://www.facebook.com/IglesiaAmoryGraciaVIA',
     instagram: 'https://www.instagram.com/mviamorygracia/',
-    youtube: '',
+    youtube: 'https://www.youtube.com/@mviamorygracia',
     whatsapp: 'https://wa.me/522383856790',
   },
   /** Prédicas y podcast. Vacío = las secciones de medios no se renderizan.
       Al confirmar las cuentas: llenar y todo se enciende solo. */
   media: {
-    /** URL pública del canal, ej. https://www.youtube.com/@mviamorygracia */
-    youtubeChannel: '',
-    /** ID del canal (UC…) — habilita la fila de videos recientes vía RSS en build */
-    youtubeChannelId: '',
-    /** URL pública del show, ej. https://open.spotify.com/show/… */
-    spotifyShow: '',
+    youtubeChannel: 'https://www.youtube.com/@mviamorygracia',
+    /** ID del canal — habilita la fila de videos recientes vía RSS en build */
+    youtubeChannelId: 'UCea89IOZi5iiik80tBnq_Ew',
+    spotifyShow: 'https://open.spotify.com/show/6RLEHzFr7slbjGvofrVMTn',
   },
   founded: '2014-03-01',
   ogImage: '/og-default.png',
