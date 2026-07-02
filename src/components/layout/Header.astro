@@ -128,9 +128,15 @@ const isCtaActive = isActivePath(NAV_CTA.href);
   }
   .nav__cta { margin-left: var(--sp-2); }
 
-  /* CTA activo (estás en /contacto): anillo ámbar discreto dentro del pill */
+  /* CTA activo (estás en /contacto): anillo ámbar discreto dentro del pill.
+     El hover conserva la firma navy→ámbar (esta regla pisa a la de Button). */
   :global(.btn.is-current) {
     box-shadow: inset 0 0 0 2px var(--amber-500), var(--shadow-btn-hero);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :global(.btn.is-current:hover) {
+      box-shadow: inset 0 0 0 2px var(--amber-500), var(--shadow-btn-hero-hover);
+    }
   }
 
   .nav-toggle {
@@ -237,9 +243,13 @@ const isCtaActive = isActivePath(NAV_CTA.href);
       mobile.hidden = !open;
       // Con el menú abierto el fondo no se desliza
       document.documentElement.style.overflow = open ? 'hidden' : '';
-      // Foco: al abrir entra al panel; al cerrar (si estaba dentro) vuelve al botón
+      // Foco: al abrir entra al panel; al cerrar (si estaba dentro) vuelve al botón.
+      // Si el toggle ya no es visible (cruce al layout de escritorio), al nav.
       if (open) mobile.querySelector('a')?.focus();
-      else if (teniaFoco) toggle.focus();
+      else if (teniaFoco) {
+        if (toggle.offsetParent) toggle.focus();
+        else (document.querySelector('.nav__link') as HTMLElement | null)?.focus();
+      }
     };
 
     toggle.addEventListener('click', () => {
