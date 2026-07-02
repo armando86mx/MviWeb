@@ -1,0 +1,6 @@
+# MVI Amor y Gracia — vive en public/ para viajar con cada build
+# (el rsync --delete del deploy no puede borrarlo)
+
+# /visitanos se fusionó en /contacto (el HTML de respaldo hace meta-refresh;
+# esto lo convierte en 301 real para buscadores)
+Redirect 301 /visitanos /contacto
