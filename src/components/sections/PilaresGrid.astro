@@ -45,19 +45,36 @@ const pilares = [
     </header>
 
     <ol class="pilares__list" role="list">
-      {pilares.map((p) => (
-        <li class="pilar">
-          <span class="pilar__num" aria-hidden="true">{p.n}</span>
-          <div class="pilar__body">
-            <p class="pilar__title">{p.titulo}</p>
-            <p class="pilar__desc">{p.descripcion}</p>
-            <p class="pilar__ref">{p.versiculo}</p>
-          </div>
+      {pilares.map((p, i) => (
+        <li>
+          <details class="pilar" name="pilares" open={i === 0}>
+            <summary class="pilar__summary">
+              <span class="pilar__num" aria-hidden="true">{p.n}</span>
+              <span class="pilar__title">{p.titulo}</span>
+              <span class="pilar__chevron" aria-hidden="true"></span>
+            </summary>
+            <div class="pilar__body">
+              <p class="pilar__desc">{p.descripcion}</p>
+              <p class="pilar__ref">{p.versiculo}</p>
+            </div>
+          </details>
         </li>
       ))}
     </ol>
   </div>
 </section>
+
+<script>
+  // ponytail: <details name> ya es exclusivo nativo; esto solo cubre navegadores pre-2024
+  document.querySelectorAll<HTMLDetailsElement>('.pilares__list details').forEach((d) => {
+    d.addEventListener('toggle', () => {
+      if (!d.open) return;
+      document
+        .querySelectorAll<HTMLDetailsElement>('.pilares__list details[open]')
+        .forEach((o) => { if (o !== d) o.open = false; });
+    });
+  });
+</script>
 
 <style>
   .pilares__header { max-width: 60ch; margin-bottom: var(--sp-7); }
@@ -71,15 +88,13 @@ const pilares = [
   }
 
   /* §7.6 · Tarjeta de pilar: crema, borde ámbar translúcido que se
-     intensifica en hover con sombra ámbar y levantamiento */
+     intensifica en hover con sombra ámbar y levantamiento.
+     Ahora como acordeón exclusivo (details name="pilares"). */
   .pilar {
-    display: flex;
-    gap: 30px;
-    align-items: flex-start;
     background: var(--paper-100);
     border: 1.5px solid rgba(223,162,78,0.55);
     border-radius: var(--radius-card);
-    padding: 32px 36px;
+    interpolate-size: allow-keywords;
     transition: transform var(--dur-card) var(--ease),
                 box-shadow var(--dur-card) var(--ease),
                 border-color var(--dur-card) var(--ease);
@@ -88,6 +103,31 @@ const pilares = [
     border-color: rgba(223,162,78,0.95);
     box-shadow: var(--shadow-card-hover);
     transform: translateY(-4px);
+  }
+
+  /* Animación de apertura/cierre (progresiva: navegadores sin
+     ::details-content simplemente abren sin transición) */
+  .pilar::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size var(--dur-card) var(--ease),
+                content-visibility var(--dur-card) allow-discrete;
+  }
+  .pilar[open]::details-content { block-size: auto; }
+
+  .pilar__summary {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    padding: 26px 36px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .pilar__summary::-webkit-details-marker { display: none; }
+  .pilar__summary:focus-visible {
+    outline: 2px solid var(--amber-500, #DFA24E);
+    outline-offset: 4px;
+    border-radius: var(--radius-card);
   }
 
   .pilar__num {
@@ -104,16 +144,28 @@ const pilares = [
     font-size: 19px;
   }
 
-  .pilar__body { min-width: 0; }
-
   .pilar__title {
     font-family: var(--font-display);
     font-weight: var(--fw-medium);
     font-size: var(--fs-xl);
     line-height: var(--lh-snug);
     color: var(--blue-700);
-    margin: 0 0 var(--sp-2);
+    min-width: 0;
   }
+
+  .pilar__chevron {
+    flex: 0 0 auto;
+    margin-left: auto;
+    width: 11px;
+    height: 11px;
+    border-right: 2px solid var(--tan-500);
+    border-bottom: 2px solid var(--tan-500);
+    transform: rotate(45deg);
+    transition: transform var(--dur-card) var(--ease);
+  }
+  .pilar[open] .pilar__chevron { transform: rotate(225deg); }
+
+  .pilar__body { padding: 0 36px 30px calc(36px + 58px + 30px); }
 
   .pilar__desc {
     font-size: var(--fs-base);
@@ -134,10 +186,13 @@ const pilares = [
   }
 
   @media (max-width: 560px) {
-    .pilar {
-      flex-direction: column;
-      gap: var(--sp-4);
-      padding: 24px 22px;
-    }
+    .pilar__summary { gap: var(--sp-4); padding: 18px 22px; }
+    .pilar__num { width: 44px; height: 44px; font-size: 16px; }
+    .pilar__body { padding: 0 22px 22px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pilar, .pilar::details-content, .pilar__chevron { transition: none; }
+    .pilar:hover { transform: none; }
   }
 </style>
