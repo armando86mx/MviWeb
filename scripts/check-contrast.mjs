@@ -8,7 +8,7 @@ const T = {
   blue700: '#25386A', blueCta: '#22305A',
   amber500: '#DFA24E', ochre600: '#B07A2E', ochre700: '#8A5F1F',
   inkMuted: '#6B675B', inputBorder: '#8C8270',
-  brandYoutube: '#FF0000', brandSpotify: '#159743',
+  brandYoutube: '#C21807', brandSpotify: '#159743',
 };
 
 const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
