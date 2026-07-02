@@ -61,22 +61,44 @@ async function viaPagina(limit: number): Promise<VideoItem[]> {
   );
 }
 
+/** Los Shorts no van en la fila del home (decisión del dueño). Detección
+    verificada contra el canal real: /shorts/ID responde 200 si es Short y
+    303 si es video normal. Si la red falla, el video se queda — mejor un
+    Short colado que perder una prédica. */
+async function sinShorts(videos: VideoItem[]): Promise<VideoItem[]> {
+  const esShort = await Promise.all(
+    videos.map(async (v) => {
+      try {
+        const r = await fetch(`https://www.youtube.com/shorts/${v.id}`, { headers: UA, redirect: 'manual', signal: AbortSignal.timeout(10_000) });
+        return r.status === 200;
+      } catch {
+        return false;
+      }
+    }),
+  );
+  return videos.filter((_, i) => !esShort[i]);
+}
+
 /**
- * Últimos videos del canal, en build. Sin API key. Si el canal no está
- * configurado o ambas vías fallan, devuelve [] y el sitio construye igual
- * (las secciones de medios simplemente no pintan videos).
+ * Últimos videos del canal (sin Shorts), en build. Sin API key. Si el canal
+ * no está configurado o ambas vías fallan, devuelve [] y el sitio construye
+ * igual (las secciones de medios simplemente no pintan videos).
  */
 export async function fetchLatestVideos(limit = 4): Promise<VideoItem[]> {
   if (!SITE.media.youtubeChannel && !SITE.media.youtubeChannelId) return [];
+  // Se piden de más porque el filtro de Shorts puede descartar algunos.
+  let candidatos: VideoItem[] = [];
   try {
-    const porRss = await viaRss(limit);
-    if (porRss.length) return porRss;
+    candidatos = await viaRss(limit * 3);
   } catch { /* sigue el fallback */ }
-  try {
-    return await viaPagina(limit);
-  } catch {
-    return [];
+  if (!candidatos.length) {
+    try {
+      candidatos = await viaPagina(limit * 3);
+    } catch {
+      return [];
+    }
   }
+  return (await sinShorts(candidatos)).slice(0, limit);
 }
 
 export interface EpisodeItem {
