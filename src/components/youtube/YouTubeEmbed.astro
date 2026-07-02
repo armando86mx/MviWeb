@@ -21,6 +21,9 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     overflow: hidden;
     background: #000;
     position: relative;
+    /* Reposo con alpha 0: el hover solo funde la opacidad de la sombra */
+    box-shadow: 0 10px 22px -12px rgba(178,16,16,0);
+    transition: box-shadow var(--dur-card) var(--ease-out);
   }
   .yt__btn {
     position: absolute; inset: 0;
@@ -28,7 +31,10 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     padding: 0; border: 0;
     cursor: pointer;
   }
-  .yt__btn img { width: 100%; height: 100%; object-fit: cover; }
+  .yt__btn img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform var(--dur-card) var(--ease-out);
+  }
   .yt__play {
     position: absolute;
     inset: 0;
@@ -42,11 +48,16 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     background: rgba(26,39,71,0.75);
     color: var(--cream-text);
     font-size: 2.5rem;
-    transition: transform var(--dur-2) var(--ease-out);
+    /* --dur-card como la sombra y el zoom: tres propiedades, un solo gesto */
+    transition: transform var(--dur-card) var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
+    /* :has: el estado muere solo cuando el iframe reemplaza al botón */
+    .yt:has(.yt__btn:hover) { box-shadow: var(--shadow-media-yt); }
+    .yt__btn:hover img { transform: scale(1.03); }
     .yt__btn:hover .yt__play { transform: scale(1.1); }
   }
+  .yt__btn:active .yt__play { transform: scale(1.02); }
 </style>
 
 <script>

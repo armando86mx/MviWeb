@@ -127,6 +127,11 @@
   --shadow-card-sm-hover:   0 18px 42px -16px rgba(223,162,78,0.5);
   --shadow-cta-amber:       0 16px 34px -12px rgba(223,162,78,0.55);
   --shadow-cta-amber-hover: 0 20px 40px -12px rgba(223,162,78,0.7);
+  /* Sombras de plataforma (tarjetas de medios): el color de marca
+     oscurecido ~25% con alpha bajo — sombra tintada, no glow. La
+     geometría cabe en los 12px de ventana del carril deslizable. */
+  --shadow-media-yt: 0 10px 22px -12px rgba(178,16,16,0.32);
+  --shadow-media-sp: 0 10px 22px -12px rgba(11,94,43,0.38);
   --shadow-photo:           inset 0 0 0 1px rgba(80,75,55,0.18), 0 20px 40px -22px rgba(50,55,90,0.4);
 
   /* ── Gradientes de "luz de tarde" ────────────────────────── */

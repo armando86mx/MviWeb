@@ -24,7 +24,7 @@ const activo = Boolean(youtubeChannel || spotifyShow);
         <>
           <header class="medios__header">
             <p class="eyebrow">Prédicas recientes</p>
-            <h2 id="medios-heading">Últimas enseñanzas <span class="marca-youtube">en YouTube</span></h2>
+            <h2 id="medios-heading">Últimas enseñanzas <span class="u-nowrap">en <span class="marca-youtube">YouTube</span></span></h2>
           </header>
 
           {videos.length > 0 && (
@@ -76,7 +76,9 @@ const activo = Boolean(youtubeChannel || spotifyShow);
 <style>
   .medios__header { max-width: 60ch; margin-bottom: var(--sp-5); }
 
-  /* La palabra de la plataforma en su color de marca (solo titular grande) */
+  /* La palabra de la plataforma en su color de marca (solo titular grande).
+     "en" queda en el azul del titular; "en YouTube" no se parte en dos líneas. */
+  .u-nowrap { white-space: nowrap; }
   .marca-youtube { color: var(--brand-youtube); }
   .marca-spotify { color: var(--brand-spotify); }
 

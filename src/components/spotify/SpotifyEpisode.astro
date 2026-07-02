@@ -25,6 +25,8 @@ const { episodeId, title, cover } = Astro.props;
     overflow: hidden;
     background: var(--blue-950);
     position: relative;
+    box-shadow: 0 10px 22px -12px rgba(11,94,43,0);
+    transition: box-shadow var(--dur-card) var(--ease-out);
   }
   .sp__btn {
     position: absolute; inset: 0;
@@ -32,7 +34,10 @@ const { episodeId, title, cover } = Astro.props;
     padding: 0; border: 0;
     cursor: pointer;
   }
-  .sp__btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sp__btn img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform var(--dur-card) var(--ease-out);
+  }
   .sp__play {
     position: absolute;
     inset: 0;
@@ -45,11 +50,14 @@ const { episodeId, title, cover } = Astro.props;
     background: rgba(26,39,71,0.75);
     color: var(--cream-text);
     font-size: 2rem;
-    transition: transform var(--dur-2) var(--ease-out);
+    transition: transform var(--dur-card) var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
+    .sp:has(.sp__btn:hover) { box-shadow: var(--shadow-media-sp); }
+    .sp__btn:hover img { transform: scale(1.03); }
     .sp__btn:hover .sp__play { transform: scale(1.1); }
   }
+  .sp__btn:active .sp__play { transform: scale(1.02); }
 </style>
 
 <script>
