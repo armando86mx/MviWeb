@@ -1,45 +1,50 @@
 #!/usr/bin/env bash
-# MVI Amor y Gracia — deploy a Hostinger en un comando.
+# MVI Amor y Gracia — publica el sitio construido en la rama `deploy`.
 #
 #   ./scripts/deploy.sh
 #
-# Construye el sitio EN ESTA MÁQUINA (no requiere Node en el servidor)
-# y sube dist/ por rsync sobre SSH. La config del deploy vive en .env:
+# Hostinger (hPanel → Git) apunta a esa rama y despliega su contenido
+# tal cual en public_html — por eso la rama contiene SOLO el sitio ya
+# construido (dist/), nunca el código fuente. Con el webhook configurado
+# (ver DEPLOY.md), Hostinger publica solo cada vez que este script corre.
 #
-#   DEPLOY_SSH="u123456789@123.45.67.89"   ← usuario y host SSH de Hostinger
-#   DEPLOY_PORT="65002"                    ← puerto SSH (Hostinger usa 65002)
-#   DEPLOY_PATH="~/public_html/"           ← carpeta pública del hosting
-#
-# Seguro por diseño: .htaccess y api/descarga.php viajan DENTRO de dist/,
-# y amorygracia-config.php vive fuera de public_html — el --delete no
-# puede tocarla.
+# El build corre AQUÍ (con los guards de placeholders/contraste y los
+# medios frescos de YouTube/Spotify) — Hostinger no necesita Node.
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-# Cargar variables desde .env
-if [ ! -f .env ]; then
-  echo "✗ No existe .env — copia .env.example a .env y rellena DEPLOY_SSH." >&2
-  exit 1
-fi
-set -a; source .env; set +a
+RAMA_DEPLOY="deploy"
+ORIGEN=$(git remote get-url origin)
+COMMIT_FUENTE=$(git rev-parse --short HEAD)
 
-: "${DEPLOY_SSH:?✗ Falta DEPLOY_SSH en .env (ej. u123456789@123.45.67.89)}"
-DEPLOY_PORT="${DEPLOY_PORT:-65002}"
-DEPLOY_PATH="${DEPLOY_PATH:-~/public_html/}"
-
-echo "── Build (con guards de placeholders y contraste + medios frescos de YouTube/Spotify)…"
+echo "── Build…"
 pnpm build
 
-echo "── Subiendo dist/ a $DEPLOY_SSH:$DEPLOY_PATH (puerto $DEPLOY_PORT)…"
-rsync -av --delete -e "ssh -p $DEPLOY_PORT" dist/ "$DEPLOY_SSH:$DEPLOY_PATH"
+echo "── Publicando dist/ como rama '$RAMA_DEPLOY'…"
+cd dist
+rm -rf .git
+git init -q -b "$RAMA_DEPLOY"
+git add -A
+git commit -q -m "Deploy $(date '+%Y-%m-%d %H:%M') desde $COMMIT_FUENTE"
 
-echo "── Verificando el sitio en línea…"
-sleep 2
-code=$(curl -s -o /dev/null -w "%{http_code}" https://amorygraciapuebla.org/ || echo "000")
-redir=$(curl -s -o /dev/null -w "%{http_code}" https://amorygraciapuebla.org/visitanos || echo "000")
-echo "   home: $code · /visitanos: $redir (301 esperado)"
+# Push con reintentos (la red a GitHub a veces parpadea)
+for i in 1 2 3 4 5 6; do
+  if git push -f "$ORIGEN" "$RAMA_DEPLOY:$RAMA_DEPLOY" 2>&1; then
+    ok=1; break
+  fi
+  echo "   reintento $i…"; sleep 5
+done
+rm -rf .git
+[ "${ok:-0}" = "1" ] || { echo "✗ No se pudo subir la rama deploy" >&2; exit 1; }
 
-echo "✓ Deploy completo. Recuerda: los videos/episodios del home se"
-echo "  refrescan con cada deploy — corre este script tras publicar"
-echo "  prédicas nuevas (o prográmalo semanal)."
+echo "✓ Rama '$RAMA_DEPLOY' actualizada en GitHub."
+echo "  Si el webhook de Hostinger está configurado, el sitio se publica solo"
+echo "  en unos segundos; si no, hPanel → Git → Desplegar."
+
+# Si el sitio ya está en línea, verificación rápida
+if curl -s -o /dev/null --max-time 10 https://amorygraciapuebla.org/ 2>/dev/null; then
+  sleep 8
+  code=$(curl -s -o /dev/null -w "%{http_code}" https://amorygraciapuebla.org/ || echo "000")
+  echo "  Sitio en línea: HTTP $code"
+fi

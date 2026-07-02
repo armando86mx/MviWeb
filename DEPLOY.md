@@ -14,20 +14,24 @@ Todo el código ya está listo: el build genera un `dist/` completo que incluye
    - Crear **noreply@amorygraciapuebla.org** — apunta su contraseña, la usarás en el paso 3.
    - Confirmar que **web@amorygraciapuebla.org** existe (ahí llegan las notificaciones de descargas).
 
-2. **Acceso SSH** (hPanel → Avanzado → SSH): activa el acceso y apunta
-   usuario (`u…`), IP y puerto (normalmente **65002**).
+2. **Conectar Hostinger con GitHub** (hPanel → Avanzado → **GIT**):
+   - Como el repo es privado, hPanel te muestra una **clave SSH** — cópiala
+     y pégala en GitHub: repo `MviWeb` → Settings → **Deploy keys** →
+     "Add deploy key" (solo lectura es suficiente).
+   - En hPanel → GIT → "Crear repositorio":
+     · **URL**: `git@github.com:armando86mx/MviWeb.git` (la forma SSH, no la HTTPS)
+     · **Rama**: `deploy`  ← ¡importante! esta rama contiene el sitio YA
+       construido; `main` tiene el código fuente y NO funcionaría
+     · **Directorio**: dejar vacío (= public_html). La primera vez,
+       public_html debe estar vacío: borra el archivo de bienvenida de
+       Hostinger si existe.
+   - **Auto-publicación**: en la misma pantalla de GIT, copia la URL del
+     **webhook** que te da Hostinger y pégala en GitHub: repo → Settings →
+     Webhooks → "Add webhook" (solo eventos push). Con esto, cada vez que
+     corras `./scripts/deploy.sh` el sitio se actualiza solo.
 
-3. En esta Mac, completa el `.env` del proyecto con los datos del paso 2:
-
-   ```
-   DEPLOY_SSH=u123456789@123.45.67.89
-   DEPLOY_PORT=65002
-   DEPLOY_PATH=~/public_html/
-   ```
-
-   (Las llaves de GA4 y Clarity ya están en `.env.example` — si haces el
-   `.env` desde cero, cópialo de ahí: `cp .env.example .env` y añade las
-   líneas DEPLOY_*.)
+3. En esta Mac: si haces el `.env` desde cero, `cp .env.example .env`
+   (las llaves de GA4 y Clarity ya vienen con sus valores).
 
 ---
 
@@ -35,15 +39,12 @@ Todo el código ya está listo: el build genera un `dist/` completo que incluye
 
 ### 1. Config del formulario en el servidor (5 min)
 
-```bash
-# Desde la carpeta del proyecto:
-scp -P 65002 docs/amorygracia-config.example.php u123456789@IP:~/amorygracia-config.php
-ssh -p 65002 u123456789@IP "chmod 600 ~/amorygracia-config.php"
-```
-
-Luego edítalo en el servidor (`ssh` + `nano ~/amorygracia-config.php`) y pon
-la contraseña real de noreply@ en `NOREPLY_PASS`. **Queda FUERA de
-public_html a propósito** — ningún deploy lo toca.
+La forma más fácil sin SSH: hPanel → **Administrador de archivos** →
+sube `docs/amorygracia-config.example.php` a la carpeta **raíz** del
+hosting (la de ARRIBA de public_html), renómbralo a
+`amorygracia-config.php`, edítalo ahí mismo y pon la contraseña real de
+noreply@ en `NOREPLY_PASS`. Permisos: 600 (clic derecho → Permissions).
+**Queda FUERA de public_html a propósito** — ningún deploy lo toca.
 
 ### 2. Deploy (1 comando)
 
@@ -52,8 +53,8 @@ public_html a propósito** — ningún deploy lo toca.
 ```
 
 Construye el sitio aquí (con los guards y los medios frescos de
-YouTube/Spotify) y sube `dist/` por rsync. Al final verifica solo que el
-home responda 200 y /visitanos dé 301.
+YouTube/Spotify) y empuja el resultado a la rama `deploy` de GitHub.
+Hostinger la jala solo (webhook) o con el botón "Desplegar" de hPanel → GIT.
 
 ### 3. Smoke test (5 min)
 
