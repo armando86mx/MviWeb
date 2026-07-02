@@ -83,3 +83,44 @@ export async function fetchLatestVideos(limit = 4): Promise<VideoItem[]> {
 export function spotifyEmbedUrl(showUrl: string): string {
   return showUrl.replace('open.spotify.com/show/', 'open.spotify.com/embed/show/');
 }
+
+export interface EpisodeItem {
+  id: string;
+  title: string;
+  cover: string;
+}
+
+/**
+ * Últimos episodios del podcast, en build y sin API key: los IDs salen de
+ * la página pública del show (orden: más reciente primero) y título +
+ * portada del oEmbed oficial de Spotify. Si algo falla, [] y el build sigue.
+ */
+export async function fetchLatestEpisodes(limit = 4): Promise<EpisodeItem[]> {
+  const showUrl = SITE.media.spotifyShow;
+  if (!showUrl) return [];
+  try {
+    const res = await fetch(showUrl, { headers: UA });
+    if (!res.ok) return [];
+    const html = await res.text();
+    const vistos = new Set<string>();
+    for (const m of html.matchAll(/href="\/episode\/([A-Za-z0-9]{22})"/g)) {
+      if (!vistos.has(m[1])) vistos.add(m[1]);
+      if (vistos.size >= limit) break;
+    }
+    const eps = await Promise.all(
+      [...vistos].map(async (id) => {
+        try {
+          const r = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/episode/${id}`);
+          if (!r.ok) return { id, title: '', cover: '' };
+          const j = await r.json();
+          return { id, title: j.title ?? '', cover: j.thumbnail_url ?? '' };
+        } catch {
+          return { id, title: '', cover: '' };
+        }
+      }),
+    );
+    return eps.filter((e) => e.cover);
+  } catch {
+    return [];
+  }
+}

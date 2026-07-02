@@ -1,50 +1,83 @@
 ---
 /**
- * Fila de prédicas y podcast para la home. Solo se renderiza cuando
- * SITE.media tiene cuentas reales configuradas (regla de datos honestos).
- * Los videos llegan del RSS del canal en build — ver lib/media.ts.
+ * Prédicas y podcast en la home: fila de videos de YouTube y, debajo,
+ * fila de episodios de Spotify. Cada bloque solo se pinta si su cuenta
+ * está configurada en SITE.media y su fetch de build trajo contenido.
+ * Todo con fachadas: nada de terceros hasta que el visitante pulsa play.
  */
 import Button from '@components/ui/Button.astro';
 import YouTubeEmbed from '@components/youtube/YouTubeEmbed.astro';
+import SpotifyEpisode from '@components/spotify/SpotifyEpisode.astro';
 import { SITE } from '@lib/site';
-import { fetchLatestVideos } from '@lib/media';
+import { fetchLatestVideos, fetchLatestEpisodes } from '@lib/media';
 
-const { youtubeChannel } = SITE.media;
-const videos = await fetchLatestVideos(4);
-const activo = Boolean(youtubeChannel);
+const { youtubeChannel, spotifyShow } = SITE.media;
+const videos = youtubeChannel ? await fetchLatestVideos(4) : [];
+const episodios = spotifyShow ? await fetchLatestEpisodes(4) : [];
+const activo = Boolean(youtubeChannel || spotifyShow);
 ---
 
 {activo && (
   <section class="section medios" aria-labelledby="medios-heading">
     <div class="container">
-      <header class="medios__header">
-        <p class="eyebrow">Prédicas recientes</p>
-        <h2 id="medios-heading">Últimas enseñanzas</h2>
-      </header>
+      {youtubeChannel && (
+        <>
+          <header class="medios__header">
+            <p class="eyebrow">Prédicas recientes</p>
+            <h2 id="medios-heading">Últimas enseñanzas</h2>
+          </header>
 
-      {videos.length > 0 && (
-        <ul class="medios__row" aria-label="Prédicas recientes en YouTube">
-          {videos.map((v) => (
-            <li class="medios__item">
-              <YouTubeEmbed videoId={v.id} title={v.title} />
-              <p class="medios__title">{v.title}</p>
-            </li>
-          ))}
-        </ul>
+          {videos.length > 0 && (
+            <ul class="medios__row" aria-label="Prédicas recientes en YouTube">
+              {videos.map((v) => (
+                <li class="medios__item">
+                  <YouTubeEmbed videoId={v.id} title={v.title} />
+                  <p class="medios__title">{v.title}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div class="medios__ctas">
+            <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
+              Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
+            </Button>
+          </div>
+        </>
       )}
 
-      <div class="medios__ctas">
-        <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
-          Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
-        </Button>
-        <Button variant="ghost" href="/podcast">Todas las prédicas <span aria-hidden="true">→</span></Button>
-      </div>
+      {spotifyShow && episodios.length > 0 && (
+        <div class={youtubeChannel ? 'medios__bloque-podcast' : ''}>
+          <header class="medios__header">
+            <p class="eyebrow">Podcast</p>
+            <h2>Escúchanos en Spotify</h2>
+          </header>
+
+          <ul class="medios__row" aria-label="Episodios recientes del podcast">
+            {episodios.map((e) => (
+              <li class="medios__item medios__item--sq">
+                <SpotifyEpisode episodeId={e.id} title={e.title} cover={e.cover} />
+                <p class="medios__title">{e.title}</p>
+              </li>
+            ))}
+          </ul>
+
+          <div class="medios__ctas">
+            <Button variant="secondary" href={spotifyShow} target="_blank" rel="noopener noreferrer">
+              Ver el podcast en Spotify<span class="sr-only"> (se abre en ventana nueva)</span>
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   </section>
 )}
 
 <style>
   .medios__header { max-width: 60ch; margin-bottom: var(--sp-5); }
+
+  /* Mismo respiro entre bloques que entre secciones internas */
+  .medios__bloque-podcast { margin-top: var(--sp-9); }
 
   /* Fila deslizable con snap; en desktop caben las 4 */
   .medios__row {
@@ -61,12 +94,21 @@ const activo = Boolean(youtubeChannel);
     flex: 0 0 min(320px, 82%);
     scroll-snap-align: start;
   }
+  /* Episodios de Spotify: tarjetas cuadradas (formato de portada) */
+  .medios__item--sq {
+    flex: 0 0 min(264px, 70%);
+  }
   .medios__title {
     margin-top: var(--sp-2);
     font-size: var(--fs-sm);
     font-weight: var(--fw-semibold);
     color: var(--ink);
     line-height: var(--lh-snug);
+    /* Títulos largos (los episodios son frases completas): 2 líneas máx */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .medios__ctas {

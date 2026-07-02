@@ -1,0 +1,69 @@
+---
+/**
+ * Fachada de episodio de Spotify (mismo patrón que YouTubeEmbed):
+ * portada estática + botón de play; el reproductor de Spotify se
+ * inyecta solo al clic — cero peso de terceros en la carga inicial.
+ */
+interface Props {
+  episodeId: string;
+  title: string;
+  cover: string;
+}
+const { episodeId, title, cover } = Astro.props;
+---
+<div class="sp" data-episode-id={episodeId}>
+  <button class="sp__btn" type="button" aria-label={`Reproducir episodio: ${title}`}>
+    <img src={cover} alt="" width="300" height="300" loading="lazy" decoding="async" />
+    <span class="sp__play" aria-hidden="true">▶</span>
+  </button>
+</div>
+
+<style>
+  .sp {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--blue-950);
+    position: relative;
+  }
+  .sp__btn {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    padding: 0; border: 0;
+    cursor: pointer;
+  }
+  .sp__btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sp__play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: grid;
+    place-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(26,39,71,0.75);
+    color: var(--cream-text);
+    font-size: 2rem;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .sp__btn:hover .sp__play { transform: scale(1.1); }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.sp').forEach((el) => {
+    const btn = el.querySelector('.sp__btn') as HTMLButtonElement | null;
+    const id = (el as HTMLElement).dataset.episodeId;
+    if (!btn || !id) return;
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://open.spotify.com/embed/episode/${id}`;
+      iframe.allow = 'autoplay; clipboard-write; encrypted-media; picture-in-picture';
+      iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
+      iframe.title = btn.getAttribute('aria-label') ?? '';
+      el.replaceChildren(iframe);
+    });
+  });
+</script>
