@@ -9,17 +9,17 @@ import YouTubeEmbed from '@components/youtube/YouTubeEmbed.astro';
 import { SITE } from '@lib/site';
 import { fetchLatestVideos } from '@lib/media';
 
-const { youtubeChannel, spotifyShow } = SITE.media;
+const { youtubeChannel } = SITE.media;
 const videos = await fetchLatestVideos(4);
-const activo = Boolean(youtubeChannel || spotifyShow);
+const activo = Boolean(youtubeChannel);
 ---
 
 {activo && (
   <section class="section medios" aria-labelledby="medios-heading">
     <div class="container">
       <header class="medios__header">
-        <p class="eyebrow">Prédicas y podcast</p>
-        <h2 id="medios-heading">Escúchanos donde estés</h2>
+        <p class="eyebrow">Prédicas recientes</p>
+        <h2 id="medios-heading">Últimas enseñanzas</h2>
       </header>
 
       {videos.length > 0 && (
@@ -34,16 +34,9 @@ const activo = Boolean(youtubeChannel || spotifyShow);
       )}
 
       <div class="medios__ctas">
-        {youtubeChannel && (
-          <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
-            Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
-          </Button>
-        )}
-        {spotifyShow && (
-          <Button variant="secondary" href={spotifyShow} target="_blank" rel="noopener noreferrer">
-            Escuchar el podcast en Spotify<span class="sr-only"> (se abre en ventana nueva)</span>
-          </Button>
-        )}
+        <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
+          Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
+        </Button>
         <Button variant="ghost" href="/podcast">Todas las prédicas <span aria-hidden="true">→</span></Button>
       </div>
     </div>
