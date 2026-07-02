@@ -24,7 +24,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Fuera del sitemap: rutas técnicas y páginas noindex
-      // (/ofrendas sigue "próximamente"; /podcast ya está activo e indexable)
+      // (/ofrendas sigue "próximamente"; la página /podcast ya no existe)
       filter: (page) =>
         !page.includes('/api/') &&
         !page.includes('/404') &&

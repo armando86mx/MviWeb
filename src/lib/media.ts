@@ -11,14 +11,14 @@ const UA = {
 };
 
 const decode = (s: string) =>
-  s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
 
 /** Vía 1: RSS oficial del canal. OJO (verificado): exige host SIN "www"
     y User-Agent de navegador; aun así a veces responde 404 → hay fallback. */
 async function viaRss(limit: number): Promise<VideoItem[]> {
   const channelId = SITE.media.youtubeChannelId;
   if (!channelId) return [];
-  const res = await fetch(`https://youtube.com/feeds/videos.xml?channel_id=${channelId}`, { headers: UA });
+  const res = await fetch(`https://youtube.com/feeds/videos.xml?channel_id=${channelId}`, { headers: UA, signal: AbortSignal.timeout(10_000) });
   if (!res.ok) return [];
   const xml = await res.text();
   return [...xml.matchAll(/<entry>[\s\S]*?<\/entry>/g)]
@@ -38,7 +38,7 @@ async function viaPagina(limit: number): Promise<VideoItem[]> {
   if (!handle) return [];
   let ids: string[] = [];
   for (const tab of ['videos', 'streams']) {
-    const res = await fetch(`https://www.youtube.com/@${handle}/${tab}`, { headers: UA });
+    const res = await fetch(`https://www.youtube.com/@${handle}/${tab}`, { headers: UA, signal: AbortSignal.timeout(10_000) });
     if (!res.ok) continue;
     const html = await res.text();
     const vistos = new Set<string>();
@@ -52,7 +52,7 @@ async function viaPagina(limit: number): Promise<VideoItem[]> {
   return Promise.all(
     ids.map(async (id) => {
       try {
-        const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+        const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`, { signal: AbortSignal.timeout(10_000) });
         return { id, title: r.ok ? (await r.json()).title ?? '' : '' };
       } catch {
         return { id, title: '' };
@@ -94,7 +94,7 @@ export async function fetchLatestEpisodes(limit = 4): Promise<EpisodeItem[]> {
   const showUrl = SITE.media.spotifyShow;
   if (!showUrl) return [];
   try {
-    const res = await fetch(showUrl, { headers: UA });
+    const res = await fetch(showUrl, { headers: UA, signal: AbortSignal.timeout(10_000) });
     if (!res.ok) return [];
     const html = await res.text();
     const vistos = new Set<string>();
@@ -105,7 +105,7 @@ export async function fetchLatestEpisodes(limit = 4): Promise<EpisodeItem[]> {
     const eps = await Promise.all(
       [...vistos].map(async (id) => {
         try {
-          const r = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/episode/${id}`);
+          const r = await fetch(`https://open.spotify.com/oembed?url=https://open.spotify.com/episode/${id}`, { signal: AbortSignal.timeout(10_000) });
           if (!r.ok) return { id, title: '', cover: '' };
           const j = await r.json();
           return { id, title: j.title ?? '', cover: j.thumbnail_url ?? '' };

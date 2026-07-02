@@ -31,6 +31,13 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     padding: 0; border: 0;
     cursor: pointer;
   }
+  /* Anillo de foco HACIA ADENTRO: el contenedor tiene overflow:hidden
+     y el anillo global (offset externo) quedaba 100% recortado */
+  .yt__btn:focus-visible {
+    outline: 3px solid var(--color-focus-invert);
+    outline-offset: -4px;
+    border-radius: var(--radius-md);
+  }
   .yt__btn img {
     width: 100%; height: 100%; object-fit: cover;
     transition: transform var(--dur-card) var(--ease-out);

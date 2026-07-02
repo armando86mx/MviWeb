@@ -14,29 +14,28 @@ import { fetchLatestVideos, fetchLatestEpisodes } from '@lib/media';
 const { youtubeChannel, spotifyShow } = SITE.media;
 const videos = youtubeChannel ? await fetchLatestVideos(4) : [];
 const episodios = spotifyShow ? await fetchLatestEpisodes(4) : [];
-const activo = Boolean(youtubeChannel || spotifyShow);
+// La sección existe solo si algún bloque trae contenido real este build
+const activo = videos.length > 0 || episodios.length > 0;
 ---
 
 {activo && (
-  <section class="section medios" aria-labelledby="medios-heading">
+  <section class="section medios" aria-label="Prédicas y podcast">
     <div class="container">
-      {youtubeChannel && (
+      {youtubeChannel && videos.length > 0 && (
         <>
           <header class="medios__header">
             <p class="eyebrow">Prédicas recientes</p>
-            <h2 id="medios-heading">Últimas enseñanzas <span class="u-nowrap">en <span class="marca-youtube">YouTube</span></span></h2>
+            <h2>Últimas enseñanzas <span class="u-nowrap">en <span class="marca-youtube">YouTube</span></span></h2>
           </header>
 
-          {videos.length > 0 && (
-            <ul class="medios__row" aria-label="Prédicas recientes en YouTube">
-              {videos.map((v) => (
-                <li class="medios__item">
-                  <YouTubeEmbed videoId={v.id} title={v.title} />
-                  <p class="medios__title">{v.title}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+          <ul class="medios__row" role="list" aria-label="Prédicas recientes en YouTube">
+            {videos.map((v) => (
+              <li class="medios__item">
+                <YouTubeEmbed videoId={v.id} title={v.title} />
+                <p class="medios__title">{v.title}</p>
+              </li>
+            ))}
+          </ul>
 
           <div class="medios__ctas">
             <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
@@ -53,7 +52,7 @@ const activo = Boolean(youtubeChannel || spotifyShow);
             <h2>Escúchanos en <span class="marca-spotify">Spotify</span></h2>
           </header>
 
-          <ul class="medios__row" aria-label="Episodios recientes del podcast">
+          <ul class="medios__row" role="list" aria-label="Episodios recientes del podcast">
             {episodios.map((e) => (
               <li class="medios__item medios__item--sq">
                 <SpotifyEpisode episodeId={e.id} title={e.title} cover={e.cover} />

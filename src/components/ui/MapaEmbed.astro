@@ -62,6 +62,12 @@ const embedUrl = `https://www.google.com/maps?q=${sede.latitude},${sede.longitud
   @media (hover: hover) and (pointer: fine) {
     .mapa__btn:hover { background: var(--amber-tint); }
   }
+  /* Anillo de foco hacia adentro (el contenedor recorta el externo) */
+  .mapa__btn:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: -4px;
+    border-radius: var(--radius-md);
+  }
   .mapa__btn strong { color: var(--blue-700); font-size: var(--fs-md); }
   .mapa__btn small { color: var(--ink-muted); font-size: var(--fs-sm); }
   .mapa__pin {
