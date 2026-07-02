@@ -7,11 +7,12 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && node scripts/check-placeholders.mjs",
+    "build": "astro build && node scripts/check-placeholders.mjs && node scripts/check-contrast.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "check:placeholders": "node scripts/check-placeholders.mjs"
+    "check:placeholders": "node scripts/check-placeholders.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.7",
