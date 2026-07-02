@@ -1,22 +1,20 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/sections/Hero.astro';
-import ContactForm from '@components/forms/ContactForm.astro';
 import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import { SITE } from '@lib/site';
 
-// Solo lo confirmado se muestra: nada de placeholders en la página
-// más sensible del sitio
+// Solo lo confirmado se muestra
 const social = [
   { label: 'Facebook', href: SITE.social.facebook },
   { label: 'Instagram', href: SITE.social.instagram },
   { label: 'YouTube', href: SITE.social.youtube },
 ].filter((s) => Boolean(s.href));
-const whatsapp = SITE.social.whatsapp || '';
 
 const title = 'Contacto · MVI Amor y Gracia · Iglesia en Puebla';
-const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Puebla, Amozoc o Tehuacán y quieres conocer la iglesia, agendar una visita o pedir oración, este es el camino.';
+const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@amorygraciapuebla.org. Si vives en Puebla, Amozoc o Tehuacán y quieres conocer la iglesia, este es el camino.';
 ---
 
 <BaseLayout title={title} description={description} path="/contacto">
@@ -31,41 +29,42 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
   <section class="section">
     <div class="container">
       <div class="contact-grid">
-        <article class="contact-form">
-          <h2>Cuéntanos en qué te servimos</h2>
-          <p class="lead contact-form__lead">
-            Tu mensaje llega directo a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.
+        <article class="contact-main">
+          <h2>Dos caminos directos</h2>
+          <p class="lead contact-main__lead">
+            Sin formularios ni vueltas: mándanos un WhatsApp o un correo.
             Te respondemos en uno o dos días hábiles.
           </p>
-          <ContactForm />
+
+          <div class="channel-list">
+            <a class="channel" href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer">
+              <span class="channel__tag">WhatsApp</span>
+              <span class="channel__value">{SITE.sedes.amozoc.phone}</span>
+              <span class="channel__hint">El camino más rápido — abre la conversación con un toque<span class="sr-only"> (se abre en ventana nueva)</span></span>
+            </a>
+            <a class="channel" href={`mailto:${SITE.email}`}>
+              <span class="channel__tag">Correo</span>
+              <span class="channel__value">{SITE.email}</span>
+              <span class="channel__hint">Para mensajes con más calma o adjuntos</span>
+            </a>
+          </div>
+
+          <Card variant="default" class="direccion">
+            <p class="eyebrow">Nuestra sede</p>
+            <h3>Ven a visitarnos</h3>
+            <address class="direccion__addr">
+              {SITE.sedes.amozoc.fullAddress}
+            </address>
+            <div class="direccion__actions">
+              <Button variant="primary" href={SITE.sedes.amozoc.mapsUrl} target="_blank" rel="noopener noreferrer">
+                Abrir en Google Maps<span class="sr-only"> (se abre en ventana nueva)</span>
+              </Button>
+              <Button variant="ghost" href="/visitanos">Tu primera visita →</Button>
+            </div>
+          </Card>
         </article>
 
         <aside class="contact-info">
-          <Card variant="subtle">
-            <p class="eyebrow">Datos de contacto</p>
-            <h3>Por dónde más nos puedes alcanzar</h3>
-            <p>
-              <strong>Correo general:</strong><br />
-              <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-            </p>
-            {whatsapp && (
-              <p>
-                <strong>WhatsApp pastoral:</strong><br />
-                <a href={whatsapp} target="_blank" rel="noopener noreferrer">Escríbenos por WhatsApp<span class="sr-only"> (se abre en ventana nueva)</span></a>
-              </p>
-            )}
-            <p>
-              <strong>Sede principal:</strong><br />
-              Amozoc, Puebla<br />
-              <a href="/sedes/amozoc">Cómo llegar →</a>
-            </p>
-            <p>
-              <strong>Iglesia hija:</strong><br />
-              Tehuacán, Puebla<br />
-              <a href="/sedes/tehuacan">Cómo llegar →</a>
-            </p>
-          </Card>
-
           {social.length > 0 && (
             <Card variant="subtle" class="redes">
               <p class="eyebrow">Redes sociales</p>
@@ -85,6 +84,15 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
             <p><strong>Domingo · 11:00 AM</strong><br />Servicio dominical</p>
             <p><strong>Jueves · 7:30 PM</strong><br />Tiempos de Mesa (en hogar)</p>
           </Card>
+
+          <Card variant="subtle">
+            <p class="eyebrow">Iglesia hija</p>
+            <h3>Tehuacán</h3>
+            <p>
+              Tehuacán, Puebla<br />
+              <a href="/sedes/tehuacan">Conocer la iglesia en Tehuacán →</a>
+            </p>
+          </Card>
         </aside>
       </div>
     </div>
@@ -100,7 +108,65 @@ const description = 'Escríbenos: contacto@amorygraciapuebla.org. Si vives en Pu
   @media (min-width: 900px) {
     .contact-grid { grid-template-columns: 1.5fr 1fr; gap: var(--sp-9); align-items: flex-start; }
   }
-  .contact-form__lead { margin-bottom: var(--sp-5); color: var(--ink-body); }
+  .contact-main__lead { margin-bottom: var(--sp-5); color: var(--ink-body); }
+
+  /* Canales directos: filas grandes con el hover firma */
+  .channel-list {
+    display: grid;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+  }
+  .channel {
+    display: grid;
+    gap: 4px;
+    padding: var(--sp-5) var(--sp-6);
+    background: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    transition: transform var(--dur-card) var(--ease),
+                box-shadow var(--dur-card) var(--ease),
+                border-color var(--dur-card) var(--ease);
+  }
+  .channel:hover {
+    border-color: rgba(223,162,78,0.95);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
+  }
+  .channel__tag {
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ochre-600);
+  }
+  .channel__value {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-xl);
+    color: var(--blue-700);
+    overflow-wrap: anywhere;
+  }
+  .channel__hint {
+    font-size: var(--fs-sm);
+    color: var(--ink-muted);
+  }
+
+  .direccion__addr {
+    font-style: normal;
+    font-size: var(--fs-md);
+    line-height: var(--lh-relaxed);
+    color: var(--ink-body-80);
+    margin-block: var(--sp-3) var(--sp-4);
+  }
+  .direccion__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    align-items: center;
+  }
+
   .contact-info { display: grid; gap: var(--sp-4); }
   .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--ink-body); }
 </style>

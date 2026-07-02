@@ -58,6 +58,7 @@ const schema = {
         },
       }
     : {}),
+  ...('mapsUrl' in sede && sede.mapsUrl ? { hasMap: sede.mapsUrl } : {}),
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',

@@ -213,7 +213,8 @@ const {
     overflow: hidden;
     border-radius: var(--radius-photo);
     box-shadow: var(--shadow-photo);
-    height: 420px;
+    /* Proporción de la imagen (flyer 4:3): el marco se adapta y no recorta */
+    aspect-ratio: 4 / 3;
   }
   .hero__photo::after {
     content: "";
@@ -235,6 +236,6 @@ const {
       align-items: stretch;
       gap: var(--sp-6);
     }
-    .hero__photo { height: 300px; }
+    .hero__photo { aspect-ratio: 4 / 3; }
   }
 </style>

@@ -33,17 +33,20 @@ export const SITE = {
   },
   sedes: {
     amozoc: {
-      city: 'Amozoc',
+      city: 'Amozoc de Mota',
       region: 'Puebla',
       country: 'MX',
-      // Dirección exacta pendiente de confirmar — vacío hasta entonces
-      streetAddress: '',
-      postalCode: '',
-      addressConfirmed: false,
+      // Dirección oficial confirmada — escribir SIEMPRE tal cual:
+      streetAddress: 'C. 4 Nte. 207, Barrio, San Antonio',
+      postalCode: '72980',
+      addressConfirmed: true,
+      /** Dirección completa para mostrar, en una línea, tal como debe escribirse */
+      fullAddress: 'C. 4 Nte. 207, Barrio, San Antonio, 72980 Amozoc de Mota, Pue.',
+      mapsUrl: 'https://maps.app.goo.gl/TabBHcDNXSXWVzmy9',
       latitude: 19.0414, // aproximado al centro de Amozoc — NO usar para navegación
       longitude: -98.0386,
       geoConfirmed: false,
-      phone: '',
+      phone: '+52 238 385 6790',
     },
     tehuacan: {
       city: 'Tehuacán',
@@ -59,12 +62,11 @@ export const SITE = {
     },
   },
   social: {
-    // Vacíos hasta que las cuentas estén confirmadas; el Footer y
-    // Contacto solo muestran las redes con URL real.
-    facebook: '',
-    instagram: '',
+    // El Footer y Contacto solo muestran las redes con URL real.
+    facebook: 'https://www.facebook.com/IglesiaAmoryGraciaVIA',
+    instagram: 'https://www.instagram.com/mviamorygracia/',
     youtube: '',
-    whatsapp: '',
+    whatsapp: 'https://wa.me/522383856790',
   },
   founded: '2014-03-01',
   ogImage: '/og-default.png',
