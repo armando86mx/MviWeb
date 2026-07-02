@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /404
+Disallow: /descargas/
+
+Sitemap: https://amorygraciapuebla.org/sitemap-index.xml
