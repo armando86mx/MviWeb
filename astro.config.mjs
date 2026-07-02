@@ -7,6 +7,8 @@ const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://amorygraciapuebla.org';
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: 'never',
+  // El preview de Claude asigna puerto vía PORT; sin la env se queda el default 4321.
+  server: { port: Number(process.env.PORT) || 4321 },
   build: {
     format: 'directory',
     inlineStylesheets: 'auto',

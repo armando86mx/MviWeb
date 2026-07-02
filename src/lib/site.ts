@@ -73,6 +73,7 @@ export const SITE = {
 } as const;
 
 export const NAV_PRIMARY = [
+  { label: 'Inicio',         href: '/' },
   { label: 'Nosotros',       href: '/nosotros' },
   { label: 'Lo que creemos', href: '/lo-que-creemos' },
   { label: 'Reuniones',      href: '/como-nos-reunimos' },
