@@ -101,17 +101,18 @@ const pdfs = [
     align-items: center;
     gap: var(--sp-4);
     padding: var(--sp-4) var(--sp-5);
-    background: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    background: var(--paper-100);
+    border: 1.5px solid var(--paper-line);
+    border-radius: var(--radius-sm);
     text-decoration: none;
-    color: var(--color-fg);
-    transition: border-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+    color: var(--ink);
+    transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease), border-color var(--dur-card) var(--ease);
   }
   .pdf-item:hover {
-    border-color: var(--color-azul-claro);
-    box-shadow: var(--shadow-sm);
-    color: var(--color-fg);
+    border-color: var(--amber-500);
+    box-shadow: var(--shadow-card-sm-hover);
+    transform: translateY(-2px);
+    color: var(--ink);
   }
   .pdf-item__icon {
     flex: 0 0 auto;
@@ -119,10 +120,11 @@ const pdfs = [
     place-content: center;
     width: 48px;
     height: 48px;
-    border-radius: var(--radius-sm);
-    background: var(--color-azul-deep);
-    color: var(--color-blanco-roto);
-    font-family: var(--font-mono);
+    border-radius: var(--radius-xs);
+    background: var(--blue-700);
+    color: var(--cream-text);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     letter-spacing: var(--tracking-wide);
   }
@@ -131,22 +133,23 @@ const pdfs = [
     flex-direction: column;
     gap: 2px;
   }
-  .pdf-item__text strong { font-family: var(--font-display); font-size: var(--fs-md); }
-  .pdf-item__text span:last-child { font-size: var(--fs-sm); color: var(--color-fg-muted); }
+  .pdf-item__text strong { font-family: var(--font-display); font-size: var(--fs-md); color: var(--blue-700); }
+  .pdf-item__text span:last-child { font-size: var(--fs-sm); color: var(--ink-muted); }
   .pdf-item__action {
     margin-left: auto;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
-    color: var(--color-azul-deep);
+    color: var(--ochre-600);
     white-space: nowrap;
   }
 
   .form-wrap {
-    background: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--paper-100);
+    border: 1px solid var(--paper-line);
+    border-radius: var(--radius-card);
     padding: clamp(1.5rem, 3vw, 2.5rem);
     margin-bottom: var(--sp-7);
   }

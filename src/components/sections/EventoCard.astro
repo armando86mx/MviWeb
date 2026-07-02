@@ -23,42 +23,32 @@ const { title, weekday, time, location, description, variant = 'default', badge 
 
 <style>
   .evento {
-    background: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
     padding: clamp(1.5rem, 2vw, 2rem);
     position: relative;
-    box-shadow: var(--shadow-sm);
-    /* Sin hover-lift: la tarjeta es informativa, no un enlace */
+    /* Sin sombra de reposo ni hover-lift: la tarjeta es informativa, no un enlace */
   }
 
+  /* Tiempo de Mesa: mismo papel, borde ámbar más intenso */
   .evento--mesa {
-    background: linear-gradient(160deg, var(--color-mesa-crema-50) 0%, var(--color-mesa-crema-200) 60%, var(--color-mesa-dorado-300) 100%);
-    border-color: var(--color-mesa-dorado-400);
-    color: var(--color-mesa-vino);
+    border-color: rgba(223,162,78,0.72);
   }
-  .evento--mesa .evento__day,
-  .evento--mesa .evento__time,
-  .evento--mesa .evento__title,
-  .evento--mesa .evento__location { color: var(--color-mesa-vino); }
-  .evento--mesa .evento__desc { color: var(--color-mesa-vino-900); }
 
   .evento__badge {
     position: absolute;
     top: var(--sp-3);
     right: var(--sp-3);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
-    background: var(--color-mesa-vino);
-    color: var(--color-mesa-crema);
+    background: var(--amber-500);
+    color: var(--blue-cta-text);
     padding: 0.3em 0.7em;
     border-radius: var(--radius-pill);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
-  }
-  .evento--default .evento__badge {
-    background: var(--color-azul-claro-50);
-    color: var(--color-azul-deep);
   }
 
   .evento__when {
@@ -68,30 +58,35 @@ const { title, weekday, time, location, description, variant = 'default', badge 
     margin-bottom: var(--sp-3);
   }
   .evento__day {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-azul-deep);
+    letter-spacing: 0.16em;
+    color: var(--ochre-600);
   }
   .evento__time {
     font-family: var(--font-display);
     font-size: var(--fs-lg);
-    font-weight: var(--fw-semibold);
-    color: var(--color-azul-deep);
+    font-weight: var(--fw-medium);
+    color: var(--blue-700);
   }
 
   .evento__title {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
     font-size: var(--fs-xl);
+    color: var(--blue-700);
     margin-bottom: var(--sp-2);
   }
   .evento__location {
     font-size: var(--fs-sm);
-    color: var(--color-fg-muted);
+    color: var(--ink-muted);
   }
   .evento__desc {
     margin-top: var(--sp-3);
     font-size: var(--fs-sm);
     line-height: var(--lh-relaxed);
+    color: var(--ink-body);
   }
 </style>

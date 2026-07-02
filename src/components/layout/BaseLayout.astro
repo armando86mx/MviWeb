@@ -44,7 +44,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#133299" />
+    <meta name="theme-color" content="#25386A" />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -76,14 +76,13 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    {/* Fonts: Fraunces (display) + Geist (body) + Geist Mono.
-        Solo las variantes realmente usadas (8 en vez de 13) para
-        reducir peso y el flash de fuente (FOUT/CLS). */}
+    {/* Fonts del sistema "Equilibrio": Newsreader (display, con itálicas)
+        + Hanken Grotesk (UI/cuerpo). URL exacta del handoff. */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
     />
 
     {showSiteSchema && <SchemaWebSite />}

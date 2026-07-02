@@ -1,89 +1,97 @@
 /* ============================================================
    MVI Amor y Gracia — Design tokens
-   Fuente: ARCHITECTURE.md §2 (Identidad, voz y tono)
+   Sistema "Equilibrio" (handoff design_handoff_calidez_equilibrio)
+   Azul profundo + papel crema + ámbar. Sombras navy en reposo
+   que pasan a ámbar en hover — la firma del estilo.
+   Valores EXACTOS del handoff: no redondear.
    ============================================================ */
 
 :root {
-  /* ── Colores institucionales ─────────────────────────────── */
-  --color-azul-deep: #133299;       /* Color principal, headers, CTAs */
-  --color-azul-deep-700: #0e2576;
-  --color-azul-deep-900: #081649;
-  --color-azul-claro: #6699FF;      /* Acentos, links, destacados ligeros */
-  --color-azul-claro-200: #cdddff;
-  --color-azul-claro-50:  #eef3ff;
+  /* ── Cremas (papel cálido) — fondos claros ───────────────── */
+  --paper-100: #FCF8EF;   /* tarjetas (pilares) — la más clara */
+  --paper-200: #F4EFE6;   /* fondo principal / hero claro */
+  --paper-300: #F0EADD;   /* sección alterna */
+  --paper-400: #EFEAE0;   /* barra de navegación */
+  --paper-500: #EBE4D6;   /* sección FAQ (más oscura) */
+  --paper-line:   #E4DAC6;
+  --paper-line-2: #DECFB4;
+  --paper-line-3: #DBCFB6;
 
-  /* Reservado, evitar en UI principal — solo si fuese estrictamente necesario */
-  --color-morado-evitar: #9933CC;
+  /* ── Azules (marca — profundos y cálidos) ────────────────── */
+  --blue-500: #3A548C;    /* itálica de acento del hero */
+  --blue-700: #25386A;    /* AZUL PRIMARIO: botones, títulos */
+  --blue-700-hover: #2B4079;
+  --blue-800: #243766;    /* inicio de degradados */
+  --blue-900: #1E2C52;    /* navy profundo: banda de tarjetas */
+  --blue-950: #1A2747;    /* navy más oscuro: footer */
+  --blue-cta-text: #22305A;
 
-  /* Neutros */
-  --color-negro:        #1A1A1A;
-  --color-blanco-roto:  #FAFAFA;
-  --color-blanco:       #FFFFFF;
-  --color-gris-medio:   #666666;
-  --color-gris-claro:   #E5E5E5;
-  --color-gris-suave:   #F2F2F2;
+  /* ── Ámbar / oro (calidez) — acento ──────────────────────── */
+  --amber-400: #E7B870;   /* etiquetas sobre oscuro, hover de enlaces */
+  --amber-500: #DFA24E;   /* ÁMBAR PRIMARIO: bordes, acentos, sombras hover */
+  --amber-600: #E7B262;   /* hover botón ámbar */
+  --ochre-500: #C98A33;   /* signo "+", subrayados */
+  --ochre-600: #B07A2E;   /* eyebrows sobre crema, hover nav */
+  --tan-500:   #A8906C;   /* metadatos (referencia bíblica) */
+  --amber-tint: rgba(223,162,78,0.12);  /* hover FAQ / fondos de tinte */
 
-  /* Acento cálido para Tiempo de Mesa (no usar en UI institucional general) */
-  --color-mesa-vino:    #6f2a2a;
-  --color-mesa-vino-900:#5a2727;
-  --color-mesa-cobre:   #b06a3a;
-  --color-mesa-crema:   #f5ead4;
-  --color-mesa-crema-50:  #fbf3df;
-  --color-mesa-crema-200: #f3e2bf;
-  --color-mesa-crema-300: #e7d2a3;
-  --color-mesa-dorado-300:#e9cd95;
-  --color-mesa-dorado-400:#e2c790;
+  /* ── Texto ───────────────────────────────────────────────── */
+  --ink:            #2B2620;
+  --ink-logo:       #20242e;
+  --ink-muted:      #7E7A6E;
+  --nav-text:       #3C382F;
+  --cream-text:     #F4ECDD;
+  --cream-text-2:   #F2ECDD;
+  --slate-text:     #C2C9DB;
+  --slate-text-2:   #C3CADB;
+  --footer-muted:   #9FA8BF;
+  --footer-copyright:#8A93AD;
+  --logo-mark:      #0B0B0C;
 
-  /* Estado */
+  /* Cuerpo sobre crema con opacidad (tinte ~#2B251E) */
+  --ink-body:    rgba(43,37,30,0.74);
+  --ink-body-78: rgba(43,37,30,0.78);
+  --ink-body-80: rgba(43,37,30,0.80);
+
+  /* Estado (fuera de marca; conservan su rol funcional) */
   --color-success: #1f7a4a;
   --color-error:   #b3261e;
   --color-error-bg:#fde7e7;
   --color-warning: #b07b00;
 
-  /* Roles semánticos (para componentes) */
-  --color-bg:           var(--color-blanco-roto);
-  --color-bg-alt:       var(--color-gris-suave);
-  --color-bg-invert:    var(--color-azul-deep);
-  --color-fg:           var(--color-negro);
-  --color-fg-muted:     var(--color-gris-medio);
-  --color-fg-on-deep:   var(--color-blanco-roto);
-  --color-link:         var(--color-azul-deep);
-  --color-link-hover:   var(--color-azul-deep-700);
-  --color-border:       var(--color-gris-claro);
-  /* Foco: azul oscuro sobre fondos claros (≥3:1, WCAG 1.4.11);
-     en contextos invertidos se anula con --color-focus-invert */
-  --color-focus:        var(--color-azul-deep);
-  --color-focus-invert: var(--color-azul-claro);
-
   /* ── Tipografía ──────────────────────────────────────────── */
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body:    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono:    "Geist Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-body:    'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* El estilo no usa monoespaciada: las etiquetas van en Hanken 700 tracked */
+  --font-mono:    var(--font-body);
 
-  /* Escala tipográfica fluida (clamp min, fluid, max) */
-  --fs-xs:   clamp(0.8125rem, 0.79rem + 0.1vw, 0.85rem);
-  --fs-sm:   clamp(0.88rem, 0.85rem + 0.15vw, 0.94rem);
-  --fs-base: clamp(1rem, 0.97rem + 0.18vw, 1.08rem);
-  --fs-md:   clamp(1.125rem, 1.08rem + 0.22vw, 1.25rem);
-  --fs-lg:   clamp(1.35rem, 1.27rem + 0.4vw, 1.55rem);
-  --fs-xl:   clamp(1.7rem, 1.55rem + 0.7vw, 2.1rem);
-  --fs-2xl:  clamp(2.05rem, 1.8rem + 1.2vw, 2.85rem);
-  --fs-3xl:  clamp(2.5rem, 2.05rem + 2.1vw, 3.85rem);
-  --fs-4xl:  clamp(3rem, 2.4rem + 3vw, 4.85rem);
+  /* Escala tipográfica fluida, calibrada a la escala del handoff
+     (H1 60 / H1 claro 52 / H2 40-42 / H3 24-25 / FAQ 21 / cuerpo 16-17) */
+  --fs-xs:   clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);      /* eyebrows 11.5-12.5 */
+  --fs-sm:   clamp(0.88rem, 0.86rem + 0.1vw, 0.94rem);     /* 14-15 */
+  --fs-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);     /* 16-17 */
+  --fs-md:   clamp(1.0625rem, 1.02rem + 0.25vw, 1.1875rem);/* 17-19 */
+  --fs-lg:   clamp(1.19rem, 1.13rem + 0.3vw, 1.3125rem);   /* 19-21 */
+  --fs-xl:   clamp(1.35rem, 1.27rem + 0.4vw, 1.5625rem);   /* 21.6-25 */
+  --fs-2xl:  clamp(1.85rem, 1.6rem + 1.2vw, 2.625rem);     /* 30-42 */
+  --fs-quote:clamp(1.4rem, 1.25rem + 0.8vw, 1.875rem);     /* cita 30px máx */
+  --fs-3xl:  clamp(2.2rem, 1.9rem + 1.6vw, 3.25rem);       /* 35-52 */
+  --fs-4xl:  clamp(2.5rem, 2.1rem + 2.2vw, 3.75rem);       /* 40-60 */
 
-  --lh-tight:   1.12;
+  --lh-tight:   1.05;
   --lh-snug:    1.25;
-  --lh-normal:  1.55;
-  --lh-relaxed: 1.7;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.6;
 
-  --tracking-tight: -0.015em;
+  --tracking-tight: -0.01em;
   --tracking-normal: 0;
-  --tracking-wide: 0.04em;
+  --tracking-wide: 0.18em;   /* eyebrows/etiquetas Hanken 700 */
 
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
+  --fw-black: 800;
 
   /* ── Espaciado (escala 8pt extendida) ────────────────────── */
   --sp-1:  0.25rem;
@@ -99,34 +107,61 @@
   --sp-11: 6.5rem;
   --sp-12: 8rem;
 
-  /* ── Radii ───────────────────────────────────────────────── */
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-pill: 999px;
+  /* ── Radios (handoff) ────────────────────────────────────── */
+  --radius-pill:    999px;
+  --radius-photo:   20px;
+  --radius-card:    18px;
+  --radius-card-sm: 16px;
+  --radius-md:      14px;
+  --radius-sm:      12px;
+  --radius-xs:      10px;
+  --radius-chip:    6px;
 
-  /* ── Sombras ─────────────────────────────────────────────── */
-  --shadow-xs: 0 1px 2px rgba(8, 22, 73, 0.04);
-  --shadow-sm: 0 2px 6px rgba(8, 22, 73, 0.06);
-  --shadow-md: 0 6px 18px rgba(8, 22, 73, 0.08);
-  --shadow-lg: 0 14px 36px rgba(8, 22, 73, 0.12);
+  /* ── Sombras — LA FIRMA (navy en reposo, ámbar en hover) ─── */
+  --shadow-btn:             0 10px 24px -12px rgba(30,44,90,0.6);
+  --shadow-btn-hover:       0 16px 30px -12px rgba(223,162,78,0.6);
+  --shadow-btn-hero:        0 16px 32px -12px rgba(30,44,90,0.55);
+  --shadow-btn-hero-hover:  0 18px 40px -12px rgba(223,162,78,0.62);
+  --shadow-card-hover:      0 22px 48px -22px rgba(223,162,78,0.5);
+  --shadow-card-sm-hover:   0 18px 42px -16px rgba(223,162,78,0.5);
+  --shadow-cta-amber:       0 16px 34px -12px rgba(223,162,78,0.55);
+  --shadow-cta-amber-hover: 0 20px 40px -12px rgba(223,162,78,0.7);
+  --shadow-cta-cream:       0 16px 34px -14px rgba(0,0,0,0.4);
+  --shadow-photo:           inset 0 0 0 1px rgba(80,75,55,0.18), 0 20px 40px -22px rgba(50,55,90,0.4);
+
+  /* ── Gradientes de "luz de tarde" ────────────────────────── */
+  --warm-hero-light:
+    radial-gradient(120% 85% at 90% 10%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
+    #F4EFE6;
+  --warm-hero-dark:
+    radial-gradient(110% 90% at 85% 0%, rgba(223,162,78,0.18) 0%, rgba(223,162,78,0) 52%),
+    linear-gradient(160deg,#243766 0%,#1E2C52 55%,#1A2747 100%);
+  --warm-cta-dark:
+    radial-gradient(100% 120% at 12% 0%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
+    linear-gradient(150deg,#243766,#1A2747);
+  --warm-photo-light:
+    radial-gradient(80% 60% at 50% 40%, rgba(255,248,233,0.5), rgba(255,248,233,0) 70%);
 
   /* ── Layout ──────────────────────────────────────────────── */
-  --container-max: 1200px;
-  --container-narrow: 760px;
+  --container-max: 1200px;      /* nav y footer */
+  --container-cta: 1080px;      /* hero / CTA */
+  --container-narrow: 880px;    /* texto denso / pilares */
+  --container-creed: 980px;     /* declaración de fe */
   --container-prose: 680px;
-  --container-pad: clamp(1.25rem, 4vw, 2.5rem);
+  --container-pad: clamp(1.25rem, 4vw, 3rem);  /* 48px estándar desktop */
 
-  --header-h: 72px;
+  --header-h: 82px;
 
-  /* ── Motion ──────────────────────────────────────────────── */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-1: 120ms;
-  --dur-2: 220ms;
-  --dur-3: 360ms;
+  /* ── Motion (handoff) ────────────────────────────────────── */
+  --ease: ease;
+  --ease-out: ease;
+  --ease-in-out: ease;
+  --dur-btn:  .18s;
+  --dur-card: .2s;
+  --dur-link: .16s;
+  --dur-1: .16s;
+  --dur-2: .18s;
+  --dur-3: .2s;
 
   /* ── Z-index ─────────────────────────────────────────────── */
   --z-header: 50;
@@ -134,10 +169,63 @@
   --z-toast:  200;
 
   color-scheme: light;
+
+  /* ══════════════════════════════════════════════════════════
+     ALIASES DE COMPATIBILIDAD — nombres antiguos → Equilibrio.
+     Mantienen coherente cualquier referencia legada mientras los
+     componentes migran a los tokens nuevos. No usar en código nuevo.
+     ══════════════════════════════════════════════════════════ */
+  --color-azul-deep: var(--blue-700);
+  --color-azul-deep-700: var(--blue-700-hover);
+  --color-azul-deep-900: var(--blue-900);
+  --color-azul-claro: var(--amber-500);
+  --color-azul-claro-200: var(--slate-text);
+  --color-azul-claro-50: var(--amber-tint);
+
+  --color-negro: var(--ink);
+  --color-blanco-roto: var(--cream-text);
+  --color-blanco: var(--paper-100);
+  --color-gris-medio: var(--ink-muted);
+  --color-gris-claro: var(--paper-line);
+  --color-gris-suave: var(--paper-300);
+
+  --color-mesa-vino: var(--blue-700);
+  --color-mesa-vino-900: var(--ink);
+  --color-mesa-cobre: var(--ochre-500);
+  --color-mesa-crema: var(--cream-text);
+  --color-mesa-crema-50: var(--paper-100);
+  --color-mesa-crema-200: var(--paper-300);
+  --color-mesa-crema-300: var(--paper-line-2);
+  --color-mesa-dorado-300: var(--amber-400);
+  --color-mesa-dorado-400: var(--amber-500);
+
+  --color-bg:           var(--paper-200);
+  --color-bg-alt:       var(--paper-300);
+  --color-bg-invert:    var(--blue-900);
+  --color-fg:           var(--ink);
+  --color-fg-muted:     var(--ink-muted);
+  --color-fg-on-deep:   var(--cream-text);
+  --color-link:         var(--blue-700);
+  --color-link-hover:   var(--ochre-600);
+  --color-border:       var(--paper-line);
+  --color-focus:        var(--blue-700);
+  --color-focus-invert: var(--amber-400);
+
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-photo);
+
+  /* Sombras de reposo genéricas (navy, suaves) para usos legados */
+  --shadow-xs: 0 8px 20px -16px rgba(30,44,90,0.28);
+  --shadow-sm: 0 10px 24px -16px rgba(30,44,90,0.35);
+  --shadow-md: 0 16px 36px -20px rgba(30,44,90,0.4);
+  --shadow-lg: 0 22px 48px -22px rgba(30,44,90,0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
+    --dur-btn: 0ms;
+    --dur-card: 0ms;
+    --dur-link: 0ms;
     --dur-1: 0ms;
     --dur-2: 0ms;
     --dur-3: 0ms;

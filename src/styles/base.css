@@ -1,51 +1,69 @@
-/* Tipografía base, links, headings */
+/* Tipografía base, links, headings — sistema "Equilibrio" */
 
 html {
   font-family: var(--font-body);
   font-size: 100%;
-  background-color: var(--color-bg);
-  color: var(--color-fg);
+  background-color: var(--paper-200);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
   font-size: var(--fs-base);
   font-weight: var(--fw-regular);
-  line-height: var(--lh-normal);
-  background-color: var(--color-bg);
-  color: var(--color-fg);
+  line-height: var(--lh-relaxed);
+  background-color: var(--paper-200);
+  color: var(--ink);
 }
 
+/* Titulares: Newsreader 500, azul primario sobre crema */
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-tight);
+  font-weight: var(--fw-medium);
+  line-height: 1.1;
   letter-spacing: var(--tracking-tight);
-  color: var(--color-fg);
+  color: var(--blue-700);
 }
 
-h1 { font-size: var(--fs-3xl); }
-h2 { font-size: var(--fs-2xl); }
+h1 { font-size: var(--fs-3xl); line-height: 1.04; letter-spacing: -0.015em; }
+h2 { font-size: var(--fs-2xl); line-height: 1.08; }
 h3 { font-size: var(--fs-xl); }
-h4 { font-size: var(--fs-lg); line-height: var(--lh-snug); }
-h5 { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
-h6 { font-size: var(--fs-base); font-weight: var(--fw-semibold); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--color-fg-muted); }
+h4 { font-size: var(--fs-lg); line-height: var(--lh-snug); font-weight: var(--fw-semibold); }
+h5 { font-size: var(--fs-md); font-weight: var(--fw-semibold); font-family: var(--font-body); }
+h6 {
+  font-size: var(--fs-xs);
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--ochre-600);
+}
+
+/* Itálica de acento emotivo dentro de titulares (línea en azul claro) */
+h1 em, h2 em {
+  font-style: italic;
+  color: var(--blue-500);
+}
 
 p {
   font-size: var(--fs-base);
   line-height: var(--lh-relaxed);
-  color: var(--color-fg);
+  color: var(--ink-body);
 }
 
 p + p { margin-top: var(--sp-4); }
 
+/* Enlaces: subrayado ámbar con offset; hover → ocre */
 a {
-  color: var(--color-link);
+  color: var(--blue-700);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-  transition: color var(--dur-1) var(--ease-out);
+  text-decoration-color: var(--amber-500);
+  text-underline-offset: 4px;
+  transition: color var(--dur-link) var(--ease);
 }
-a:hover { color: var(--color-link-hover); }
+a:hover { color: var(--ochre-600); }
 
 :focus-visible {
   outline: 3px solid var(--color-focus);
@@ -53,7 +71,7 @@ a:hover { color: var(--color-link-hover); }
   border-radius: 3px;
 }
 
-/* En fondos oscuros el anillo azul oscuro no se ve: usar azul claro */
+/* En fondos oscuros el anillo navy no se ve: ámbar */
 .section--invert :focus-visible,
 .hero :focus-visible,
 .site-footer :focus-visible,
@@ -66,19 +84,21 @@ summary { list-style: none; }
 summary::-webkit-details-marker { display: none; }
 
 ::selection {
-  background-color: var(--color-azul-claro-200);
-  color: var(--color-azul-deep-900);
+  background-color: var(--amber-500);
+  color: var(--blue-900);
 }
 
-strong, b { font-weight: var(--fw-semibold); }
+strong, b { font-weight: var(--fw-semibold); color: var(--ink); }
 
+/* Cita sobre crema: barra ámbar, Newsreader itálica, azul */
 blockquote {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: var(--fs-md);
-  line-height: var(--lh-snug);
-  color: var(--color-azul-deep);
-  border-left: 3px solid var(--color-azul-claro);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-quote);
+  line-height: 1.4;
+  color: var(--blue-700);
+  border-left: 4px solid var(--amber-500);
   padding-left: var(--sp-5);
   margin: var(--sp-6) 0;
 }
@@ -88,14 +108,17 @@ blockquote cite {
   margin-top: var(--sp-3);
   font-family: var(--font-body);
   font-style: normal;
-  font-size: var(--fs-sm);
-  color: var(--color-fg-muted);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--ochre-600);
 }
 
 hr {
   border: 0;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--paper-line);
   margin: var(--sp-7) 0;
 }
 
-code, pre, kbd { font-family: var(--font-mono); font-size: 0.95em; }
+code, pre, kbd { font-family: var(--font-body); font-size: 0.95em; }

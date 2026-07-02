@@ -3,11 +3,16 @@ interface Props {
   text: string;
   reference: string;
   size?: 'sm' | 'md' | 'lg';
+  /** Fondo de la cita: "cream" (marco de líneas de papel) o "navy"
+      (panel oscuro con barra ámbar). */
+  tone?: 'cream' | 'navy';
+  /** Compat con la API anterior: invert=true equivale a tone="navy". */
   invert?: boolean;
 }
-const { text, reference, size = 'md', invert = false } = Astro.props;
+const { text, reference, size = 'md', tone, invert = false } = Astro.props;
+const resolvedTone: 'cream' | 'navy' = tone ?? (invert ? 'navy' : 'cream');
 ---
-<figure class={`quote quote--${size} ${invert ? 'quote--invert' : ''}`}>
+<figure class={`quote quote--${size} quote--${resolvedTone}`}>
   <blockquote>
     <p>“{text}”</p>
   </blockquote>
@@ -15,33 +20,64 @@ const { text, reference, size = 'md', invert = false } = Astro.props;
 </figure>
 
 <style>
+  /* §7.10 · Cita — Newsreader itálica 1.4; sobre crema va enmarcada por
+     líneas de papel, sobre navy lleva barra ámbar y fondo degradado */
   .quote {
     margin: 0;
   }
   .quote blockquote {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+  .quote blockquote p {
     font-family: var(--font-display);
     font-style: italic;
-    line-height: var(--lh-snug);
-    color: var(--color-azul-deep);
-    border-left: 3px solid var(--color-azul-claro);
-    padding-left: var(--sp-5);
+    font-weight: var(--fw-regular);
+    line-height: 1.4;
     margin: 0;
+    max-width: 60ch;
   }
-  .quote--sm blockquote { font-size: var(--fs-md); }
-  .quote--md blockquote { font-size: var(--fs-lg); }
-  .quote--lg blockquote { font-size: var(--fs-xl); }
+  .quote--sm blockquote p { font-size: var(--fs-md); }
+  .quote--md blockquote p { font-size: var(--fs-lg); }
+  .quote--lg blockquote p { font-size: var(--fs-quote); }
+
   .quote figcaption {
     margin-top: var(--sp-3);
-    padding-left: calc(var(--sp-5) + 3px);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-fg-muted);
+    letter-spacing: 0.18em;
   }
-  .quote--invert blockquote {
-    color: var(--color-fg-on-deep);
-    border-left-color: var(--color-azul-claro);
+
+  /* (a) Sobre crema: el marco son los bordes arriba/abajo, sin barra */
+  .quote--cream {
+    background: var(--paper-200);
+    border-top: 1px solid var(--paper-line);
+    border-bottom: 1px solid var(--paper-line);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.5rem);
   }
-  .quote--invert figcaption { color: var(--color-azul-claro-200); }
+  .quote--cream blockquote p { color: var(--blue-700); }
+  .quote--cream figcaption { color: var(--ochre-600); }
+
+  /* (b) Sobre navy: panel oscuro con barra izquierda ámbar */
+  .quote--navy {
+    position: relative;
+    background: linear-gradient(160deg, var(--blue-800), var(--blue-950));
+    border-radius: var(--radius-md);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem);
+  }
+  .quote--navy::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: clamp(2rem, 4vw, 3rem);
+    bottom: clamp(2rem, 4vw, 3rem);
+    width: 4px;
+    border-radius: 2px;
+    background: var(--amber-500);
+  }
+  .quote--navy blockquote p { color: var(--cream-text); }
+  .quote--navy figcaption { color: var(--amber-400); }
 </style>

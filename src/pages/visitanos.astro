@@ -77,7 +77,7 @@ const faq = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--faq">
     <div class="container container--prose">
       <p class="eyebrow">Preguntas frecuentes</p>
       <h2>Lo que la gente nos pregunta antes de venir</h2>
@@ -103,23 +103,41 @@ const faq = [
 
 <style>
   .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+
+  /* FAQ (receta §7.11) */
   .faq__item {
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--sp-4) 0;
+    border-bottom: 1px solid var(--paper-line-3);
+    border-radius: var(--radius-xs);
   }
   .faq__item summary {
-    font-family: var(--font-display);
-    font-size: var(--fs-md);
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    list-style: none;
-    color: var(--color-azul-deep);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--sp-3);
+    gap: 20px;
+    padding: 24px 16px;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-medium);
+    color: var(--blue-700);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--radius-xs);
+    transition: background var(--dur-link) var(--ease);
   }
-  .faq__item summary::after { content: "+"; font-size: var(--fs-xl); transition: transform var(--dur-2) var(--ease-out); }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary:hover { background: var(--amber-tint); }
+  .faq__item summary::after {
+    content: "+";
+    font-size: 26px;
+    line-height: 1;
+    color: var(--ochre-500);
+    transition: transform var(--dur-2) var(--ease);
+  }
   .faq__item[open] summary::after { transform: rotate(45deg); }
-  .faq__item p { margin-top: var(--sp-3); line-height: var(--lh-relaxed); }
+  .faq__item p {
+    margin: 0;
+    padding: 0 16px 24px;
+    color: var(--ink-body);
+    line-height: var(--lh-relaxed);
+  }
 </style>

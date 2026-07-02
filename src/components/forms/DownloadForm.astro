@@ -58,27 +58,33 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
 <style>
   .form { display: grid; gap: var(--sp-5); max-width: 600px; }
-  .form__help { font-size: var(--fs-sm); color: var(--color-fg-muted); }
+  .form__help { font-size: var(--fs-sm); color: var(--ink-muted); }
   .form__row { display: grid; gap: var(--sp-4); }
   @media (min-width: 600px) { .form__row { grid-template-columns: 1fr 1fr; } }
 
   .field { display: grid; gap: var(--sp-2); }
-  .field__label { font-size: var(--fs-sm); font-weight: var(--fw-medium); }
-  .field__optional { font-weight: var(--fw-regular); color: var(--color-fg-muted); }
-  .field__hint { font-size: var(--fs-xs); color: var(--color-fg-muted); }
+  .field__label {
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+  }
+  .field__optional { font-weight: var(--fw-regular); color: var(--ink-muted); }
+  .field__hint { font-size: var(--fs-xs); color: var(--ink-muted); }
   .field input {
     width: 100%;
     padding: 0.85rem 1rem;
     font-family: inherit;
     font-size: var(--fs-base);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-blanco);
-    transition: border-color var(--dur-1) var(--ease-out), box-shadow var(--dur-1) var(--ease-out);
+    border: 1.5px solid var(--paper-line);
+    border-radius: var(--radius-sm);
+    background: var(--paper-100);
+    color: var(--ink);
+    transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
   }
   .field input:focus {
-    border-color: var(--color-azul-claro);
-    box-shadow: 0 0 0 3px var(--color-azul-claro-50);
+    border-color: var(--amber-500);
+    box-shadow: 0 0 0 3px var(--amber-tint);
     outline: none;
   }
 
@@ -91,13 +97,49 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
   .form__actions { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
   @media (min-width: 600px) { .form__actions { flex-direction: row; align-items: center; } }
-  .form__legal { font-size: var(--fs-xs); color: var(--color-fg-muted); }
+  .form__legal { font-size: var(--fs-xs); color: var(--ink-muted); }
+
+  /* Botón submit: receta primary completa, local al formulario
+     (no depende de estilos scoped de otro componente) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-md);
+    line-height: 1;
+    text-align: center;
+    background: var(--blue-700);
+    color: var(--cream-text);
+    border: 0;
+    border-radius: var(--radius-pill);
+    padding: 17px 32px;
+    cursor: pointer;
+    box-shadow: var(--shadow-btn-hero);
+    transition: transform var(--dur-btn) var(--ease),
+                box-shadow var(--dur-btn) var(--ease),
+                background-color var(--dur-btn) var(--ease);
+  }
+  .btn:hover {
+    background: var(--blue-700-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hero-hover);
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: var(--blue-700);
+    transform: none;
+    box-shadow: var(--shadow-btn-hero);
+  }
 
   .form__status:not(:empty) {
     padding: var(--sp-3) var(--sp-4);
     border-radius: var(--radius-md);
-    background: var(--color-azul-claro-50);
-    color: var(--color-azul-deep);
+    background: var(--amber-tint);
+    color: var(--blue-700);
     font-size: var(--fs-sm);
   }
   .form__status[data-state="error"]:not(:empty) {

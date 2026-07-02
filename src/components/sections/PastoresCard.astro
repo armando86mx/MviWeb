@@ -40,14 +40,14 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
 </aside>
 
 <style>
+  /* Tarjeta crema firma, informativa: sin sombra ni hover */
   .pastores {
-    background: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
     padding: clamp(1.25rem, 3vw, 2rem);
     display: grid;
     gap: var(--sp-5);
-    box-shadow: var(--shadow-md);
   }
   .pastores--horizontal { grid-template-columns: 1fr; }
   @media (min-width: 800px) {
@@ -69,13 +69,10 @@ const { layout = 'horizontal', showHeading = true } = Astro.props;
     .pastores--horizontal .pastores__photo { height: 100%; aspect-ratio: auto; min-height: 340px; }
   }
 
+  /* Hereda el blockquote global (barra ámbar, Newsreader itálica azul);
+     solo se ajusta la escala y el margen al contexto de tarjeta */
   .pastores__quote {
-    margin-top: var(--sp-4);
-    font-family: var(--font-display);
-    font-style: italic;
+    margin: var(--sp-4) 0 0;
     font-size: var(--fs-md);
-    color: var(--color-azul-deep);
-    border-left: 3px solid var(--color-azul-claro);
-    padding-left: var(--sp-4);
   }
 </style>

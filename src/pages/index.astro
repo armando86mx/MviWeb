@@ -7,6 +7,8 @@ import PastoresCard from '@components/sections/PastoresCard.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
+import ScriptureQuote from '@components/ui/ScriptureQuote.astro';
+import pastores from '@assets/img/pastores.jpg';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaReligiousOrg from '@components/seo/SchemaReligiousOrg.astro';
 import SchemaEvent from '@components/seo/SchemaEvent.astro';
@@ -49,13 +51,22 @@ const eventos = [
 
   <Hero
     eyebrow="Amozoc · Tehuacán"
-    title="Iglesia Cristiana Evangélica en Puebla – MVI Amor y Gracia"
+    title="Iglesia Cristiana Evangélica en Puebla –"
+    titleAccent="MVI Amor y Gracia"
     subtitle="Una iglesia que estudia la Biblia con calma y profundidad en doctrina mientras espera con gozo el regreso de Cristo."
-    scripture={SCRIPTURE_HERO}
     primaryCTA={{ label: 'Visítanos un domingo', href: '/visitanos' }}
     secondaryCTA={{ label: 'Conoce lo que creemos', href: '/lo-que-creemos' }}
     variant="home"
+    photo={pastores}
+    photoAlt="Los pastores Daniel y Rocío Chávez"
   />
+
+  <!-- Versículo del hero -->
+  <section class="section section--tight">
+    <div class="container container--narrow">
+      <ScriptureQuote tone="cream" text={SCRIPTURE_HERO.text} reference={SCRIPTURE_HERO.reference} />
+    </div>
+  </section>
 
   <!-- Mensaje de identidad -->
   <section class="section">
@@ -131,7 +142,7 @@ const eventos = [
   </section>
 
   <!-- Recursos -->
-  <section class="section">
+  <section class="section section--invert recursos">
     <div class="container">
       <header class="block-header">
         <p class="eyebrow">Recursos</p>
@@ -143,25 +154,25 @@ const eventos = [
       </header>
 
       <div class="grid grid--3 mt-6">
-        <Card href="/recursos/crecer-1">
-          <p class="recurso__n">01 · Fundamentos</p>
+        <Card href="/recursos/crecer-1" variant="dark">
+          <p class="recurso__n"><span class="recurso__n-num">01</span> · Fundamentos</p>
           <h3>Crecer 1</h3>
           <p>Qué es ser hijo de Dios, qué es la Biblia, y por qué seguir a Cristo.</p>
         </Card>
-        <Card href="/recursos/crecer-2">
-          <p class="recurso__n">02 · Hábitos del discípulo</p>
+        <Card href="/recursos/crecer-2" variant="dark">
+          <p class="recurso__n"><span class="recurso__n-num">02</span> · Hábitos del discípulo</p>
           <h3>Crecer 2</h3>
           <p>Estudio bíblico, oración, y cómo la Palabra transforma el entendimiento.</p>
         </Card>
-        <Card href="/recursos/crecer-3">
-          <p class="recurso__n">03 · La iglesia que crece</p>
+        <Card href="/recursos/crecer-3" variant="dark">
+          <p class="recurso__n"><span class="recurso__n-num">03</span> · La iglesia que crece</p>
           <h3>Crecer 3</h3>
           <p>Los 5 pilares de la iglesia primitiva según Hechos 2:42.</p>
         </Card>
       </div>
 
       <div class="text-center mt-7">
-        <Button variant="primary" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
+        <Button variant="amber" size="lg" href="/recursos/descargar">Descargar la serie completa</Button>
       </div>
     </div>
   </section>
@@ -178,12 +189,43 @@ const eventos = [
 
 <style>
   .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+
+  /* Banda navy de recursos (§7.7): numerito en círculo + tipografía sobre oscuro */
   .recurso__n {
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-azul-deep);
-    margin-bottom: var(--sp-2);
+    letter-spacing: 0.16em;
+    color: var(--amber-400);
+    margin-bottom: var(--sp-3);
+  }
+  .recurso__n-num {
+    display: grid;
+    place-content: center;
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid var(--amber-500);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--amber-400);
+  }
+  .recursos h3 {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-xl);
+    color: var(--cream-text-2);
+  }
+  .recursos .grid--3 p:not(.recurso__n) {
+    color: var(--slate-text-2);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-normal);
   }
 </style>

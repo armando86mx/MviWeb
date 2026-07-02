@@ -1,7 +1,7 @@
 ---
 interface Props {
   href?: string;
-  variant?: 'default' | 'subtle' | 'mesa';
+  variant?: 'default' | 'subtle' | 'mesa' | 'dark';
   class?: string;
 }
 const { href, variant = 'default', class: extraClass = '' } = Astro.props;
@@ -13,38 +13,47 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
 </Tag>
 
 <style>
+  /* Tarjeta crema firma: borde ámbar translúcido sobre papel */
   .card {
-    background-color: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
+    background-color: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
     padding: clamp(1.25rem, 2vw, 1.75rem);
-    /* Sombra de reposo: despega la tarjeta del fondo (antes era plana) */
-    box-shadow: var(--shadow-xs);
   }
   /* Solo las tarjetas-enlace transicionan/levantan: una tarjeta
      informativa que "flota" al hover sugiere un clic que no existe */
   .card--link {
-    transition: box-shadow var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out);
-  }
-  .card--subtle {
-    background-color: var(--color-bg-alt);
-    border-color: transparent;
-  }
-  .card--mesa {
-    /* Pieza temática Tiempo de Mesa: paleta cálida marrón/vino, no se fuerza al azul */
-    background: linear-gradient(180deg, var(--color-mesa-crema-50) 0%, var(--color-mesa-crema-200) 100%);
-    border-color: var(--color-mesa-crema-300);
-    color: var(--color-mesa-vino);
-  }
-  .card--mesa h2, .card--mesa h3 { color: var(--color-mesa-vino); }
-  .card--link {
     display: block;
     text-decoration: none;
     color: inherit;
+    transition: transform var(--dur-card) var(--ease),
+                box-shadow var(--dur-card) var(--ease),
+                border-color var(--dur-card) var(--ease);
   }
   .card--link:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-    border-color: var(--color-azul-claro);
+    border-color: rgba(223,162,78,0.95);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
+  }
+  /* Neutra: sin acento ámbar */
+  .card--subtle {
+    background-color: var(--paper-100);
+    border: 1px solid var(--paper-line);
+  }
+  /* Tiempo de Mesa: mismo papel, borde ámbar más intenso */
+  .card--mesa {
+    border-color: rgba(223,162,78,0.72);
+  }
+  /* Tarjeta sobre banda navy (§7.7) */
+  .card--dark {
+    background-color: rgba(220,230,255,0.04);
+    border: 1.5px solid rgba(223,162,78,0.72);
+    border-radius: var(--radius-card-sm);
+    padding: 28px;
+  }
+  .card--dark.card--link:hover {
+    border-color: rgba(223,162,78,0.9);
+    box-shadow: var(--shadow-card-sm-hover);
+    transform: translateY(-4px);
   }
 </style>

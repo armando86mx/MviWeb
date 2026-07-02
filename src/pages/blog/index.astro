@@ -65,11 +65,12 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
   @media (min-width: 800px) { .post-list { grid-template-columns: repeat(2, 1fr); } }
 
   .post-card__tags {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-azul-deep);
+    letter-spacing: 0.16em;
+    color: var(--ochre-600);
     margin-bottom: var(--sp-3);
   }
   .post-card__title {
@@ -77,11 +78,11 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
     margin-bottom: var(--sp-3);
     text-wrap: balance;
   }
-  .post-card__desc { color: var(--color-fg); line-height: var(--lh-relaxed); }
+  .post-card__desc { color: var(--ink-body-80); line-height: var(--lh-relaxed); }
   .post-card__meta {
     margin-top: var(--sp-4);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
     font-size: var(--fs-xs);
-    color: var(--color-fg-muted);
+    color: var(--ink-muted);
   }
 </style>

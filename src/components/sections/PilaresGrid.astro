@@ -40,27 +40,19 @@ const pilares = [
       <h2 id="pilares-heading">Los 5 pilares de la iglesia primitiva</h2>
       <p class="lead">
         Cinco prácticas que sostuvieron a la iglesia en sus primeros días y siguen sosteniendo
-        a Amor y Gracia hoy. <span class="pilares__hint">Toca cada una para conocerla.</span>
+        a Amor y Gracia hoy.
       </p>
     </header>
 
     <ol class="pilares__list" role="list">
-      {pilares.map((p, i) => (
+      {pilares.map((p) => (
         <li class="pilar">
-          {/* details[name] = acordeón exclusivo nativo (1 abierto), sin JS */}
-          <details class="pilar__card" name="pilar" open={i === 0}>
-            <summary class="pilar__summary">
-              <span class="pilar__num" aria-hidden="true">{p.n}</span>
-              <span class="pilar__head">
-                <span class="pilar__title">{p.titulo}</span>
-                <span class="pilar__ref">{p.versiculo}</span>
-              </span>
-              <span class="pilar__toggle" aria-hidden="true"></span>
-            </summary>
-            <div class="pilar__panel">
-              <p>{p.descripcion}</p>
-            </div>
-          </details>
+          <span class="pilar__num" aria-hidden="true">{p.n}</span>
+          <div class="pilar__body">
+            <p class="pilar__title">{p.titulo}</p>
+            <p class="pilar__desc">{p.descripcion}</p>
+            <p class="pilar__ref">{p.versiculo}</p>
+          </div>
         </li>
       ))}
     </ol>
@@ -69,129 +61,83 @@ const pilares = [
 
 <style>
   .pilares__header { max-width: 60ch; margin-bottom: var(--sp-7); }
-  .pilares__hint {
-    display: inline-block;
-    font-size: var(--fs-sm);
-    color: var(--color-fg-muted);
-  }
 
   .pilares__list {
     list-style: none;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     display: grid;
-    gap: var(--sp-4);
+    gap: 20px;
   }
 
-  /* Cada pilar es una tarjeta que flota del fondo y se expande al tocarla */
-  .pilar__card {
-    position: relative;
-    background: var(--color-blanco);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-azul-claro-200);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xs);
-    overflow: hidden;
-    transition: box-shadow var(--dur-2) var(--ease-out),
-                border-color var(--dur-2) var(--ease-out);
+  /* §7.6 · Tarjeta de pilar: crema, borde ámbar translúcido que se
+     intensifica en hover con sombra ámbar y levantamiento */
+  .pilar {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    background: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
+    padding: 32px 36px;
+    transition: transform var(--dur-card) var(--ease),
+                box-shadow var(--dur-card) var(--ease),
+                border-color var(--dur-card) var(--ease);
   }
-  .pilar__card[open] {
-    box-shadow: var(--shadow-md);
-    border-left-color: var(--color-azul-deep);
+  .pilar:hover {
+    border-color: rgba(223,162,78,0.95);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
   }
 
-  .pilar__summary {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: var(--sp-4);
-    padding: var(--sp-5);
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
-  }
-  .pilar__summary::-webkit-details-marker { display: none; }
-  .pilar__summary:hover { background: var(--color-azul-claro-50); }
-  .pilar__summary:hover .pilar__num { border-color: var(--color-azul-claro); }
-
-  /* Insignia numerada: aro en reposo, sólida al abrir */
   .pilar__num {
     display: grid;
     place-content: center;
-    width: 46px; height: 46px;
+    flex: 0 0 auto;
+    width: 58px;
+    height: 58px;
     border-radius: 50%;
-    border: 1.5px solid var(--color-azul-claro-200);
-    background: var(--color-blanco);
-    color: var(--color-azul-deep);
-    font-family: var(--font-mono);
-    font-size: var(--fs-sm);
+    background: var(--blue-700);
+    color: var(--cream-text);
+    font-family: var(--font-display);
     font-weight: var(--fw-medium);
-    transition: background-color var(--dur-2) var(--ease-out),
-                color var(--dur-2) var(--ease-out),
-                border-color var(--dur-2) var(--ease-out);
-  }
-  .pilar__card[open] .pilar__num {
-    background: var(--color-azul-deep);
-    border-color: var(--color-azul-deep);
-    color: var(--color-blanco-roto);
+    font-size: 19px;
   }
 
-  .pilar__head { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pilar__body { min-width: 0; }
+
   .pilar__title {
     font-family: var(--font-display);
-    font-size: var(--fs-lg);
-    font-weight: var(--fw-semibold);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-xl);
     line-height: var(--lh-snug);
-    color: var(--color-fg);
-  }
-  .pilar__ref {
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-fg-muted);
+    color: var(--blue-700);
+    margin: 0 0 var(--sp-2);
   }
 
-  /* Indicador +/– que gira al abrir */
-  .pilar__toggle {
-    position: relative;
-    width: 18px; height: 18px;
-    flex: 0 0 auto;
-  }
-  .pilar__toggle::before,
-  .pilar__toggle::after {
-    content: "";
-    position: absolute;
-    background: var(--color-azul-deep);
-    border-radius: 2px;
-    transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-2) var(--ease-out);
-  }
-  .pilar__toggle::before { inset: 8px 0; height: 2px; }       /* barra horizontal */
-  .pilar__toggle::after { inset: 0 8px; width: 2px; }         /* barra vertical */
-  .pilar__card[open] .pilar__toggle::after { opacity: 0; transform: rotate(90deg); }
-
-  .pilar__panel {
-    padding: 0 var(--sp-5) var(--sp-5) calc(var(--sp-5) + 46px + var(--sp-4));
-  }
-  .pilar__panel p {
-    margin: 0;
+  .pilar__desc {
+    font-size: var(--fs-base);
+    line-height: 1.6;
+    color: var(--ink-body-80);
+    margin: 0 0 var(--sp-3);
     max-width: 56ch;
-    color: var(--color-fg);
-    line-height: var(--lh-relaxed);
-  }
-  /* Suaviza la aparición del contenido al abrir (la altura es nativa) */
-  @media (prefers-reduced-motion: no-preference) {
-    .pilar__card[open] .pilar__panel p {
-      animation: pilar-in var(--dur-3) var(--ease-out) both;
-    }
-  }
-  @keyframes pilar-in {
-    from { opacity: 0; transform: translateY(-4px); }
-    to   { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 540px) {
-    .pilar__summary { padding: var(--sp-4); gap: var(--sp-3); }
-    .pilar__num { width: 40px; height: 40px; }
-    .pilar__panel { padding: 0 var(--sp-4) var(--sp-4) var(--sp-4); }
+  .pilar__ref {
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
+    font-size: 11.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--tan-500);
+    margin: 0;
+  }
+
+  @media (max-width: 560px) {
+    .pilar {
+      flex-direction: column;
+      gap: var(--sp-4);
+      padding: 24px 22px;
+    }
   }
 </style>

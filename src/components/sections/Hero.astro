@@ -1,125 +1,106 @@
 ---
-import { SITE } from '@lib/site';
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Button from '@components/ui/Button.astro';
 
 interface Props {
   eyebrow?: string;
   title: string;
+  /** Línea final del H1 en itálica de acento (la firma del estilo). */
+  titleAccent?: string;
   subtitle?: string;
-  /** Cita bíblica opcional. Solo la home la pasa explícitamente:
+  /** Cita bíblica opcional. Solo la pinta la variante "page":
       repetirla en cada página la desgastaba y empujaba los CTAs
       fuera del primer viewport en móvil. */
   scripture?: { text: string; reference: string };
   primaryCTA?: { label: string; href: string };
   secondaryCTA?: { label: string; href: string };
   variant?: 'home' | 'page';
+  /** Foto de la columna derecha (solo variante "home"). */
+  photo?: ImageMetadata;
+  photoAlt?: string;
 }
 
 const {
   eyebrow,
   title,
+  titleAccent,
   subtitle,
   scripture,
   primaryCTA,
   secondaryCTA,
   variant = 'page',
+  photo,
+  photoAlt,
 } = Astro.props;
 ---
 
 <section class={`hero hero--${variant}`} aria-labelledby="hero-heading">
-  <div class="container hero__inner">
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1 id="hero-heading" class="hero__title text-balance">{title}</h1>
-    {subtitle && <p class="hero__subtitle text-pretty">{subtitle}</p>}
+  {variant === 'home' ? (
+    <div class="container hero__inner hero__inner--home">
+      <div class="hero__copy">
+        {eyebrow && <p class="eyebrow eyebrow--dash">{eyebrow}</p>}
+        <h1 id="hero-heading" class="hero__title text-balance">
+          {title}
+          {titleAccent && <em class="hero__accent">{titleAccent}</em>}
+        </h1>
+        {subtitle && <p class="hero__subtitle text-pretty">{subtitle}</p>}
 
-    {scripture && (
-      <figure class="hero__scripture">
-        <blockquote>“{scripture.text}”</blockquote>
-        <figcaption>{scripture.reference}</figcaption>
-      </figure>
-    )}
-
-    {(primaryCTA || secondaryCTA) && (
-      <div class="hero__ctas">
-        {primaryCTA && <Button variant="invert" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
-        {secondaryCTA && <Button variant="ghost" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+        {(primaryCTA || secondaryCTA) && (
+          <div class="hero__ctas">
+            {primaryCTA && <Button variant="primary" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
+            {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+          </div>
+        )}
       </div>
-    )}
 
-    {variant === 'home' && (
-      <p class="hero__tagline">{SITE.tagline}</p>
-    )}
-  </div>
+      {photo && (
+        <div class="hero__media">
+          <div class="hero__photo">
+            <Image src={photo} alt={photoAlt ?? ''} class="hero__img" loading="eager" />
+          </div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div class="container container--cta hero__inner">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 id="hero-heading" class="hero__title text-balance">
+        {title}
+        {titleAccent && <em class="hero__accent">{titleAccent}</em>}
+      </h1>
+      {subtitle && <p class="hero__subtitle text-pretty">{subtitle}</p>}
 
-  <div class="hero__glow" aria-hidden="true"></div>
+      {scripture && (
+        <figure class="hero__scripture">
+          <blockquote>“{scripture.text}”</blockquote>
+          <figcaption>{scripture.reference}</figcaption>
+        </figure>
+      )}
+
+      {(primaryCTA || secondaryCTA) && (
+        <div class="hero__ctas">
+          {primaryCTA && <Button variant="primary" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
+          {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+        </div>
+      )}
+    </div>
+  )}
 </section>
 
 <style>
-  .hero {
-    position: relative;
-    background: linear-gradient(180deg, var(--color-azul-deep-900) 0%, var(--color-azul-deep) 70%, var(--color-azul-deep-700) 100%);
-    color: var(--color-fg-on-deep);
-    overflow: hidden;
-    isolation: isolate;
-  }
-  .hero--home { padding-block: clamp(5rem, 10vw, 9rem); }
-  .hero--page { padding-block: clamp(3.5rem, 6vw, 5.5rem); }
-
-  .hero__inner {
-    position: relative;
-    z-index: 1;
-    max-width: 880px;
-  }
-  .hero .eyebrow { color: var(--color-azul-claro-200); }
+  .hero { position: relative; }
 
   .hero__title {
     font-family: var(--font-display);
-    font-size: var(--fs-3xl);
-    line-height: var(--lh-tight);
-    letter-spacing: var(--tracking-tight);
-    color: var(--color-blanco);
+    font-weight: var(--fw-medium);
     margin-bottom: var(--sp-4);
-  }
-  .hero--home .hero__title { font-size: var(--fs-4xl); }
-  /* En pantallas chicas el H1 de home a 4xl ocupa 5+ líneas y entierra
-     los CTAs: una talla menos mantiene el impacto sin sacrificar el fold */
-  @media (max-width: 480px) {
-    .hero--home .hero__title { font-size: var(--fs-3xl); }
-    .hero--home { padding-block: clamp(3.5rem, 8vw, 5rem); }
   }
 
   .hero__subtitle {
     font-size: var(--fs-md);
-    line-height: var(--lh-relaxed);
-    color: var(--color-azul-claro-200);
-    max-width: 56ch;
+    line-height: 1.6;
     margin-bottom: var(--sp-6);
-  }
-
-  .hero__scripture {
-    margin: var(--sp-7) 0;
-    padding-left: var(--sp-5);
-    border-left: 3px solid var(--color-azul-claro);
-  }
-  .hero__scripture blockquote {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: var(--fs-lg);
-    line-height: var(--lh-snug);
-    color: var(--color-blanco);
-    margin: 0;
-    border: 0;
-    padding: 0;
-    max-width: 60ch;
-  }
-  .hero__scripture figcaption {
-    margin-top: var(--sp-3);
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    /* azul-claro daba 3.89:1 sobre el degradado; claro-200 pasa AA */
-    color: var(--color-azul-claro-200);
   }
 
   .hero__ctas {
@@ -130,24 +111,130 @@ const {
     align-items: center;
   }
 
-  .hero__tagline {
-    margin-top: var(--sp-9);
-    font-family: var(--font-display);
+  /* ── §7.3 · HERO OSCURO (variant="page") ─────────────────── */
+  .hero--page {
+    background: var(--warm-hero-dark);
+    color: var(--cream-text);
+  }
+  .hero--page .hero__inner {
+    padding-block: clamp(5.625rem, 8vw, 7rem); /* ~90-112px */
+  }
+  .hero--page .hero__title {
+    font-size: var(--fs-4xl);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: var(--cream-text);
+  }
+  .hero--page .hero__accent {
     font-style: italic;
-    font-size: var(--fs-md);
-    color: var(--color-azul-claro-200);
-    border-top: 1px solid rgba(255,255,255,0.12);
-    padding-top: var(--sp-5);
-    max-width: 60ch;
+    color: var(--amber-400);
+  }
+  .hero--page .hero__subtitle {
+    color: var(--slate-text);
+    max-width: 620px;
   }
 
-  .hero__glow {
+  .hero__scripture {
+    position: relative;
+    margin: var(--sp-7) 0 0;
+    padding-left: var(--sp-5);
+  }
+  .hero__scripture::before {
+    content: "";
     position: absolute;
-    inset: -40% -10% auto auto;
-    width: 70%;
-    height: 130%;
-    background: radial-gradient(closest-side, rgba(102,153,255,0.35), transparent 70%);
+    left: 0;
+    top: 3px;
+    bottom: 3px;
+    width: 4px;
+    border-radius: 2px;
+    background: var(--amber-500);
+  }
+  .hero__scripture blockquote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: var(--fw-regular);
+    font-size: var(--fs-quote);
+    line-height: 1.4;
+    color: var(--cream-text);
+    margin: 0;
+    border: 0;
+    padding: 0;
+    max-width: 60ch;
+  }
+  .hero__scripture figcaption {
+    margin-top: var(--sp-3);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--amber-400);
+  }
+
+  /* ── §7.4 · HERO CLARO A DOS COLUMNAS (variant="home") ───── */
+  .hero--home {
+    background: var(--warm-hero-light);
+  }
+  .hero__inner--home {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding-block: clamp(3rem, 6vw, 4rem);
+  }
+  .hero__copy  { flex: 1.08; min-width: 0; }
+  .hero__media { flex: 0.92; min-width: 0; }
+
+  /* Sobre crema el eyebrow vuelve a ocre (el global `.hero .eyebrow` lo pinta ámbar) */
+  .hero.hero--home .eyebrow { color: var(--ochre-600); }
+
+  /* …y el anillo de foco navy sí contrasta (el global lo pone ámbar en .hero) */
+  .hero.hero--home :global(:focus-visible) {
+    outline-color: var(--color-focus);
+  }
+
+  .hero--home .hero__title {
+    font-size: var(--fs-3xl);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    color: var(--blue-700);
+  }
+  .hero--home .hero__accent {
+    display: block;
+    font-style: italic;
+    color: var(--blue-500);
+  }
+  .hero--home .hero__subtitle {
+    color: var(--ink-body);
+    max-width: 56ch;
+  }
+
+  .hero__photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-photo);
+    box-shadow: var(--shadow-photo);
+    height: 420px;
+  }
+  .hero__photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--warm-photo-light);
     pointer-events: none;
-    z-index: 0;
+  }
+  .hero__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .hero__inner--home {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-6);
+    }
+    .hero__photo { height: 300px; }
   }
 </style>

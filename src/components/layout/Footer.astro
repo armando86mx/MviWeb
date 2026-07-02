@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import { NAV_FOOTER_CONOCE, NAV_FOOTER_EXPLORA, NAV_FOOTER_LEGAL, SITE } from '@lib/site';
+import cruz from '@assets/logos/mvi-cruz-navy.png';
 
 const year = new Date().getFullYear();
 
@@ -20,11 +22,9 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
   <div class="container site-footer__grid">
     <section class="site-footer__brand">
       <a href="/" class="footer-brand" aria-label={`${SITE.name} — inicio`}>
-        <svg viewBox="0 0 64 64" width="48" height="48" aria-hidden="true">
-          <rect width="64" height="64" rx="12" fill="var(--color-blanco-roto)"/>
-          <text x="32" y="44" font-family="Fraunces, Georgia, serif" font-size="36" font-weight="700" fill="var(--color-azul-deep)" text-anchor="middle">A</text>
-          <circle cx="48" cy="20" r="4" fill="var(--color-azul-claro)"/>
-        </svg>
+        <span class="footer-brand__mark" aria-hidden="true">
+          <Image src={cruz} alt="" class="footer-brand__cruz" width={24} densities={[1, 2]} />
+        </span>
         <span class="footer-brand__name">MVI Amor y Gracia</span>
       </a>
       <p class="footer-tagline">{SITE.tagline}</p>
@@ -105,23 +105,24 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
 
 <style>
   .site-footer {
-    background-color: var(--color-azul-deep);
-    color: var(--color-fg-on-deep);
+    background-color: var(--blue-950);
+    color: var(--slate-text);
     margin-top: var(--sp-11);
   }
-  /* base.css pinta <p> en negro; dentro del footer azul debe heredar claro */
+  /* base.css pinta <p> en negro; dentro del footer navy debe heredar claro */
   .site-footer p { color: inherit; }
   .site-footer a {
-    color: var(--color-azul-claro-200);
+    color: var(--slate-text);
     text-decoration: none;
+    transition: color var(--dur-link) var(--ease);
   }
-  .site-footer a:hover { color: var(--color-blanco); text-decoration: underline; }
+  .site-footer a:hover { color: var(--amber-500); }
 
   .site-footer__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--sp-7);
-    padding-block: var(--sp-9);
+    gap: 40px;
+    padding-block: var(--sp-10) var(--sp-9);
   }
   @media (min-width: 700px) {
     .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; }
@@ -131,34 +132,42 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     display: inline-flex;
     align-items: center;
     gap: var(--sp-3);
-    color: var(--color-fg-on-deep);
     text-decoration: none;
   }
+  .footer-brand__mark {
+    display: grid;
+    place-content: center;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    border-radius: 12px;
+    background: var(--cream-text-2);
+  }
+  .footer-brand__cruz { display: block; width: 24px; height: auto; }
   .footer-brand__name {
     font-family: var(--font-display);
-    font-size: var(--fs-md);
-    font-weight: var(--fw-semibold);
+    font-size: 1.25rem;
+    font-weight: var(--fw-medium);
+    color: var(--cream-text-2);
   }
-
   .footer-tagline {
     margin-top: var(--sp-4);
     font-family: var(--font-display);
     font-style: italic;
-    color: var(--color-azul-claro-200);
-    font-size: var(--fs-base);
+    color: var(--amber-500);
+    font-size: 1.0625rem;
   }
   .footer-locale {
     margin-top: var(--sp-3);
     font-size: var(--fs-sm);
-    color: var(--color-azul-claro-200);
+    color: var(--footer-muted);
   }
 
   .footer-h {
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    font-weight: var(--fw-medium);
-    /* claro-200 = 7.9:1 sobre azul-deep (azul-claro daba 3.89:1) */
-    color: var(--color-azul-claro-200);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: var(--fw-bold);
+    color: var(--amber-400);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     margin-bottom: var(--sp-3);
@@ -172,7 +181,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     display: flex;
     flex-direction: column;
     gap: var(--sp-1);
-    font-size: var(--fs-sm);
+    font-size: 14.5px;
   }
   /* Área táctil más generosa por enlace */
   .site-footer__nav a,
@@ -182,8 +191,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
   }
 
   .site-footer__bar {
-    border-top: 1px solid rgba(250,250,250,0.12);
-    background-color: rgba(0,0,0,0.16);
+    border-top: 1px solid rgba(255,255,255,0.1);
   }
   .site-footer__bar-inner {
     display: flex;
@@ -192,7 +200,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     align-items: flex-start;
     padding-block: var(--sp-5);
     font-size: var(--fs-xs);
-    color: rgba(250,250,250,0.78);
+    color: var(--footer-copyright);
   }
   .legal-links {
     display: flex;
@@ -202,15 +210,18 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     flex-wrap: wrap;
     align-items: center;
   }
+  .legal-links a { color: var(--footer-copyright); }
+  .legal-links a:hover { color: var(--amber-500); }
   .cookie-prefs {
     background: none;
     border: 0;
     padding: 0;
     font: inherit;
-    color: var(--color-azul-claro-200);
+    color: var(--footer-copyright);
     cursor: pointer;
+    transition: color var(--dur-link) var(--ease);
   }
-  .cookie-prefs:hover { color: var(--color-blanco); text-decoration: underline; }
+  .cookie-prefs:hover { color: var(--amber-500); }
   @media (min-width: 700px) {
     .site-footer__bar-inner { flex-direction: row; justify-content: space-between; align-items: center; }
   }

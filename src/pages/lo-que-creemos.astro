@@ -83,7 +83,7 @@ const faq = [
         versículo y un párrafo honesto de cómo los entendemos hoy.
       </p>
     </div>
-    <div class="container mt-7">
+    <div class="container container--narrow mt-7">
       <ol class="pilares-detallados" role="list">
         {pilares.map((p) => (
           <li>
@@ -104,7 +104,7 @@ const faq = [
   </section>
 
   <section class="section section--alt">
-    <div class="container container--prose stack-lg">
+    <div class="container container--creed stack-lg">
       <p class="eyebrow">Declaración de fe</p>
       <h2>Lo que afirmamos — sin atajos ni modas</h2>
       <p class="lead">
@@ -125,14 +125,14 @@ const faq = [
   <section class="section">
     <div class="container container--narrow">
       <ScriptureQuote
-        size="lg"
+        tone="navy"
         text="aguardando la esperanza bienaventurada y la manifestación gloriosa de nuestro gran Dios y Salvador Jesucristo"
         reference="Tito 2:13"
       />
     </div>
   </section>
 
-  <section class="section section--alt">
+  <section class="section section--faq">
     <div class="container container--prose">
       <p class="eyebrow">Preguntas frecuentes</p>
       <h2>Lo que la gente nos pregunta</h2>
@@ -157,6 +157,7 @@ const faq = [
 </BaseLayout>
 
 <style>
+  /* ── Pilares detallados (receta §7.6) ─────────────────────── */
   .pilares-detallados {
     list-style: none;
     margin: 0;
@@ -164,75 +165,137 @@ const faq = [
     display: grid;
     gap: var(--sp-5);
   }
+  .pilares-detallados :global(.card) {
+    display: block;
+    background: var(--paper-100);
+    border: 1.5px solid rgba(223,162,78,0.55);
+    border-radius: var(--radius-card);
+    padding: 32px 36px;
+    box-shadow: none;
+    transition:
+      transform var(--dur-card) var(--ease),
+      box-shadow var(--dur-card) var(--ease),
+      border-color var(--dur-card) var(--ease);
+  }
+  .pilares-detallados :global(.card:hover) {
+    border-color: rgba(223,162,78,0.95);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
+  }
   .pilar-detail {
     display: grid;
-    gap: var(--sp-5);
+    gap: var(--sp-4);
     grid-template-columns: 1fr;
   }
   @media (min-width: 700px) {
-    .pilar-detail { grid-template-columns: auto 1fr; align-items: flex-start; }
+    .pilar-detail { grid-template-columns: auto 1fr; align-items: flex-start; gap: 30px; }
   }
   .pilar-detail__num span {
     display: grid;
     place-content: center;
-    width: 64px; height: 64px;
+    width: 58px; height: 58px;
     border-radius: 50%;
-    background: var(--color-azul-deep);
-    color: var(--color-fg-on-deep);
+    background: var(--blue-700);
+    color: var(--cream-text);
     font-family: var(--font-display);
-    font-size: var(--fs-xl);
-    font-weight: var(--fw-semibold);
+    font-size: 19px;
+    font-weight: var(--fw-medium);
   }
-  .pilar-detail__ref {
+  .pilar-detail h3 {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-xl);
+    color: var(--blue-700);
+  }
+  .pilar-detail p {
+    color: var(--ink-body-80);
+    font-size: var(--fs-base);
+    line-height: var(--lh-relaxed);
+  }
+  .pilar-detail p.pilar-detail__ref {
     margin-top: var(--sp-3);
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
+    font-size: 11.5px;
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-fg-muted);
+    letter-spacing: 0.16em;
+    color: var(--tan-500);
   }
 
+  /* ── Declaración de fe (receta §7.8) ──────────────────────── */
   .declaracion {
     display: grid;
     gap: var(--sp-5);
     margin: 0;
   }
+  @media (min-width: 800px) {
+    .declaracion { grid-template-columns: 1fr 1fr; gap: 14px 56px; }
+  }
+  .container--creed .lead { max-width: 60ch; }
+  .declaracion__item {
+    border-top: 1px solid var(--paper-line-2);
+    padding-top: 22px;
+  }
   .declaracion__item dt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--font-display);
-    font-size: var(--fs-md);
+    font-size: 20px;
     font-weight: var(--fw-semibold);
-    color: var(--color-azul-deep);
+    color: var(--blue-700);
     margin-bottom: var(--sp-2);
   }
-  .declaracion__item dd { margin: 0; line-height: var(--lh-relaxed); }
+  .declaracion__item dt::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: var(--amber-500);
+  }
+  .declaracion__item dd {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--ink-body-78);
+  }
 
+  /* ── FAQ (receta §7.11) ───────────────────────────────────── */
   .faq { margin-top: var(--sp-5); }
   .faq__item {
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--sp-4) 0;
+    border-bottom: 1px solid var(--paper-line-3);
+    border-radius: var(--radius-xs);
   }
   .faq__item summary {
-    font-family: var(--font-display);
-    font-size: var(--fs-md);
-    font-weight: var(--fw-semibold);
-    cursor: pointer;
-    list-style: none;
-    color: var(--color-azul-deep);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--sp-3);
+    gap: 20px;
+    padding: 24px 16px;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-medium);
+    color: var(--blue-700);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--radius-xs);
+    transition: background var(--dur-link) var(--ease);
   }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  .faq__item summary:hover { background: var(--amber-tint); }
   .faq__item summary::after {
     content: "+";
-    font-size: var(--fs-xl);
-    color: var(--color-azul-deep);
-    transition: transform var(--dur-2) var(--ease-out);
+    font-size: 26px;
+    line-height: 1;
+    color: var(--ochre-500);
+    transition: transform var(--dur-2) var(--ease);
   }
   .faq__item[open] summary::after { transform: rotate(45deg); }
   .faq__item p {
-    margin-top: var(--sp-3);
-    color: var(--color-fg);
+    margin: 0;
+    padding: 0 16px 24px;
+    color: var(--ink-body);
     line-height: var(--lh-relaxed);
   }
 </style>

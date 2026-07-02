@@ -1,0 +1,193 @@
+/* ============================================================================
+   Sistema de diseño "Equilibrio" — MVI Amor y Gracia
+   Tokens listos para usar. Importa este archivo una vez de forma global.
+   Ver SISTEMA_DE_DISENO.md para el detalle de cada valor y las recetas de
+   componentes. Los valores son EXACTOS (hi-fi): no los redondees.
+   ============================================================================ */
+
+/* --- Fuentes (o carga los <link> equivalentes en el <head>) --- */
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ===== Cremas (papel cálido) — fondos claros ===== */
+  --paper-100: #FCF8EF;   /* tarjetas (pilares) — la más clara */
+  --paper-200: #F4EFE6;   /* fondo principal / hero claro */
+  --paper-300: #F0EADD;   /* sección alterna */
+  --paper-400: #EFEAE0;   /* barra de navegación */
+  --paper-500: #EBE4D6;   /* sección FAQ (más oscura) */
+  --paper-line:   #E4DAC6;
+  --paper-line-2: #DECFB4;
+  --paper-line-3: #DBCFB6;
+
+  /* ===== Azules (marca — profundos y cálidos) ===== */
+  --blue-500: #3A548C;    /* itálica de acento del hero */
+  --blue-700: #25386A;    /* AZUL PRIMARIO: botones, títulos */
+  --blue-800: #243766;    /* inicio de degradados */
+  --blue-900: #1E2C52;    /* navy profundo: banda de tarjetas */
+  --blue-950: #1A2747;    /* navy más oscuro: footer */
+  --blue-cta-text: #22305A;
+
+  /* ===== Ámbar / oro (calidez) — acento ===== */
+  --amber-400: #E7B870;   /* etiquetas sobre oscuro, hover de enlaces */
+  --amber-500: #DFA24E;   /* ÁMBAR PRIMARIO: bordes, acentos, sombras hover */
+  --amber-600: #E7B262;   /* hover botón ámbar */
+  --ochre-500: #C98A33;   /* signo "+", subrayados */
+  --ochre-600: #B07A2E;   /* eyebrows sobre crema, hover nav */
+  --tan-500:   #A8906C;   /* metadatos (referencia bíblica) */
+
+  /* ===== Texto ===== */
+  --ink:            #2B2620;
+  --ink-logo:       #20242e;
+  --ink-muted:      #7E7A6E;
+  --nav-text:       #3C382F;
+  --cream-text:     #F4ECDD;
+  --cream-text-2:   #F2ECDD;
+  --slate-text:     #C2C9DB;
+  --slate-text-2:   #C3CADB;
+  --footer-muted:   #9FA8BF;
+  --footer-copyright:#8A93AD;
+  --logo-mark:      #0B0B0C;
+
+  /* Cuerpo sobre crema con opacidad (tinte ~#2B251E) */
+  --ink-body:    rgba(43,37,30,0.74);
+  --ink-body-80: rgba(43,37,30,0.80);
+  --ink-body-78: rgba(43,37,30,0.78);
+
+  /* ===== Tipografía ===== */
+  --font-display: 'Newsreader', Georgia, serif;
+  --font-body:    'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+
+  /* ===== Radios ===== */
+  --radius-pill:    999px;
+  --radius-photo:   20px;
+  --radius-card:    18px;
+  --radius-card-sm: 16px;
+  --radius-md:      14px;
+  --radius-sm:      12px;
+  --radius-xs:      10px;
+  --radius-chip:    6px;
+
+  /* ===== Sombras — LA FIRMA (navy en reposo, ámbar en hover) ===== */
+  --shadow-btn:             0 10px 24px -12px rgba(30,44,90,0.6);
+  --shadow-btn-hover:       0 16px 30px -12px rgba(223,162,78,0.6);
+  --shadow-btn-hero:        0 16px 32px -12px rgba(30,44,90,0.55);
+  --shadow-btn-hero-hover:  0 18px 40px -12px rgba(223,162,78,0.62);
+  --shadow-card-hover:      0 22px 48px -22px rgba(223,162,78,0.5);
+  --shadow-card-sm-hover:   0 18px 42px -16px rgba(223,162,78,0.5);
+  --shadow-cta-amber:       0 16px 34px -12px rgba(223,162,78,0.55);
+  --shadow-cta-amber-hover: 0 20px 40px -12px rgba(223,162,78,0.7);
+  --shadow-cta-cream:       0 16px 34px -14px rgba(0,0,0,0.4);
+  --shadow-photo:           inset 0 0 0 1px rgba(80,75,55,0.18), 0 20px 40px -22px rgba(50,55,90,0.4);
+
+  /* ===== Gradientes de "luz de tarde" ===== */
+  --warm-hero-light:
+    radial-gradient(120% 85% at 90% 10%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
+    #F4EFE6;
+  --warm-hero-dark:
+    radial-gradient(110% 90% at 85% 0%, rgba(223,162,78,0.18) 0%, rgba(223,162,78,0) 52%),
+    linear-gradient(160deg,#243766 0%,#1E2C52 55%,#1A2747 100%);
+  --warm-cta-dark:
+    radial-gradient(100% 120% at 12% 0%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
+    linear-gradient(150deg,#243766,#1A2747);
+  --warm-photo-light:
+    radial-gradient(80% 60% at 50% 40%, rgba(255,248,233,0.5), rgba(255,248,233,0) 70%);
+
+  /* ===== Movimiento ===== */
+  --dur-btn:  .18s;
+  --dur-card: .2s;
+  --dur-link: .16s;
+  --ease: ease;
+}
+
+/* --- Resets/base recomendados --- */
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  background: var(--paper-200);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection{ background: var(--amber-500); color: var(--blue-900); }
+
+/* ============================================================================
+   Clases utilitarias opcionales — encapsulan los patrones firma.
+   Úsalas tal cual o cópialas a tus componentes del codebase.
+   ============================================================================ */
+
+/* Levantamiento con sombra que pasa a ámbar (botón primario) */
+.eq-btn-primary{
+  background: var(--blue-700); color: var(--cream-text);
+  font: 700 15.5px/1 var(--font-body);
+  padding: 15px 28px; border: 0; border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-btn-hero); cursor: pointer; white-space: nowrap;
+  transition: transform var(--dur-btn) var(--ease),
+              box-shadow var(--dur-btn) var(--ease),
+              background var(--dur-btn) var(--ease);
+}
+.eq-btn-primary:hover{
+  background:#2B4079; transform: translateY(-2px); box-shadow: var(--shadow-btn-hero-hover);
+}
+
+/* Enlace-botón subrayado que se rellena en hover */
+.eq-btn-underline{
+  color: var(--ink); font: 600 15.5px/1 var(--font-body);
+  text-decoration: underline; text-decoration-color: var(--ochre-500);
+  text-underline-offset: 4px; padding: 15px 22px; border-radius: var(--radius-pill);
+  cursor: pointer; white-space: nowrap;
+  transition: background var(--dur-btn) var(--ease), color var(--dur-btn) var(--ease),
+              box-shadow var(--dur-btn) var(--ease), transform var(--dur-btn) var(--ease);
+}
+.eq-btn-underline:hover{
+  background: var(--amber-500); color:#fff; text-decoration:none;
+  box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7); transform: translateY(-2px);
+}
+
+/* CTA ámbar sobre navy */
+.eq-btn-amber{
+  background: var(--amber-500); color: var(--blue-cta-text);
+  font: 700 15.5px/1 var(--font-body); padding: 16px 30px; border: 0;
+  border-radius: var(--radius-pill); box-shadow: var(--shadow-cta-amber);
+  cursor: pointer; white-space: nowrap;
+  transition: transform var(--dur-btn) var(--ease), box-shadow var(--dur-btn) var(--ease),
+              background var(--dur-btn) var(--ease);
+}
+.eq-btn-amber:hover{
+  background: var(--amber-600); transform: translateY(-2px); box-shadow: var(--shadow-cta-amber-hover);
+}
+
+/* Tarjeta clara (pilar) con hover firma */
+.eq-card{
+  background: var(--paper-100); border: 1.5px solid rgba(223,162,78,0.55);
+  border-radius: var(--radius-card); padding: 32px 36px;
+  transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease),
+              border-color var(--dur-card) var(--ease);
+}
+.eq-card:hover{
+  border-color: rgba(223,162,78,0.95); box-shadow: var(--shadow-card-hover); transform: translateY(-4px);
+}
+
+/* Tarjeta sobre banda navy con hover firma */
+.eq-card-dark{
+  background: rgba(220,230,255,0.04); border: 1.5px solid rgba(223,162,78,0.72);
+  border-radius: var(--radius-card-sm); padding: 28px;
+  transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease),
+              border-color var(--dur-card) var(--ease);
+}
+.eq-card-dark:hover{
+  border-color: rgba(223,162,78,0.9); box-shadow: var(--shadow-card-sm-hover); transform: translateY(-4px);
+}
+
+/* Eyebrow (etiqueta de sección) */
+.eq-eyebrow{
+  font: 700 12px/1 var(--font-body); letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ochre-600);         /* sobre crema */
+}
+.eq-eyebrow--on-dark{ color: var(--amber-400); }  /* sobre navy */
+
+/* Titular display */
+.eq-display{
+  font-family: var(--font-display); font-weight: 500; letter-spacing: -0.01em;
+}
+.eq-display em{ font-style: italic; color: var(--blue-500); }

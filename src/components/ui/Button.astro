@@ -1,7 +1,7 @@
 ---
 interface Props {
   href?: string;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'invert';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'invert' | 'amber';
   size?: 'sm' | 'md' | 'lg';
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
@@ -51,82 +51,120 @@ const cls = [
     justify-content: center;
     gap: var(--sp-2);
     font-family: var(--font-body);
-    font-weight: var(--fw-semibold);
+    font-weight: var(--fw-bold);
     line-height: 1;
     text-decoration: none;
+    border: 0;
     border-radius: var(--radius-pill);
-    transition: background-color var(--dur-2) var(--ease-out),
-                color var(--dur-2) var(--ease-out),
-                border-color var(--dur-2) var(--ease-out),
-                transform var(--dur-1) var(--ease-out),
-                box-shadow var(--dur-2) var(--ease-out);
-    border: 1px solid transparent;
+    cursor: pointer;
     text-align: center;
+    transition: transform var(--dur-btn) var(--ease),
+                box-shadow var(--dur-btn) var(--ease),
+                background-color var(--dur-btn) var(--ease),
+                color var(--dur-btn) var(--ease);
   }
 
   .btn:active { transform: translateY(1px); }
   .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
-  .btn--sm { padding: 0.55rem 1rem; font-size: var(--fs-sm); }
-  .btn--md { padding: 0.85rem 1.5rem; font-size: var(--fs-base); }
-  .btn--lg { padding: 1.05rem 2rem; font-size: var(--fs-md); }
+  .btn--sm { padding: 10px 18px; font-size: var(--fs-sm); }
+  .btn--md { padding: 15px 28px; font-size: var(--fs-base); }
+  .btn--lg { padding: 17px 32px; font-size: var(--fs-md); }
   .btn--full { width: 100%; }
 
+  /* Primario: azul profundo, sombra navy que pasa a ámbar en hover */
   .btn--primary {
-    background-color: var(--color-azul-deep);
-    color: var(--color-fg-on-deep);
-    box-shadow: var(--shadow-sm);
+    background-color: var(--blue-700);
+    color: var(--cream-text);
+    box-shadow: var(--shadow-btn-hero);
   }
   .btn--primary:hover {
-    background-color: var(--color-azul-deep-700);
-    color: var(--color-fg-on-deep);
-    box-shadow: var(--shadow-md);
+    background-color: var(--blue-700-hover);
+    color: var(--cream-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hero-hover);
   }
 
+  /* CTA ámbar (sobre navy) */
+  .btn--amber {
+    background-color: var(--amber-500);
+    color: var(--blue-cta-text);
+    box-shadow: var(--shadow-cta-amber);
+  }
+  .btn--amber.btn--md { padding: 16px 30px; }
+  .btn--amber:hover {
+    background-color: var(--amber-600);
+    color: var(--blue-cta-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-cta-amber-hover);
+  }
+
+  /* CTA crema (alternativo sobre navy) */
+  .btn--invert {
+    background-color: var(--cream-text);
+    color: var(--blue-cta-text);
+    box-shadow: var(--shadow-cta-cream);
+  }
+  .btn--invert:hover {
+    background-color: var(--cream-text);
+    color: var(--blue-cta-text);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-cta-amber-hover);
+  }
+
+  /* Secundario: enlace-botón subrayado que se rellena de ámbar en hover */
   .btn--secondary {
     background-color: transparent;
-    color: var(--color-azul-deep);
-    border-color: var(--color-azul-deep);
+    color: var(--ink);
+    font-weight: var(--fw-semibold);
+    box-shadow: none;
+    text-decoration: underline;
+    text-decoration-color: var(--ochre-500);
+    text-underline-offset: 4px;
   }
+  .btn--secondary.btn--md { padding: 15px 22px; }
   .btn--secondary:hover {
-    background-color: var(--color-azul-deep);
-    color: var(--color-fg-on-deep);
+    background-color: var(--amber-500);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7);
+    transform: translateY(-2px);
   }
 
+  /* Ghost: enlace de texto con subrayado ámbar */
   .btn--ghost {
     background-color: transparent;
-    color: var(--color-azul-deep);
+    color: var(--blue-700);
+    font-weight: var(--fw-semibold);
+    box-shadow: none;
     text-decoration: underline;
-    text-underline-offset: 0.2em;
+    text-decoration-color: var(--amber-500);
+    text-underline-offset: 4px;
     padding-inline: 0;
     border-radius: 0;
   }
-  .btn--ghost:hover { color: var(--color-azul-deep-700); }
+  .btn--ghost:hover { color: var(--ochre-600); }
 
-  .btn--invert {
-    background-color: var(--color-blanco-roto);
-    color: var(--color-azul-deep);
-  }
-  .btn--invert:hover { background-color: var(--color-azul-claro-50); }
-
-  /* Sobre fondos invertidos (hero, bandas CTA), ghost y secondary
-     heredarían azul sobre azul → texto invisible. Variantes claras: */
+  /* Sobre fondos navy (hero oscuro, bandas CTA), ghost y secondary
+     heredarían tinta sobre navy → texto invisible. Variantes claras.
+     OJO: solo .hero--page — el hero de la home es CLARO (crema). */
   :global(.section--invert) .btn--ghost,
-  :global(.hero) .btn--ghost {
-    color: var(--color-azul-claro-200);
+  :global(.hero--page) .btn--ghost {
+    color: var(--slate-text);
   }
   :global(.section--invert) .btn--ghost:hover,
-  :global(.hero) .btn--ghost:hover {
-    color: var(--color-blanco);
+  :global(.hero--page) .btn--ghost:hover {
+    color: var(--amber-400);
   }
   :global(.section--invert) .btn--secondary,
-  :global(.hero) .btn--secondary {
-    color: var(--color-blanco-roto);
-    border-color: var(--color-azul-claro-200);
+  :global(.hero--page) .btn--secondary {
+    color: var(--cream-text);
+    text-decoration-color: var(--amber-500);
   }
   :global(.section--invert) .btn--secondary:hover,
-  :global(.hero) .btn--secondary:hover {
-    background-color: var(--color-blanco-roto);
-    color: var(--color-azul-deep);
+  :global(.hero--page) .btn--secondary:hover {
+    background-color: var(--amber-500);
+    color: #fff;
+    text-decoration: none;
   }
 </style>

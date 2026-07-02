@@ -67,15 +67,14 @@ const isActivePath = (href: string) => {
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background-color: rgba(250, 250, 250, 0.92);
+    background-color: var(--paper-400);
     backdrop-filter: saturate(180%) blur(10px);
     -webkit-backdrop-filter: saturate(180%) blur(10px);
-    border-bottom: 1px solid transparent;
-    transition: border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+    border-bottom: 1px solid rgba(80,70,50,0.1);
+    transition: background-color var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
   }
   .site-header.is-scrolled {
-    border-bottom-color: var(--color-border);
-    background-color: rgba(250, 250, 250, 0.97);
+    background-color: rgba(239,234,224,0.95);
     box-shadow: var(--shadow-sm);
   }
 
@@ -85,7 +84,7 @@ const isActivePath = (href: string) => {
     justify-content: space-between;
     gap: var(--sp-5);
     min-height: var(--header-h);
-    padding-block: var(--sp-3);
+    padding-block: 18px;
   }
 
   .brand {
@@ -107,22 +106,20 @@ const isActivePath = (href: string) => {
     margin: 0; padding: 0;
   }
   .nav__link {
+    font-family: var(--font-body);
     font-size: var(--fs-sm);
     font-weight: var(--fw-medium);
     text-decoration: none;
-    color: var(--color-fg);
+    color: var(--nav-text);
     padding: 0.5rem 0;
-    position: relative;
+    transition: color var(--dur-link) var(--ease);
   }
-  .nav__link:hover { color: var(--color-azul-deep); }
-  .nav__link.is-active { color: var(--color-azul-deep); }
-  .nav__link.is-active::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: -2px;
-    height: 2px;
-    background-color: var(--color-azul-deep);
-    border-radius: 2px;
+  .nav__link:hover { color: var(--ochre-600); }
+  .nav__link.is-active {
+    font-weight: var(--fw-semibold);
+    color: var(--blue-700);
+    border-bottom: 2px solid var(--amber-500);
+    padding-bottom: 3px;
   }
   .nav__cta { margin-left: var(--sp-2); }
 
@@ -141,7 +138,7 @@ const isActivePath = (href: string) => {
   .nav-toggle span {
     width: 22px;
     height: 2px;
-    background-color: var(--color-azul-deep);
+    background-color: var(--blue-700);
     border-radius: 2px;
     transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-1) var(--ease-out);
   }
@@ -150,8 +147,8 @@ const isActivePath = (href: string) => {
   .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   .mobile-nav {
-    border-top: 1px solid var(--color-border);
-    background: var(--color-blanco-roto);
+    border-top: 1px solid var(--paper-line);
+    background: var(--paper-200);
     /* En landscape el panel puede ser más alto que el viewport:
        que scrollee él, no que esconda items */
     max-height: calc(100dvh - var(--header-h));
@@ -170,13 +167,15 @@ const isActivePath = (href: string) => {
     font-size: var(--fs-md);
     font-weight: var(--fw-medium);
     text-decoration: none;
-    color: var(--color-fg);
-    border-bottom: 1px solid var(--color-border);
+    color: var(--nav-text);
+    border-bottom: 1px solid var(--paper-line);
+    transition: color var(--dur-link) var(--ease);
   }
+  .mobile-nav__link:hover { color: var(--ochre-600); }
   .mobile-nav__link.is-active {
-    color: var(--color-azul-deep);
+    color: var(--blue-700);
     font-weight: var(--fw-semibold);
-    box-shadow: inset 3px 0 0 var(--color-azul-deep);
+    box-shadow: inset 3px 0 0 var(--amber-500);
     padding-left: var(--sp-3);
   }
   .mobile-nav__cta { padding-top: var(--sp-4); }

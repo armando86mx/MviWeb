@@ -38,23 +38,25 @@ const { items, invert = false } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     gap: var(--sp-2);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
   }
   .crumbs li { display: inline-flex; align-items: center; gap: var(--sp-2); }
   .crumbs a {
-    color: var(--color-fg-muted);
+    color: var(--ink-muted);
     text-decoration: none;
     padding-block: var(--sp-1);
+    transition: color var(--dur-link) var(--ease);
   }
-  .crumbs a:hover { color: var(--color-azul-deep); text-decoration: underline; }
-  .crumbs [aria-current="page"] { color: var(--color-fg); }
-  .crumbs__sep { color: var(--color-fg-muted); }
+  .crumbs a:hover { color: var(--ochre-600); text-decoration: none; }
+  .crumbs [aria-current="page"] { color: var(--ink); }
+  .crumbs__sep { color: var(--paper-line-2); }
 
-  .crumbs--invert a { color: var(--color-azul-claro-200); }
-  .crumbs--invert a:hover { color: var(--color-blanco); }
-  .crumbs--invert [aria-current="page"] { color: var(--color-blanco); }
-  .crumbs--invert .crumbs__sep { color: var(--color-azul-claro-200); }
+  .crumbs--invert a { color: var(--slate-text); }
+  .crumbs--invert a:hover { color: var(--amber-400); }
+  .crumbs--invert [aria-current="page"] { color: var(--amber-400); }
+  .crumbs--invert .crumbs__sep { color: var(--slate-text); }
 </style>

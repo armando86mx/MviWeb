@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#E7DCC9;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  ::selection{background:#BF5A36;color:#FBF3E6;}
+</style>
+</helmet>
+
+<div style="width:100%;min-height:100%;background:radial-gradient(120% 70% at 80% -5%, #EFE6D6 0%, #E7DCC9 55%);display:flex;justify-content:center;padding:60px 40px 80px;font-family:'Hanken Grotesk',sans-serif;">
+<div style="width:1200px;max-width:1200px;">
+
+  <!-- ===== INTRO ===== -->
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px;">
+    <span style="width:8px;height:8px;border-radius:50%;background:#BF5A36;"></span>
+    <span style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#9A8A72;text-transform:uppercase;">Dirección de marca</span>
+    <span style="font-size:12.5px;color:#A8987F;">· basado en tu manual de identidad y el sitio en construcción</span>
+  </div>
+
+  <h1 style="font-family:'Newsreader',serif;font-weight:500;font-size:48px;line-height:1.05;letter-spacing:-0.01em;color:#2B2018;margin:0 0 20px;max-width:880px;">Calidez familiar, sin perder la marca.</h1>
+
+  <p style="font-size:18.5px;line-height:1.6;color:rgba(43,32,24,0.74);margin:0 0 34px;max-width:780px;">El sistema actual es claro y ordenado, pero se siente frío. La pregunta no es <em style="font-style:italic;color:#BF5A36;">si</em> entibiarlo, sino <em style="font-style:italic;color:#BF5A36;">cuánto</em>. Aquí está tu portada en tres temperaturas: como está hoy, y dos rutas hacia una mesa en casa — una mantiene el azul al mando; la otra deja liderar a los cálidos.</p>
+
+  <!-- temperature dial -->
+  <div style="padding:22px 26px;background:rgba(255,250,240,0.55);border:1px solid #E2D3BA;border-radius:14px;margin-bottom:54px;">
+    <div style="font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:0.18em;color:#9A8A72;text-transform:uppercase;margin-bottom:18px;">El termómetro de marca</div>
+    <div style="height:4px;border-radius:2px;background:linear-gradient(90deg,#16317E 0%,#2C4474 26%,#7E7560 56%,#BF5A36 100%);margin-bottom:20px;"></div>
+    <div style="display:flex;">
+      <div style="flex:1;padding-right:24px;">
+        <div style="display:flex;gap:6px;margin-bottom:11px;">
+          <span style="width:24px;height:24px;border-radius:6px;background:#16317E;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08);"></span>
+          <span style="width:24px;height:24px;border-radius:6px;background:#0B0B0C;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08);"></span>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:#2B2018;margin-bottom:4px;">Hoy</div>
+        <div style="font-size:12.5px;line-height:1.4;color:rgba(43,32,24,0.6);">Azul frío sobre negro. Ordenado, pero distante.</div>
+      </div>
+      <div style="flex:1;padding:0 24px;border-left:1px solid #E2D3BA;">
+        <div style="display:flex;gap:6px;margin-bottom:11px;">
+          <span style="width:24px;height:24px;border-radius:6px;background:#25386A;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);"></span>
+          <span style="width:24px;height:24px;border-radius:6px;background:#DFA24E;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);"></span>
+          <span style="width:24px;height:24px;border-radius:6px;background:#EFEAE0;box-shadow:inset 0 0 0 1px rgba(120,90,50,0.18);"></span>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:#2B2018;margin-bottom:4px;">Equilibrio <span style="color:#25386A;">· Opción A</span></div>
+        <div style="font-size:12.5px;line-height:1.4;color:rgba(43,32,24,0.6);">El azul sigue al mando, más cálido. Entra el ámbar y la luz.</div>
+      </div>
+      <div style="flex:1;padding-left:24px;border-left:1px solid #E2D3BA;">
+        <div style="display:flex;gap:6px;margin-bottom:11px;">
+          <span style="width:24px;height:24px;border-radius:6px;background:#BF5A36;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);"></span>
+          <span style="width:24px;height:24px;border-radius:6px;background:#2A1F16;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);"></span>
+          <span style="width:24px;height:24px;border-radius:6px;background:#1A338F;box-shadow:inset 0 0 0 1px rgba(0,0,0,0.06);"></span>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:#2B2018;margin-bottom:4px;">Calidez plena <span style="color:#BF5A36;">· Opción B</span></div>
+        <div style="font-size:12.5px;line-height:1.4;color:rgba(43,32,24,0.6);">Los cálidos lideran; el azul queda de acento.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ANTES ===== -->
+  <sc-if value="{{ showBefore }}" hint-placeholder-val="{{ true }}">
+  <div style="margin-bottom:56px;">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:16px;">
+      <span style="font-family:'Space Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#5E6B86;background:#DEE2EA;padding:5px 11px;border-radius:6px;">ANTES</span>
+      <span style="font-size:16px;font-weight:600;color:#2B2018;">El sitio hoy — claro, pero frío</span>
+    </div>
+
+    <!-- browser frame: BEFORE -->
+    <div style="width:100%;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 34px 70px -34px rgba(30,40,90,0.45),0 4px 14px -6px rgba(40,28,18,0.18);border:1px solid rgba(60,55,80,0.1);">
+      <sc-if value="{{ frame }}" hint-placeholder-val="{{ true }}">
+      <div style="height:44px;background:#E6E9EF;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid rgba(0,0,0,0.05);">
+        <span style="width:11px;height:11px;border-radius:50%;background:#E0685C;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#E3B24C;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#5CB87E;"></span>
+        <div style="flex:1;display:flex;justify-content:center;">
+          <div style="display:flex;align-items:center;gap:7px;background:#F3F5F8;border:1px solid rgba(0,0,0,0.06);border-radius:8px;padding:5px 16px;min-width:260px;justify-content:center;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#9AA3B5;"></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:#8A93A6;">mviamorygracia.org</span>
+          </div>
+        </div>
+        <span style="width:46px;"></span>
+      </div>
+      </sc-if>
+
+      <!-- nav -->
+      <div style="background:#EEF0F4;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;">
+        <div style="display:flex;align-items:center;gap:11px;">
+          <div style="position:relative;width:46px;height:46px;border-radius:50%;background:#0B0B0C;flex:none;">
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:11px;height:27px;border-radius:6px;background:#fff;"></div>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:25px;height:11px;border-radius:6px;background:#fff;"></div>
+          </div>
+          <div style="line-height:1;">
+            <div style="font-weight:800;font-size:15px;letter-spacing:0.01em;color:#1B2233;">MVI AMOR Y GRACIA</div>
+            <div style="font-weight:600;font-size:8.5px;letter-spacing:0.2em;color:#7A8196;margin-top:4px;">IGLESIA CRISTIANA EVANGÉLICA</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;">
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Nosotros</span>
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Lo que creemos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Reuniones</span>
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Recursos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Blog</span>
+          <span style="font-size:14.5px;font-weight:500;color:#2B3346;">Contacto</span>
+          <span style="background:#2A4BD0;color:#fff;font-size:14.5px;font-weight:600;padding:11px 21px;border-radius:999px;">Visítanos</span>
+        </div>
+      </div>
+
+      <!-- hero (cold) -->
+      <div style="background:radial-gradient(130% 95% at 82% 8%, #2F58C8 0%, #1B3C8C 46%, #15327E 100%);padding:84px 56px 76px;">
+        <div style="max-width:760px;margin:0 auto;">
+          <div style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.12em;color:#93B0FF;margin-bottom:26px;">TIEMPOS DE MESA · JUEVES 7:30 PM</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:58px;line-height:1.0;letter-spacing:-0.01em;color:#fff;margin-bottom:26px;">
+            <span style="display:block;">La mesa está puesta.</span>
+            <span style="display:block;">Ven a sentarte.</span>
+          </div>
+          <p style="font-size:18px;line-height:1.55;color:#B7C6EE;margin:0 0 38px;max-width:560px;">Una noche entre semana alrededor de una mesa: pan partido, la Palabra sin prisa y conversación que no se apura. Así hacemos familia.</p>
+          <div style="display:flex;align-items:center;gap:26px;">
+            <span style="background:linear-gradient(135deg,#AEC4F6,#CBD8F8);color:#15317E;font-size:15.5px;font-weight:700;padding:15px 28px;border-radius:999px;box-shadow:0 16px 34px -14px rgba(15,30,95,0.7);">Te esperamos el jueves</span>
+            <span style="font-size:15.5px;font-weight:600;color:#fff;text-decoration:underline;text-underline-offset:4px;">Cómo llegar →</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- cards band (cold) -->
+      <div style="background:#0E1B52;padding:50px 56px 56px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+        <div style="border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,0.34);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;color:#cfe;margin-bottom:34px;">01</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#fff;margin-bottom:12px;">Pan partido</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#AEC0EA;margin:0;">Comida sencilla compartida. La mesa antes que el escenario.</p>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,0.34);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;color:#cfe;margin-bottom:34px;">02</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#fff;margin-bottom:12px;">Conversación sin prisa</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#AEC0EA;margin:0;">Se lee un pasaje y se conversa. Nadie corre, nadie actúa.</p>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,0.16);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,0.34);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;color:#cfe;margin-bottom:34px;">03</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#fff;margin-bottom:12px;">Oración</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#AEC0EA;margin:0;">Cerramos juntos, en confianza, alrededor de la misma mesa.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;max-width:760px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#5E6B86;margin-top:7px;flex:none;"></span>
+      <p style="font-size:14.5px;line-height:1.5;color:rgba(43,32,24,0.62);margin:0;">Azules saturados sobre negro. Se ve profesional — pero distante. Lee más a empresa de tecnología que a familia reunida.</p>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== OPCIÓN A · EQUILIBRIO ===== -->
+  <sc-if value="{{ showA }}" hint-placeholder-val="{{ true }}">
+  <div style="margin-bottom:56px;">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:16px;">
+      <span style="font-family:'Space Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#EAF0FB;background:#25386A;padding:5px 11px;border-radius:6px;">OPCIÓN A</span>
+      <span style="font-size:16px;font-weight:600;color:#2B2018;">Equilibrio — el azul sigue al mando, el ambiente se entibia</span>
+    </div>
+
+    <div style="position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F4EFE6;box-shadow:0 38px 78px -34px rgba(40,55,110,0.42),0 6px 18px -8px rgba(50,45,30,0.2);border:1px solid rgba(80,75,60,0.12);">
+      <sc-if value="{{ frame }}" hint-placeholder-val="{{ true }}">
+      <div style="height:44px;background:#E9E2D4;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid rgba(80,70,50,0.1);">
+        <span style="width:11px;height:11px;border-radius:50%;background:#D8755A;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#E0A24E;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#6E8DB0;"></span>
+        <div style="flex:1;display:flex;justify-content:center;">
+          <div style="display:flex;align-items:center;gap:7px;background:#F3EDE1;border:1px solid rgba(80,70,50,0.12);border-radius:8px;padding:5px 16px;min-width:260px;justify-content:center;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#6E8DB0;"></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:#9A8C72;">mviamorygracia.org</span>
+          </div>
+        </div>
+        <span style="width:46px;"></span>
+      </div>
+      </sc-if>
+
+      <div style="background:#EFEAE0;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid rgba(80,70,50,0.08);">
+        <div style="display:flex;align-items:center;gap:11px;">
+          <div style="position:relative;width:46px;height:46px;border-radius:50%;background:#0B0B0C;flex:none;">
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:11px;height:27px;border-radius:6px;background:#fff;"></div>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:25px;height:11px;border-radius:6px;background:#fff;"></div>
+          </div>
+          <div style="line-height:1;">
+            <div style="font-weight:800;font-size:15px;letter-spacing:0.01em;color:#20242e;">MVI AMOR Y GRACIA</div>
+            <div style="font-weight:600;font-size:8.5px;letter-spacing:0.2em;color:#7E7A6E;margin-top:4px;">IGLESIA CRISTIANA EVANGÉLICA</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;">
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Nosotros</span>
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Lo que creemos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Reuniones</span>
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Recursos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Blog</span>
+          <span style="font-size:14.5px;font-weight:500;color:#3C382F;">Contacto</span>
+          <span style="position:relative;display:inline-flex;">
+            <span style="background:#25386A;color:#fff;font-size:14.5px;font-weight:600;padding:11px 21px;border-radius:999px;">Visítanos</span>
+            <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+            <span style="position:absolute;top:calc(100% + 13px);right:0;display:inline-flex;align-items:center;gap:8px;background:#1E2C52;color:#EAF0FB;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(20,30,70,0.6);white-space:nowrap;z-index:7;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#6699FF;flex:none;"></span>El azul, más profundo y cálido
+            </span>
+            </sc-if>
+          </span>
+        </div>
+      </div>
+
+      <div style="position:relative;background:radial-gradient(120% 85% at 90% 10%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%), #F4EFE6;padding:60px 56px 64px;display:flex;align-items:center;gap:50px;">
+        <div style="flex:1.08;">
+          <div style="position:relative;display:inline-flex;align-items:center;gap:9px;margin-bottom:24px;">
+            <span style="width:22px;height:1.5px;background:#C98A33;"></span>
+            <span style="font-weight:700;font-size:12.5px;letter-spacing:0.16em;text-transform:uppercase;color:#B07A2E;">Tiempos de mesa · Jueves 7:30 pm</span>
+            <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+            <span style="position:absolute;bottom:calc(100% + 11px);left:0;display:inline-flex;align-items:center;gap:8px;background:#1E2C52;color:#EAF0FB;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(20,30,70,0.6);white-space:nowrap;z-index:7;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#DFA24E;flex:none;"></span>El ámbar entra como calidez
+            </span>
+            </sc-if>
+          </div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:52px;line-height:1.02;letter-spacing:-0.01em;color:#25386A;margin-bottom:24px;">
+            <span style="display:block;">La mesa está puesta.</span>
+            <span style="display:block;font-style:italic;color:#3A548C;">Ven a sentarte.</span>
+          </div>
+          <p style="font-size:18px;line-height:1.6;color:rgba(40,38,32,0.74);margin:0 0 34px;max-width:470px;">Una noche entre semana alrededor de una mesa: pan partido, la Palabra sin prisa y conversación que no se apura. Así hacemos familia.</p>
+          <div style="display:flex;align-items:center;gap:26px;">
+            <span style="background:#25386A;color:#F4ECDD;font-size:15.5px;font-weight:700;padding:15px 28px;border-radius:999px;box-shadow:0 16px 32px -12px rgba(30,44,90,0.55);transition:transform .18s ease,box-shadow .18s ease,background .18s ease;cursor:pointer;white-space:nowrap;flex:none;" style-hover="background:#2B4079;box-shadow:0 18px 40px -12px rgba(223,162,78,0.62);transform:translateY(-2px);">Te esperamos el jueves</span>
+            <span style="font-size:15.5px;font-weight:600;color:#2B2620;text-decoration:underline;text-decoration-color:#C98A33;text-underline-offset:4px;padding:15px 22px;border-radius:999px;transition:background .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;cursor:pointer;white-space:nowrap;flex:none;" style-hover="background:#DFA24E;color:#FFFFFF;text-decoration:none;box-shadow:0 16px 32px -14px rgba(223,162,78,0.7);transform:translateY(-2px);">Cómo llegar →</span>
+          </div>
+        </div>
+        <div style="flex:0.92;position:relative;height:420px;border-radius:20px;background:repeating-linear-gradient(45deg,#E4DBC6 0 15px,#DCD1B8 15px 30px);box-shadow:inset 0 0 0 1px rgba(80,75,55,0.18),0 20px 40px -22px rgba(50,55,90,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 40%, rgba(255,248,233,0.5), rgba(255,248,233,0) 70%);"></div>
+          <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+          <span style="position:absolute;top:18px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:#1E2C52;color:#EAF0FB;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(20,30,70,0.6);white-space:nowrap;z-index:7;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#DFA24E;flex:none;"></span>Rostros reales = calidez
+          </span>
+          </sc-if>
+          <div style="position:relative;text-align:center;padding:0 24px;">
+            <div style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.14em;color:#8C7B58;margin-bottom:10px;">▦ FOTO</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;color:rgba(90,80,55,0.72);max-width:230px;">mesa compartida · rostros<br>de la comunidad · luz de tarde</div>
+          </div>
+          <div style="position:absolute;bottom:14px;right:16px;font-family:'Space Mono',monospace;font-size:10.5px;color:rgba(90,80,55,0.5);">1600 × 1200</div>
+        </div>
+      </div>
+
+      <div style="background:#1E2C52;padding:50px 56px 56px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+        <div style="border:1.5px solid rgba(223,162,78,0.72);background:rgba(220,230,255,0.04);border-radius:16px;padding:28px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;cursor:default;" style-hover="border-color:rgba(223,162,78,0.9);box-shadow:0 18px 42px -16px rgba(223,162,78,0.5);transform:translateY(-4px);">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #DFA24E;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E7B870;margin-bottom:34px;">01</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F2ECDD;margin-bottom:12px;">Pan partido</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#C3CADB;margin:0;">Comida sencilla compartida. La mesa antes que el escenario.</p>
+        </div>
+        <div style="border:1.5px solid rgba(223,162,78,0.72);background:rgba(220,230,255,0.04);border-radius:16px;padding:28px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;cursor:default;" style-hover="border-color:rgba(223,162,78,0.9);box-shadow:0 18px 42px -16px rgba(223,162,78,0.5);transform:translateY(-4px);">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #DFA24E;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E7B870;margin-bottom:34px;">02</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F2ECDD;margin-bottom:12px;">Conversación sin prisa</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#C3CADB;margin:0;">Se lee un pasaje y se conversa. Nadie corre, nadie actúa.</p>
+        </div>
+        <div style="border:1.5px solid rgba(223,162,78,0.72);background:rgba(220,230,255,0.04);border-radius:16px;padding:28px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;cursor:default;" style-hover="border-color:rgba(223,162,78,0.9);box-shadow:0 18px 42px -16px rgba(223,162,78,0.5);transform:translateY(-4px);">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #DFA24E;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E7B870;margin-bottom:34px;">03</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F2ECDD;margin-bottom:12px;">Oración</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#C3CADB;margin:0;">Cerramos juntos, en confianza, alrededor de la misma mesa.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;max-width:820px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#25386A;margin-top:7px;flex:none;"></span>
+      <p style="font-size:14.5px;line-height:1.5;color:rgba(43,32,24,0.7);margin:0;">El azul sigue siendo el color principal — solo más <strong style="color:#25386A;">profundo y suave</strong>, sobre papel cálido. El ámbar y la luz de tarde hacen el resto. Es el paso más cercano a tu sitio actual.</p>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== OPCIÓN B · CALIDEZ PLENA ===== -->
+  <sc-if value="{{ showB }}" hint-placeholder-val="{{ true }}">
+  <div style="margin-bottom:56px;">
+    <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:16px;">
+      <span style="font-family:'Space Mono',monospace;font-size:11.5px;font-weight:700;letter-spacing:0.16em;color:#FBF3E6;background:#BF5A36;padding:5px 11px;border-radius:6px;">OPCIÓN B</span>
+      <span style="font-size:16px;font-weight:600;color:#2B2018;">Calidez plena — los cálidos lideran, el azul de acento</span>
+    </div>
+
+    <!-- browser frame: AFTER -->
+    <div style="position:relative;width:100%;border-radius:16px;overflow:hidden;background:#F7F0E4;box-shadow:0 40px 80px -34px rgba(120,70,40,0.5),0 6px 18px -8px rgba(80,50,25,0.22);border:1px solid rgba(120,90,55,0.14);">
+      <sc-if value="{{ frame }}" hint-placeholder-val="{{ true }}">
+      <div style="height:44px;background:#ECE1CF;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid rgba(120,90,55,0.12);">
+        <span style="width:11px;height:11px;border-radius:50%;background:#D8755A;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#E0A24E;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#7FA96B;"></span>
+        <div style="flex:1;display:flex;justify-content:center;">
+          <div style="display:flex;align-items:center;gap:7px;background:#F6EEE0;border:1px solid rgba(120,90,55,0.14);border-radius:8px;padding:5px 16px;min-width:260px;justify-content:center;">
+            <span style="width:6px;height:6px;border-radius:50%;background:#7FA96B;"></span>
+            <span style="font-family:'Space Mono',monospace;font-size:12px;color:#A48C6E;">mviamorygracia.org</span>
+          </div>
+        </div>
+        <span style="width:46px;"></span>
+      </div>
+      </sc-if>
+
+      <!-- nav (warm) -->
+      <div style="background:#F4EAD8;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-bottom:1px solid rgba(120,90,55,0.08);">
+        <div style="display:flex;align-items:center;gap:11px;">
+          <div style="position:relative;width:46px;height:46px;border-radius:50%;background:#0B0B0C;flex:none;">
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:11px;height:27px;border-radius:6px;background:#fff;"></div>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:25px;height:11px;border-radius:6px;background:#fff;"></div>
+          </div>
+          <div style="line-height:1;">
+            <div style="font-weight:800;font-size:15px;letter-spacing:0.01em;color:#231a12;">MVI AMOR Y GRACIA</div>
+            <div style="font-weight:600;font-size:8.5px;letter-spacing:0.2em;color:#8A7A64;margin-top:4px;">IGLESIA CRISTIANA EVANGÉLICA</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:24px;">
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Nosotros</span>
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Lo que creemos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Reuniones</span>
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Recursos</span>
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Blog</span>
+          <span style="font-size:14.5px;font-weight:500;color:#4A3D2E;">Contacto</span>
+          <span style="position:relative;display:inline-flex;">
+            <span style="background:#1A338F;color:#fff;font-size:14.5px;font-weight:600;padding:11px 21px;border-radius:999px;">Visítanos</span>
+            <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+            <span style="position:absolute;top:calc(100% + 13px);right:0;display:inline-flex;align-items:center;gap:8px;background:#2A1F16;color:#F4E9D8;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(40,25,12,0.7);white-space:nowrap;z-index:7;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#6699FF;flex:none;"></span>El azul vuelve aquí — como acento
+            </span>
+            </sc-if>
+          </span>
+        </div>
+      </div>
+
+      <!-- hero (warm, two-column) -->
+      <div style="position:relative;background:radial-gradient(115% 80% at 88% 12%, rgba(222,154,76,0.20) 0%, rgba(222,154,76,0) 58%), #F7F0E4;padding:60px 56px 64px;display:flex;align-items:center;gap:50px;">
+        <div style="flex:1.08;">
+          <div style="position:relative;display:inline-flex;align-items:center;gap:9px;margin-bottom:24px;">
+            <span style="width:22px;height:1.5px;background:#BF5A36;"></span>
+            <span style="font-weight:700;font-size:12.5px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;">Tiempos de mesa · Jueves 7:30 pm</span>
+            <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+            <span style="position:absolute;bottom:calc(100% + 11px);left:0;display:inline-flex;align-items:center;gap:8px;background:#2A1F16;color:#F4E9D8;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(40,25,12,0.7);white-space:nowrap;z-index:7;">
+              <span style="width:8px;height:8px;border-radius:50%;background:#E0A24E;flex:none;"></span>Etiqueta humana, no monoespaciada
+            </span>
+            </sc-if>
+          </div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:52px;line-height:1.02;letter-spacing:-0.01em;color:#2B2018;margin-bottom:24px;">
+            <span style="display:block;">La mesa está puesta.</span>
+            <span style="display:block;font-style:italic;color:#9A4A2C;">Ven a sentarte.</span>
+          </div>
+          <p style="font-size:18px;line-height:1.6;color:rgba(43,32,24,0.72);margin:0 0 34px;max-width:470px;">Una noche entre semana alrededor de una mesa: pan partido, la Palabra sin prisa y conversación que no se apura. Así hacemos familia.</p>
+          <div style="display:flex;align-items:center;gap:26px;">
+            <span style="background:linear-gradient(135deg,#C25E37,#DE9A4C);color:#2A170D;font-size:15.5px;font-weight:700;padding:15px 28px;border-radius:999px;box-shadow:0 16px 32px -12px rgba(165,74,44,0.6);">Te esperamos el jueves</span>
+            <span style="font-size:15.5px;font-weight:600;color:#2B2018;text-decoration:underline;text-decoration-color:#C9A06A;text-underline-offset:4px;">Cómo llegar →</span>
+          </div>
+        </div>
+        <!-- photo placeholder -->
+        <div style="flex:0.92;position:relative;height:420px;border-radius:20px;background:repeating-linear-gradient(45deg,#E8D8BC 0 15px,#E1CEAE 15px 30px);box-shadow:inset 0 0 0 1px rgba(120,90,50,0.18),0 20px 40px -22px rgba(120,70,40,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+          <div style="position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 40%, rgba(255,244,228,0.5), rgba(255,244,228,0) 70%);"></div>
+          <sc-if value="{{ showNotes }}" hint-placeholder-val="{{ true }}">
+          <span style="position:absolute;top:18px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;background:#2A1F16;color:#F4E9D8;font-weight:600;font-size:11.5px;padding:7px 12px;border-radius:999px;box-shadow:0 14px 28px -10px rgba(40,25,12,0.7);white-space:nowrap;z-index:7;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#C9663B;flex:none;"></span>Rostros reales = calidez
+          </span>
+          </sc-if>
+          <div style="position:relative;text-align:center;padding:0 24px;">
+            <div style="font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.14em;color:#9A7B4E;margin-bottom:10px;">▦ FOTO</div>
+            <div style="font-family:'Space Mono',monospace;font-size:12px;line-height:1.6;color:rgba(120,90,50,0.72);max-width:230px;">mesa compartida · rostros<br>de la comunidad · luz de tarde</div>
+          </div>
+          <div style="position:absolute;bottom:14px;right:16px;font-family:'Space Mono',monospace;font-size:10.5px;color:rgba(120,90,50,0.5);">1600 × 1200</div>
+        </div>
+      </div>
+
+      <!-- cards band (warm espresso) -->
+      <div style="background:#2A1F16;padding:50px 56px 56px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+        <div style="border:1px solid rgba(255,238,220,0.14);background:rgba(255,246,233,0.035);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #C9663B;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E0A24E;margin-bottom:34px;">01</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F7F0E4;margin-bottom:12px;">Pan partido</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#CDBFAC;margin:0;">Comida sencilla compartida. La mesa antes que el escenario.</p>
+        </div>
+        <div style="border:1px solid rgba(255,238,220,0.14);background:rgba(255,246,233,0.035);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #C9663B;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E0A24E;margin-bottom:34px;">02</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F7F0E4;margin-bottom:12px;">Conversación sin prisa</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#CDBFAC;margin:0;">Se lee un pasaje y se conversa. Nadie corre, nadie actúa.</p>
+        </div>
+        <div style="border:1px solid rgba(255,238,220,0.14);background:rgba(255,246,233,0.035);border-radius:16px;padding:28px;">
+          <div style="width:42px;height:42px;border-radius:50%;border:1.5px solid #C9663B;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#E0A24E;margin-bottom:34px;">03</div>
+          <div style="font-family:'Newsreader',serif;font-weight:500;font-size:24px;color:#F7F0E4;margin-bottom:12px;">Oración</div>
+          <p style="font-size:14.5px;line-height:1.5;color:#CDBFAC;margin:0;">Cerramos juntos, en confianza, alrededor de la misma mesa.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-top:16px;max-width:820px;">
+      <span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:7px;flex:none;"></span>
+      <p style="font-size:14.5px;line-height:1.5;color:rgba(43,32,24,0.7);margin:0;">Crema cálida, luz de tarde y una mesa real. El azul de marca regresa como <strong style="color:#2B2018;">acento</strong> — en el botón <em style="font-style:normal;color:#1A338F;font-weight:600;">Visítanos</em> y los detalles. Mismo logo. Mismas palabras.</p>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===== QUÉ CAMBIÓ ===== -->
+  <div style="margin-top:72px;">
+    <div style="font-family:'Space Mono',monospace;font-size:11.5px;letter-spacing:0.16em;color:#9A8A72;text-transform:uppercase;margin-bottom:8px;">El cambio en 5 movimientos</div>
+    <h2 style="font-family:'Newsreader',serif;font-weight:500;font-size:30px;color:#2B2018;margin:0 0 10px;">Qué cambió — y por qué se siente distinto</h2>
+    <p style="font-size:15px;line-height:1.5;color:rgba(43,32,24,0.66);margin:0 0 30px;max-width:700px;">Ambas opciones usan las mismas cinco palancas; lo que cambia es la <strong style="color:#2B2018;">intensidad</strong>. La columna derecha muestra el extremo cálido (Opción B); Equilibrio (A) aplica cada movimiento con más mesura.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px;">
+      <div style="border-top:2px solid #D9C9AE;padding-top:16px;">
+        <div style="font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;margin-bottom:14px;">Color</div>
+        <div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:10px;"><span style="width:7px;height:7px;border-radius:50%;background:#8AA0D0;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;color:#9A8C78;line-height:1.4;">Azul saturado sobre negro</span></div>
+        <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;font-weight:600;color:#2B2018;line-height:1.4;">Crema y terracota; azul de acento</span></div>
+      </div>
+      <div style="border-top:2px solid #D9C9AE;padding-top:16px;">
+        <div style="font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;margin-bottom:14px;">Luz y fondo</div>
+        <div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:10px;"><span style="width:7px;height:7px;border-radius:50%;background:#8AA0D0;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;color:#9A8C78;line-height:1.4;">Degradados fríos, bloques oscuros</span></div>
+        <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;font-weight:600;color:#2B2018;line-height:1.4;">Papel cálido, luz de tarde</span></div>
+      </div>
+      <div style="border-top:2px solid #D9C9AE;padding-top:16px;">
+        <div style="font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;margin-bottom:14px;">Fotografía</div>
+        <div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:10px;"><span style="width:7px;height:7px;border-radius:50%;background:#8AA0D0;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;color:#9A8C78;line-height:1.4;">Sin rostros</span></div>
+        <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;font-weight:600;color:#2B2018;line-height:1.4;">Una mesa real, gente compartiendo</span></div>
+      </div>
+      <div style="border-top:2px solid #D9C9AE;padding-top:16px;">
+        <div style="font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;margin-bottom:14px;">Tipografía</div>
+        <div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:10px;"><span style="width:7px;height:7px;border-radius:50%;background:#8AA0D0;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;color:#9A8C78;line-height:1.4;">Etiquetas monoespaciadas, técnicas</span></div>
+        <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;font-weight:600;color:#2B2018;line-height:1.4;">Misma serif + etiquetas humanas</span></div>
+      </div>
+      <div style="border-top:2px solid #D9C9AE;padding-top:16px;">
+        <div style="font-weight:600;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#BF5A36;margin-bottom:14px;">Forma</div>
+        <div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:10px;"><span style="width:7px;height:7px;border-radius:50%;background:#8AA0D0;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;color:#9A8C78;line-height:1.4;">Bordes y esquinas duros</span></div>
+        <div style="display:flex;gap:7px;align-items:flex-start;"><span style="width:7px;height:7px;border-radius:50%;background:#BF5A36;margin-top:5px;flex:none;"></span><span style="font-size:13.5px;font-weight:600;color:#2B2018;line-height:1.4;">Curvas suaves, más aire</span></div>
+      </div>
+    </div>
+
+    <!-- reassurance -->
+    <div style="margin-top:40px;display:flex;justify-content:center;align-items:center;gap:22px;flex-wrap:wrap;padding:18px 28px;background:rgba(255,250,240,0.6);border:1px solid #E2D3BA;border-radius:14px;">
+      <span style="font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#8A7C68;">Intacto</span>
+      <span style="display:flex;align-items:center;gap:9px;font-size:14.5px;color:#2B2018;"><span style="width:7px;height:7px;border-radius:50%;background:#2B2018;"></span>El logotipo</span>
+      <span style="display:flex;align-items:center;gap:9px;font-size:14.5px;color:#2B2018;"><span style="width:7px;height:7px;border-radius:50%;background:#2B2018;"></span>El nombre y el lema</span>
+      <span style="display:flex;align-items:center;gap:9px;font-size:14.5px;color:#2B2018;"><span style="width:7px;height:7px;border-radius:50%;background:#2B2018;"></span>Cada palabra del texto</span>
+      <span style="display:flex;align-items:center;gap:9px;font-size:14.5px;color:#2B2018;"><span style="width:7px;height:7px;border-radius:50%;background:#1A338F;"></span>El azul, como acento</span>
+    </div>
+  </div>
+
+  <!-- ===== CIERRE ===== -->
+  <div style="text-align:center;margin-top:66px;">
+    <div style="font-family:'Newsreader',serif;font-style:italic;font-weight:500;font-size:30px;color:#2B2018;">La marca no se reemplaza. Se entibia.</div>
+    <div style="width:54px;height:3px;border-radius:2px;background:#BF5A36;margin:18px auto 0;"></div>
+  </div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;viewMode&quot;: {&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Las tres&quot;,&quot;options&quot;:[&quot;Las tres&quot;,&quot;Solo Equilibrio (A)&quot;,&quot;Solo Calidez plena (B)&quot;],&quot;tsType&quot;:&quot;string&quot;},
+  &quot;showNotes&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},
+  &quot;frame&quot;: {&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const vm = this.props.viewMode ?? 'Las tres';
+    return {
+      showBefore: true,
+      showA: vm !== 'Solo Calidez plena (B)',
+      showB: vm !== 'Solo Equilibrio (A)',
+      showNotes: this.props.showNotes ?? true,
+      frame: this.props.frame ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>

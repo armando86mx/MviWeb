@@ -132,9 +132,9 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
   .quote-pastoral {
     font-family: var(--font-display);
     font-style: italic;
-    font-size: var(--fs-2xl);
+    font-size: var(--fs-quote);
     line-height: var(--lh-snug);
-    color: var(--color-azul-deep);
+    color: var(--blue-700);
     text-align: center;
     margin: 0;
     padding: var(--sp-7) 0 0;
@@ -144,17 +144,18 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
   .quote-pastoral cite {
     display: block;
     margin-top: var(--sp-5);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-bold);
     font-size: var(--fs-xs);
     font-style: normal;
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-fg-muted);
+    letter-spacing: 0.18em;
+    color: var(--ochre-600);
   }
 
   .founding { margin: var(--sp-6) 0; }
   .founding__quote {
-    background: linear-gradient(180deg, var(--color-azul-claro-50), var(--color-azul-claro-200));
+    background: var(--paper-300);
     border: 0;
     border-radius: var(--radius-md);
     padding: clamp(1.5rem, 4vw, 2.5rem);
@@ -163,16 +164,17 @@ const description = 'Conoce a MVI Amor y Gracia: una iglesia evangélica fundada
     font-style: italic;
     font-size: var(--fs-lg);
     line-height: var(--lh-snug);
-    color: var(--color-azul-deep-900);
+    color: var(--blue-700);
     text-wrap: pretty;
   }
   .founding figcaption {
     text-align: center;
     margin-top: var(--sp-3);
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: var(--fw-semibold);
     font-size: var(--fs-xs);
     text-transform: uppercase;
-    letter-spacing: var(--tracking-wide);
-    color: var(--color-fg-muted);
+    letter-spacing: 0.16em;
+    color: var(--tan-500);
   }
 </style>

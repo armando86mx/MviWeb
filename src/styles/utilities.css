@@ -1,4 +1,4 @@
-/* Helpers reutilizables */
+/* Helpers reutilizables — sistema "Equilibrio" */
 
 .container {
   width: 100%;
@@ -7,38 +7,64 @@
   padding-inline: var(--container-pad);
 }
 
+.container--cta    { max-width: var(--container-cta); }
 .container--narrow { max-width: var(--container-narrow); }
+.container--creed  { max-width: var(--container-creed); }
 .container--prose  { max-width: var(--container-prose); }
 
+/* Padding de sección del handoff: ~100-104px vertical en desktop */
 .section {
-  padding-block: clamp(3rem, 5vw + 2rem, 6rem);
+  padding-block: clamp(3.5rem, 4vw + 2.5rem, 6.5rem);
 }
 
 .section--tight { padding-block: clamp(2rem, 3vw + 1rem, 3.5rem); }
 
 .section--alt {
-  background-color: var(--color-bg-alt);
+  background-color: var(--paper-300);
 }
 
+/* Sección FAQ (la crema más oscura) */
+.section--faq {
+  background-color: var(--paper-500);
+}
+
+/* Banda oscura: navy cálido con luz de tarde */
 .section--invert {
-  background-color: var(--color-bg-invert);
-  color: var(--color-fg-on-deep);
+  background: var(--warm-cta-dark);
+  color: var(--cream-text);
 }
-.section--invert h1, .section--invert h2, .section--invert h3, .section--invert h4 { color: var(--color-fg-on-deep); }
-.section--invert a { color: var(--color-azul-claro-200); }
+.section--invert h1, .section--invert h2, .section--invert h3, .section--invert h4 { color: var(--cream-text-2); }
+.section--invert p { color: var(--slate-text); }
+.section--invert a { color: var(--slate-text); text-decoration-color: var(--amber-500); }
+.section--invert a:hover { color: var(--amber-500); }
 
+/* Eyebrow: Hanken 700, tracking amplio — ocre sobre crema, ámbar sobre oscuro */
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  letter-spacing: var(--tracking-wide);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--color-azul-deep);
+  color: var(--ochre-600);
   margin-bottom: var(--sp-3);
 }
 
-.section--invert .eyebrow { color: var(--color-azul-claro-200); }
+.section--invert .eyebrow,
+.hero .eyebrow { color: var(--amber-400); }
+
+/* Variante con guion (hero claro de la home) */
+.eyebrow--dash {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow--dash::before {
+  content: "";
+  width: 22px;
+  height: 1.5px;
+  background: var(--ochre-500);
+}
 
 /* El eyebrow es inline-block; como bloque centrado necesita esta variante */
 .eyebrow--block { display: block; }
@@ -46,11 +72,12 @@
 .lead {
   font-size: var(--fs-md);
   line-height: var(--lh-relaxed);
-  color: var(--color-fg);
+  color: var(--ink-body);
   max-width: 60ch;
 }
+.section--invert .lead { color: var(--slate-text); }
 
-.muted { color: var(--color-fg-muted); }
+.muted { color: var(--ink-muted); }
 
 .sr-only {
   position: absolute;
@@ -65,13 +92,13 @@
   top: -100px;
   left: var(--sp-4);
   z-index: calc(var(--z-header) + 10);
-  background: var(--color-azul-deep);
-  color: var(--color-fg-on-deep);
+  background: var(--blue-700);
+  color: var(--cream-text);
   padding: var(--sp-3) var(--sp-5);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   text-decoration: none;
   font-weight: var(--fw-semibold);
-  transition: top var(--dur-2) var(--ease-out);
+  transition: top var(--dur-2) var(--ease);
 }
 .skip-link:focus { top: var(--sp-4); }
 
@@ -108,7 +135,7 @@
 .mt-9 { margin-top: var(--sp-9); }
 
 /* Cuando la página termina con una banda azul, el footer (azul) va pegado:
-   evita el sándwich azul–blanco–azul del margen global del footer */
+   evita el sándwich azul–crema–azul del margen global del footer */
 main:has(> .section--invert:last-child) + .site-footer {
   margin-top: 0;
 }
