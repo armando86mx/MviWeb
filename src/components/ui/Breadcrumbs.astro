@@ -10,12 +10,10 @@ interface Crumb {
 }
 interface Props {
   items: Crumb[];
-  /** En héroes azules usar la variante invertida */
-  invert?: boolean;
 }
-const { items, invert = false } = Astro.props;
+const { items } = Astro.props;
 ---
-<nav class={`crumbs ${invert ? 'crumbs--invert' : ''}`} aria-label="Ubicación en el sitio">
+<nav class="crumbs" aria-label="Ubicación en el sitio">
   <ol>
     {items.map((item, i) => (
       <li>
@@ -54,11 +52,7 @@ const { items, invert = false } = Astro.props;
   .crumbs [aria-current="page"] { color: var(--ink); }
   .crumbs__sep { color: var(--paper-line-2); }
 
-  .crumbs--invert a { color: var(--slate-text); }
   @media (hover: hover) and (pointer: fine) {
     .crumbs a:hover { color: var(--ochre-700); text-decoration: none; }
-    .crumbs--invert a:hover { color: var(--amber-400); }
   }
-  .crumbs--invert [aria-current="page"] { color: var(--amber-400); }
-  .crumbs--invert .crumbs__sep { color: var(--slate-text); }
 </style>

@@ -113,25 +113,20 @@
   .grid--3 { grid-template-columns: repeat(3, 1fr); }
 }
 
-.stack > * + * { margin-top: var(--sp-4); }
 .stack-lg > * + * { margin-top: var(--sp-6); }
-.stack-xl > * + * { margin-top: var(--sp-8); }
 
 .text-center { text-align: center; }
 .text-balance { text-wrap: balance; }
 .text-pretty { text-wrap: pretty; }
-.italic { font-style: italic; }
 
 /* Espaciado utilitario (reemplaza estilos inline en páginas) */
 .mx-auto { margin-inline: auto; }
-.mt-2 { margin-top: var(--sp-2); }
 .mt-3 { margin-top: var(--sp-3); }
 .mt-4 { margin-top: var(--sp-4); }
 .mt-5 { margin-top: var(--sp-5); }
 .mt-6 { margin-top: var(--sp-6); }
 .mt-7 { margin-top: var(--sp-7); }
 .mt-8 { margin-top: var(--sp-8); }
-.mt-9 { margin-top: var(--sp-9); }
 
 /* Cuando la página termina con una banda azul, el footer (azul) va pegado:
    evita el sándwich azul–crema–azul del margen global del footer */

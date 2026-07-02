@@ -31,7 +31,7 @@ const schema = {
   publisher: {
     '@type': 'Organization',
     name: SITE.name,
-    logo: { '@type': 'ImageObject', url: `${SITE.url}/favicon.svg` },
+    logo: { '@type': 'ImageObject', url: `${SITE.url}/favicon-512.png` },
   },
   ...(tags && tags.length ? { keywords: tags.join(', ') } : {}),
 };

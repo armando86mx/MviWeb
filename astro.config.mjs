@@ -23,9 +23,13 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      // Fuera del sitemap: rutas técnicas y páginas noindex (podcast/ofrendas
+      // son placeholders "próximamente" — al activarlas, quitarlas de aquí)
       filter: (page) =>
         !page.includes('/api/') &&
-        !page.includes('/404'),
+        !page.includes('/404') &&
+        !page.endsWith('/podcast') && !page.endsWith('/podcast/') &&
+        !page.endsWith('/ofrendas') && !page.endsWith('/ofrendas/'),
       changefreq: 'weekly',
       priority: 0.7,
       i18n: {

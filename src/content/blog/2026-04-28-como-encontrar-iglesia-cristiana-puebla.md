@@ -94,5 +94,5 @@ pregunta, abre la Biblia con ellos, y pídele al Señor que te dé claridad.
 > — *Hebreos 10:25*
 
 Si tras leer esto piensas que Amor y Gracia podría ser para ti, la puerta está abierta.
-Escríbenos por el [formulario de contacto](/contacto), avísanos si vienes el domingo, y te
+Escríbenos desde la [página de contacto](/contacto) — WhatsApp o correo, sin formularios —, avísanos si vienes el domingo, y te
 recibimos personalmente.

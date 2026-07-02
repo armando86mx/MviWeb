@@ -5,10 +5,17 @@ import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import YouTubeEmbed from '@components/youtube/YouTubeEmbed.astro';
 import { SITE } from '@lib/site';
+import { fetchLatestVideos, spotifyEmbedUrl } from '@lib/media';
 
 const title = 'Podcast y prédicas · MVI Amor y Gracia';
-const description = 'Prédicas y enseñanzas de MVI Amor y Gracia. Estudios bíblicos sobre la segunda venida de Cristo, los 5 pilares de la iglesia primitiva, sana doctrina y vida en familia.';
+const description = 'Prédicas y enseñanzas de MVI Amor y Gracia. Estudios bíblicos sobre la segunda venida de Cristo, los 5 pilares de la iglesia primitiva y sana doctrina.';
+
+// La página se enciende (y se vuelve indexable) al configurar SITE.media
+const { youtubeChannel, spotifyShow } = SITE.media;
+const activo = Boolean(youtubeChannel || spotifyShow);
+const videos = await fetchLatestVideos(6);
 
 const podcastSchema = {
   '@context': 'https://schema.org',
@@ -17,12 +24,12 @@ const podcastSchema = {
   description,
   url: `${SITE.url}/podcast`,
   inLanguage: SITE.locale,
-  // webFeed se añadirá cuando exista el feed real del podcast
+  ...(spotifyShow ? { sameAs: [spotifyShow, youtubeChannel].filter(Boolean) } : {}),
   publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
 };
 ---
 
-<BaseLayout title={title} description={description} path="/podcast" noindex>
+<BaseLayout title={title} description={description} path="/podcast" noindex={!activo}>
   <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Podcast', href: '/podcast' }]} />
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(podcastSchema)} />
 
@@ -36,15 +43,40 @@ const podcastSchema = {
     <div class="container container--prose stack-lg">
       <p class="eyebrow">Plataformas</p>
       <h2>Dónde encontrarnos</h2>
-      <p>
-        Estamos preparando el canal de YouTube y el feed del podcast. En cuanto estén
-        activos, los enlaces a YouTube, Spotify y Apple Podcasts aparecerán aquí.
-        Si quieres que te avisemos, <a href="/recursos/descargar">suscríbete al boletín</a>.
-      </p>
-      <ul class="platforms">
-        <li><strong>Blog y estudios escritos:</strong> disponibles ya en <a href="/blog">el blog</a> (<a href="/rss.xml">RSS</a>).</li>
-        <li><strong>Prédicas en persona:</strong> cada domingo 11:00 AM en <a href="/sedes/amozoc">la sede de Amozoc</a>.</li>
-      </ul>
+      {activo ? (
+        <ul class="platforms">
+          {youtubeChannel && (
+            <li><strong>YouTube — prédicas completas:</strong> <a href={youtubeChannel} target="_blank" rel="noopener noreferrer">ver el canal<span class="sr-only"> (se abre en ventana nueva)</span></a>.</li>
+          )}
+          {spotifyShow && (
+            <li><strong>Spotify — el podcast:</strong> <a href={spotifyShow} target="_blank" rel="noopener noreferrer">escuchar el show<span class="sr-only"> (se abre en ventana nueva)</span></a>.</li>
+          )}
+          <li><strong>Blog y estudios escritos:</strong> disponibles en <a href="/blog">el blog</a> (<a href="/rss.xml">RSS</a>).</li>
+          <li><strong>Prédicas en persona:</strong> cada domingo 11:00 AM en <a href="/sedes/amozoc">la sede de Amozoc</a>.</li>
+        </ul>
+      ) : (
+        <>
+          <p>
+            Estamos preparando el canal de YouTube y el feed del podcast. En cuanto estén
+            activos, los enlaces a YouTube, Spotify y Apple Podcasts aparecerán aquí.
+            Si quieres que te avisemos, <a href="/recursos/descargar">suscríbete al boletín</a>.
+          </p>
+          <ul class="platforms">
+            <li><strong>Blog y estudios escritos:</strong> disponibles ya en <a href="/blog">el blog</a> (<a href="/rss.xml">RSS</a>).</li>
+            <li><strong>Prédicas en persona:</strong> cada domingo 11:00 AM en <a href="/sedes/amozoc">la sede de Amozoc</a>.</li>
+          </ul>
+        </>
+      )}
+
+      {spotifyShow && (
+        <iframe
+          class="spotify"
+          src={spotifyEmbedUrl(spotifyShow)}
+          title={`Podcast de ${SITE.name} en Spotify`}
+          loading="lazy"
+          allow="encrypted-media"
+        ></iframe>
+      )}
     </div>
   </section>
 
@@ -53,26 +85,39 @@ const podcastSchema = {
       <header class="block-header">
         <p class="eyebrow">Prédicas recientes</p>
         <h2>Últimas enseñanzas</h2>
-        <p class="lead">Estas son las primeras series que publicaremos. Cuando el canal esté activo, aquí verás las prédicas más recientes.</p>
+        {!activo && (
+          <p class="lead">Estas son las primeras series que publicaremos. Cuando el canal esté activo, aquí verás las prédicas más recientes.</p>
+        )}
       </header>
 
-      <div class="grid grid--3">
-        <Card variant="subtle">
-          <p class="eyebrow">Próximamente</p>
-          <h3>Serie: La novia que espera al novio</h3>
-          <p>Reflexiones sobre la segunda venida de Cristo y la vida de la iglesia hoy.</p>
-        </Card>
-        <Card variant="subtle">
-          <p class="eyebrow">Próximamente</p>
-          <h3>Serie: Hechos 2:42</h3>
-          <p>Estudio expositivo de los 5 pilares de la iglesia primitiva.</p>
-        </Card>
-        <Card variant="subtle">
-          <p class="eyebrow">Próximamente</p>
-          <h3>Serie: Crecer en familia</h3>
-          <p>Enseñanzas para vida en familia desde la perspectiva del evangelio.</p>
-        </Card>
-      </div>
+      {videos.length > 0 ? (
+        <div class="grid grid--3">
+          {videos.map((v) => (
+            <div>
+              <YouTubeEmbed videoId={v.id} title={v.title} />
+              <p class="video-title">{v.title}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="grid grid--3">
+          <Card variant="subtle">
+            <p class="eyebrow">Próximamente</p>
+            <h3>Serie: La novia que espera al novio</h3>
+            <p>Reflexiones sobre la segunda venida de Cristo y la vida de la iglesia hoy.</p>
+          </Card>
+          <Card variant="subtle">
+            <p class="eyebrow">Próximamente</p>
+            <h3>Serie: Hechos 2:42</h3>
+            <p>Estudio expositivo de los 5 pilares de la iglesia primitiva.</p>
+          </Card>
+          <Card variant="subtle">
+            <p class="eyebrow">Próximamente</p>
+            <h3>Serie: Crecer en familia</h3>
+            <p>Enseñanzas para vida en familia desde la perspectiva del evangelio.</p>
+          </Card>
+        </div>
+      )}
     </div>
   </section>
 
@@ -93,4 +138,12 @@ const podcastSchema = {
   }
   .platforms li { padding: var(--sp-3) var(--sp-4); background: var(--paper-300); border-radius: var(--radius-sm); color: var(--ink-body); }
   .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+  .spotify { width: 100%; height: 352px; border: 0; border-radius: var(--radius-md); }
+  .video-title {
+    margin-top: var(--sp-2);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+    line-height: var(--lh-snug);
+  }
 </style>

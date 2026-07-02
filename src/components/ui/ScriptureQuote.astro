@@ -2,17 +2,13 @@
 interface Props {
   text: string;
   reference: string;
-  size?: 'sm' | 'md' | 'lg';
   /** Fondo de la cita: "cream" (marco de líneas de papel) o "navy"
       (panel oscuro con barra ámbar). */
   tone?: 'cream' | 'navy';
-  /** Compat con la API anterior: invert=true equivale a tone="navy". */
-  invert?: boolean;
 }
-const { text, reference, size = 'md', tone, invert = false } = Astro.props;
-const resolvedTone: 'cream' | 'navy' = tone ?? (invert ? 'navy' : 'cream');
+const { text, reference, tone = 'cream' } = Astro.props;
 ---
-<figure class={`quote quote--${size} quote--${resolvedTone}`}>
+<figure class={`quote quote--${tone}`}>
   <blockquote>
     <p>“{text}”</p>
   </blockquote>
@@ -38,9 +34,7 @@ const resolvedTone: 'cream' | 'navy' = tone ?? (invert ? 'navy' : 'cream');
     margin: 0;
     max-width: 60ch;
   }
-  .quote--sm blockquote p { font-size: var(--fs-md); }
-  .quote--md blockquote p { font-size: var(--fs-lg); }
-  .quote--lg blockquote p { font-size: var(--fs-quote); }
+  .quote blockquote p { font-size: var(--fs-lg); }
 
   .quote figcaption {
     margin-top: var(--sp-3);

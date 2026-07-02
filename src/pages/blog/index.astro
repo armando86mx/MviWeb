@@ -6,7 +6,7 @@ import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import { getCollection } from 'astro:content';
 
 const title = 'Blog · MVI Amor y Gracia · Estudios bíblicos y reflexiones';
-const description = 'Blog de MVI Amor y Gracia. Estudios bíblicos, reflexiones pastorales sobre la segunda venida de Cristo, los 5 pilares de la iglesia, sana doctrina y vida en familia.';
+const description = 'Blog de MVI Amor y Gracia: estudios bíblicos, reflexiones sobre la segunda venida de Cristo, los 5 pilares de la iglesia, sana doctrina y vida en familia.';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());

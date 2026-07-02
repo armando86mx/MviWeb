@@ -1,0 +1,85 @@
+---
+/**
+ * Fila de prédicas y podcast para la home. Solo se renderiza cuando
+ * SITE.media tiene cuentas reales configuradas (regla de datos honestos).
+ * Los videos llegan del RSS del canal en build — ver lib/media.ts.
+ */
+import Button from '@components/ui/Button.astro';
+import YouTubeEmbed from '@components/youtube/YouTubeEmbed.astro';
+import { SITE } from '@lib/site';
+import { fetchLatestVideos } from '@lib/media';
+
+const { youtubeChannel, spotifyShow } = SITE.media;
+const videos = await fetchLatestVideos(4);
+const activo = Boolean(youtubeChannel || spotifyShow);
+---
+
+{activo && (
+  <section class="section medios" aria-labelledby="medios-heading">
+    <div class="container">
+      <header class="medios__header">
+        <p class="eyebrow">Prédicas y podcast</p>
+        <h2 id="medios-heading">Escúchanos donde estés</h2>
+      </header>
+
+      {videos.length > 0 && (
+        <ul class="medios__row" aria-label="Prédicas recientes en YouTube">
+          {videos.map((v) => (
+            <li class="medios__item">
+              <YouTubeEmbed videoId={v.id} title={v.title} />
+              <p class="medios__title">{v.title}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div class="medios__ctas">
+        {youtubeChannel && (
+          <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
+            Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
+          </Button>
+        )}
+        {spotifyShow && (
+          <Button variant="secondary" href={spotifyShow} target="_blank" rel="noopener noreferrer">
+            Escuchar el podcast en Spotify<span class="sr-only"> (se abre en ventana nueva)</span>
+          </Button>
+        )}
+        <Button variant="ghost" href="/podcast">Todas las prédicas <span aria-hidden="true">→</span></Button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .medios__header { max-width: 60ch; margin-bottom: var(--sp-5); }
+
+  /* Fila deslizable con snap; en desktop caben las 4 */
+  .medios__row {
+    list-style: none;
+    margin: 0 0 var(--sp-5);
+    padding: 0 0 var(--sp-3);
+    display: flex;
+    gap: var(--sp-4);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .medios__item {
+    flex: 0 0 min(320px, 82%);
+    scroll-snap-align: start;
+  }
+  .medios__title {
+    margin-top: var(--sp-2);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+    line-height: var(--lh-snug);
+  }
+
+  .medios__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    align-items: center;
+  }
+</style>

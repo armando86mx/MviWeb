@@ -11,6 +11,8 @@ export async function GET(context: APIContext) {
     title: `Blog · ${SITE.name}`,
     description: SITE.description,
     site: context.site ?? SITE.url,
+    // Igual que canonicals/sitemap: URLs sin barra final (una sola forma canónica)
+    trailingSlash: false,
     customData: `<language>${SITE.locale}</language>`,
     items: posts.map((post) => ({
       title: post.data.title,

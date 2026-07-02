@@ -43,9 +43,11 @@ export const SITE = {
       /** Dirección completa para mostrar, en una línea, tal como debe escribirse */
       fullAddress: 'C. 4 Nte. 207, Barrio, San Antonio, 72980 Amozoc de Mota, Pue.',
       mapsUrl: 'https://maps.app.goo.gl/TabBHcDNXSXWVzmy9',
-      latitude: 19.0414, // aproximado al centro de Amozoc — NO usar para navegación
-      longitude: -98.0386,
-      geoConfirmed: false,
+      // Coordenadas del lugar "MVI Amor y Gracia Puebla" en Google Maps
+      // (extraídas del propio mapsUrl de la iglesia)
+      latitude: 19.0453686,
+      longitude: -98.0425348,
+      geoConfirmed: true,
       phone: '+52 238 385 6790',
     },
     tehuacan: {
@@ -67,6 +69,16 @@ export const SITE = {
     instagram: 'https://www.instagram.com/mviamorygracia/',
     youtube: '',
     whatsapp: 'https://wa.me/522383856790',
+  },
+  /** Prédicas y podcast. Vacío = las secciones de medios no se renderizan.
+      Al confirmar las cuentas: llenar y todo se enciende solo. */
+  media: {
+    /** URL pública del canal, ej. https://www.youtube.com/@mviamorygracia */
+    youtubeChannel: '',
+    /** ID del canal (UC…) — habilita la fila de videos recientes vía RSS en build */
+    youtubeChannelId: '',
+    /** URL pública del show, ej. https://open.spotify.com/show/… */
+    spotifyShow: '',
   },
   founded: '2014-03-01',
   ogImage: '/og-default.png',

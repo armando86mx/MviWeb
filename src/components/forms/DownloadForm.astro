@@ -1,4 +1,6 @@
 ---
+import Button from '@components/ui/Button.astro';
+
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 ---
 
@@ -43,7 +45,7 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
   <input type="hidden" name="g-recaptcha-response" data-recaptcha-token />
 
   <div class="form__actions">
-    <button type="submit" class="btn btn--primary btn--lg" data-submit>Enviar a mi correo</button>
+    <Button type="submit" variant="primary" size="lg" data-submit>Enviar a mi correo</Button>
     <p class="form__legal">
       Al enviar aceptas nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>.
     </p>
@@ -100,44 +102,6 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
   .form__actions { display: flex; flex-direction: column; gap: var(--sp-3); align-items: flex-start; }
   @media (min-width: 600px) { .form__actions { flex-direction: row; align-items: center; } }
   .form__legal { font-size: var(--fs-xs); color: var(--ink-muted); }
-
-  /* Botón submit: receta primary completa, local al formulario
-     (no depende de estilos scoped de otro componente) */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-body);
-    font-weight: var(--fw-bold);
-    font-size: var(--fs-md);
-    line-height: 1;
-    text-align: center;
-    background: var(--blue-700);
-    color: var(--cream-text);
-    border: 0;
-    border-radius: var(--radius-pill);
-    padding: 17px 32px;
-    cursor: pointer;
-    box-shadow: var(--shadow-btn-hero);
-    transition: transform var(--dur-btn) var(--ease),
-                box-shadow var(--dur-btn) var(--ease),
-                background-color var(--dur-btn) var(--ease);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .btn:hover {
-      background: var(--blue-700-hover);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-btn-hero-hover);
-    }
-  }
-  .btn:active { transform: translateY(1px); }
-  .btn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-    background: var(--blue-700);
-    transform: none;
-    box-shadow: var(--shadow-btn-hero);
-  }
 
   .form__status:not(:empty) {
     padding: var(--sp-3) var(--sp-4);

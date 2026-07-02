@@ -7,10 +7,11 @@ import Button from '@components/ui/Button.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import MapaEmbed from '@components/ui/MapaEmbed.astro';
 import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import { SITE } from '@lib/site';
 
-const title = 'Iglesia Cristiana en Amozoc, Puebla · Amor y Gracia';
+const title = 'Iglesia Cristiana Evangélica en Amozoc, Puebla · Amor y Gracia';
 const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Servicios dominicales 11:00 AM, Tiempos de Mesa los jueves 7:30 PM. Iglesia evangélica con sana doctrina.';
 ---
 
@@ -49,6 +50,9 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
               Abrir en Google Maps<span class="sr-only"> (se abre en ventana nueva)</span>
             </Button>
           </p>
+          <div class="mt-4">
+            <MapaEmbed />
+          </div>
           <p class="muted mt-4">
             <strong>WhatsApp:</strong> <a href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer">{SITE.sedes.amozoc.phone}<span class="sr-only"> (se abre en ventana nueva)</span></a><br />
             <strong>Correo:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a>

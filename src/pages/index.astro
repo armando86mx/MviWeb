@@ -5,49 +5,23 @@ import PilaresGrid from '@components/sections/PilaresGrid.astro';
 import EventoCard from '@components/sections/EventoCard.astro';
 import PastoresCard from '@components/sections/PastoresCard.astro';
 import CTABand from '@components/sections/CTABand.astro';
+import MediosRow from '@components/sections/MediosRow.astro';
 import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import ScriptureQuote from '@components/ui/ScriptureQuote.astro';
 import fotoHero from '@assets/img/foto-hero.webp';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaReligiousOrg from '@components/seo/SchemaReligiousOrg.astro';
-import SchemaEvent from '@components/seo/SchemaEvent.astro';
 import { SITE, SCRIPTURE_HERO } from '@lib/site';
 
 const title = 'MVI Amor y Gracia · Iglesia Cristiana Evangélica en Puebla';
-const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Servicios dominicales 11:00 AM, Tiempos de Mesa los jueves. Pequeños en tamaño, profundos en doctrina, esperando el regreso de Cristo.';
+const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 11:00 AM y Tiempos de Mesa los jueves. Profundos en doctrina, esperando el regreso de Cristo.';
 
-const eventos = [
-  {
-    name: 'Servicio dominical',
-    description: 'Estudio bíblico 10:30 AM, servicio completo 11:00 AM.',
-    recurringDayOfWeek: 'Sunday' as const,
-    startTime: '10:30',
-    endTime: '12:30',
-    locationName: 'MVI Amor y Gracia · Sede Amozoc',
-    // streetAddress se añadirá cuando la dirección esté confirmada
-    addressLocality: 'Amozoc',
-    addressRegion: 'Puebla',
-    url: `${SITE.url}/sedes/amozoc`,
-  },
-  {
-    name: 'Tiempos de Mesa',
-    description: 'Estudio en una casa familiar, jueves 7:30 PM.',
-    recurringDayOfWeek: 'Thursday' as const,
-    startTime: '19:30',
-    endTime: '21:00',
-    locationName: 'Casa familiar · Tiempos de Mesa',
-    addressLocality: 'Amozoc',
-    addressRegion: 'Puebla',
-    url: `${SITE.url}/como-nos-reunimos`,
-  },
-];
 ---
 
 <BaseLayout title={title} description={description} path="/">
   <SchemaChurch slot="head" variant="main" />
   <SchemaReligiousOrg slot="head" />
-  <SchemaEvent slot="head" events={eventos} />
 
   <Hero
     eyebrow="Amozoc · Tehuacán"
@@ -124,6 +98,9 @@ const eventos = [
       </div>
     </div>
   </section>
+
+  <!-- Prédicas y podcast (solo se pinta con cuentas configuradas en SITE.media) -->
+  <MediosRow />
 
   <!-- Pastores -->
   <section class="section section--alt">

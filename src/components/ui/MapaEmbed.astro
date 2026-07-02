@@ -1,0 +1,85 @@
+---
+/**
+ * Mapa de la sede con carga bajo clic (fachada, como YouTubeEmbed):
+ * el iframe de Google se inyecta solo cuando el usuario lo pide —
+ * coherente con la política de privacidad del sitio (nada de terceros
+ * sin acción explícita). El link "Abrir en Google Maps" sigue siendo
+ * la vía directa.
+ */
+import { SITE } from '@lib/site';
+
+const sede = SITE.sedes.amozoc;
+const embedUrl = `https://www.google.com/maps?q=${sede.latitude},${sede.longitude}&z=16&hl=es&output=embed`;
+---
+
+<div class="mapa" data-mapa data-src={embedUrl}>
+  <button type="button" class="mapa__btn" data-mapa-btn>
+    <span class="mapa__pin" aria-hidden="true"></span>
+    <span>
+      <strong>Ver mapa interactivo</strong><br />
+      <small>Se carga desde Google Maps al hacer clic</small>
+    </span>
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-mapa]').forEach((el) => {
+    el.querySelector('[data-mapa-btn]')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = el.dataset.src ?? '';
+      iframe.title = 'Mapa: MVI Amor y Gracia, C. 4 Nte. 207, Amozoc de Mota';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;';
+      el.replaceChildren(iframe);
+    });
+  });
+</script>
+
+<style>
+  .mapa {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--paper-300);
+    border: 1px solid var(--paper-line);
+  }
+  .mapa__btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-4);
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-family: var(--font-body);
+    color: var(--ink-body);
+    text-align: left;
+    transition: background var(--dur-link) var(--ease);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mapa__btn:hover { background: var(--amber-tint); }
+  }
+  .mapa__btn strong { color: var(--blue-700); font-size: var(--fs-md); }
+  .mapa__btn small { color: var(--ink-muted); font-size: var(--fs-sm); }
+  .mapa__pin {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--blue-700);
+    position: relative;
+  }
+  .mapa__pin::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 3px solid var(--cream-text);
+  }
+</style>

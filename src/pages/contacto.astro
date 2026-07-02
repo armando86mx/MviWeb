@@ -5,6 +5,7 @@ import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
+import MapaEmbed from '@components/ui/MapaEmbed.astro';
 import { SITE } from '@lib/site';
 
 // Solo lo confirmado se muestra
@@ -29,7 +30,7 @@ const faq = [
 ];
 
 const title = 'Contacto · MVI Amor y Gracia · Iglesia en Puebla';
-const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@amorygraciapuebla.org. Y si vienes por primera vez: qué esperar de un domingo en Amor y Gracia, sin sorpresas.';
+const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@amorygraciapuebla.org. Si vienes por primera vez: qué esperar de un domingo, sin sorpresas.';
 ---
 
 <BaseLayout title={title} description={description} path="/contacto">
@@ -76,6 +77,9 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
                 Abrir en Google Maps<span class="sr-only"> (se abre en ventana nueva)</span>
               </Button>
               <Button variant="ghost" href="#primera-visita">Qué esperar en tu visita ↓</Button>
+            </div>
+            <div class="direccion__mapa">
+              <MapaEmbed />
             </div>
           </Card>
         </article>
@@ -245,6 +249,7 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
     gap: var(--sp-4);
     align-items: center;
   }
+  .direccion__mapa { margin-top: var(--sp-4); }
 
   .contact-info { display: grid; gap: var(--sp-4); }
   .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; font-size: var(--fs-sm); color: var(--ink-body); }

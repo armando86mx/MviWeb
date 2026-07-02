@@ -44,7 +44,6 @@
 
   /* ── Texto ───────────────────────────────────────────────── */
   --ink:            #2B2620;
-  --ink-logo:       #20242e;
   --ink-muted:      #6B675B;  /* oscurecido de #7E7A6E: AA en texto chico sobre todas las cremas */
   --nav-text:       #3C382F;
   --cream-text:     #F4ECDD;
@@ -53,7 +52,6 @@
   --slate-text-2:   #C3CADB;
   --footer-muted:   #9FA8BF;
   --footer-copyright:#8A93AD;
-  --logo-mark:      #0B0B0C;
 
   /* Cuerpo sobre crema con opacidad (tinte ~#2B251E) */
   --ink-body:    rgba(43,37,30,0.74);
@@ -61,16 +59,12 @@
   --ink-body-80: rgba(43,37,30,0.80);
 
   /* Estado (fuera de marca; conservan su rol funcional) */
-  --color-success: #1f7a4a;
   --color-error:   #b3261e;
   --color-error-bg:#fde7e7;
-  --color-warning: #b07b00;
 
   /* ── Tipografía ──────────────────────────────────────────── */
   --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
   --font-body:    'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  /* El estilo no usa monoespaciada: las etiquetas van en Hanken 700 tracked */
-  --font-mono:    var(--font-body);
 
   /* Escala tipográfica fluida, calibrada a la escala del handoff
      (H1 60 / H1 claro 52 / H2 40-42 / H3 24-25 / FAQ 21 / cuerpo 16-17) */
@@ -85,20 +79,17 @@
   --fs-3xl:  clamp(2.2rem, 1.9rem + 1.6vw, 3.25rem);       /* 35-52 */
   --fs-4xl:  clamp(2.5rem, 2.1rem + 2.2vw, 3.75rem);       /* 40-60 */
 
-  --lh-tight:   1.05;
   --lh-snug:    1.25;
   --lh-normal:  1.5;
   --lh-relaxed: 1.6;
 
   --tracking-tight: -0.01em;
-  --tracking-normal: 0;
   --tracking-wide: 0.18em;   /* eyebrows/etiquetas Hanken 700 */
 
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
-  --fw-black: 800;
 
   /* ── Espaciado (escala 8pt extendida) ────────────────────── */
   --sp-1:  0.25rem;
@@ -112,7 +103,6 @@
   --sp-9:  4rem;
   --sp-10: 5rem;
   --sp-11: 6.5rem;
-  --sp-12: 8rem;
 
   /* ── Radios (handoff) ────────────────────────────────────── */
   --radius-pill:    999px;
@@ -122,7 +112,6 @@
   --radius-md:      14px;
   --radius-sm:      12px;
   --radius-xs:      10px;
-  --radius-chip:    6px;
 
   /* ── Sombras — LA FIRMA (navy en reposo, ámbar en hover) ─── */
   --shadow-btn:             0 10px 24px -12px rgba(30,44,90,0.6);
@@ -133,7 +122,6 @@
   --shadow-card-sm-hover:   0 18px 42px -16px rgba(223,162,78,0.5);
   --shadow-cta-amber:       0 16px 34px -12px rgba(223,162,78,0.55);
   --shadow-cta-amber-hover: 0 20px 40px -12px rgba(223,162,78,0.7);
-  --shadow-cta-cream:       0 16px 34px -14px rgba(0,0,0,0.4);
   --shadow-photo:           inset 0 0 0 1px rgba(80,75,55,0.18), 0 20px 40px -22px rgba(50,55,90,0.4);
 
   /* ── Gradientes de "luz de tarde" ────────────────────────── */
@@ -162,67 +150,21 @@
   /* ── Motion (handoff) ────────────────────────────────────── */
   --ease: ease;
   --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-btn:  .18s;
   --dur-card: .2s;
   --dur-link: .16s;
   --dur-1: .16s;
   --dur-2: .18s;
-  --dur-3: .2s;
 
   /* ── Z-index ─────────────────────────────────────────────── */
   --z-header: 50;
-  --z-modal:  100;
   --z-toast:  200;
 
   color-scheme: light;
 
-  /* ══════════════════════════════════════════════════════════
-     ALIASES DE COMPATIBILIDAD — nombres antiguos → Equilibrio.
-     Mantienen coherente cualquier referencia legada mientras los
-     componentes migran a los tokens nuevos. No usar en código nuevo.
-     ══════════════════════════════════════════════════════════ */
-  --color-azul-deep: var(--blue-700);
-  --color-azul-deep-700: var(--blue-700-hover);
-  --color-azul-deep-900: var(--blue-900);
-  --color-azul-claro: var(--amber-500);
-  --color-azul-claro-200: var(--slate-text);
-  --color-azul-claro-50: var(--amber-tint);
-
-  --color-negro: var(--ink);
-  --color-blanco-roto: var(--cream-text);
-  --color-blanco: var(--paper-100);
-  --color-gris-medio: var(--ink-muted);
-  --color-gris-claro: var(--paper-line);
-  --color-gris-suave: var(--paper-300);
-
-  --color-mesa-vino: var(--blue-700);
-  --color-mesa-vino-900: var(--ink);
-  --color-mesa-cobre: var(--ochre-500);
-  --color-mesa-crema: var(--cream-text);
-  --color-mesa-crema-50: var(--paper-100);
-  --color-mesa-crema-200: var(--paper-300);
-  --color-mesa-crema-300: var(--paper-line-2);
-  --color-mesa-dorado-300: var(--amber-400);
-  --color-mesa-dorado-400: var(--amber-500);
-
-  --color-bg:           var(--paper-200);
-  --color-bg-alt:       var(--paper-300);
-  --color-bg-invert:    var(--blue-900);
-  --color-fg:           var(--ink);
-  --color-fg-muted:     var(--ink-muted);
-  --color-fg-on-deep:   var(--cream-text);
-  --color-link:         var(--blue-700);
-  --color-link-hover:   var(--ochre-700);
-  --color-border:       var(--paper-line);
+  /* ── Foco y sombras de reposo genéricas (navy, suaves) ───── */
   --color-focus:        var(--blue-700);
   --color-focus-invert: var(--amber-400);
-
-  --radius-lg: var(--radius-card);
-  --radius-xl: var(--radius-photo);
-
-  /* Sombras de reposo genéricas (navy, suaves) para usos legados */
-  --shadow-xs: 0 8px 20px -16px rgba(30,44,90,0.28);
   --shadow-sm: 0 10px 24px -16px rgba(30,44,90,0.35);
   --shadow-md: 0 16px 36px -20px rgba(30,44,90,0.4);
   --shadow-lg: 0 22px 48px -22px rgba(30,44,90,0.45);
@@ -236,6 +178,5 @@
     --dur-btn: 0ms;
     --dur-card: 0ms;
     --dur-2: 0ms;
-    --dur-3: 0ms;
   }
 }

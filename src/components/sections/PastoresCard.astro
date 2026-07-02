@@ -3,14 +3,13 @@ import { Image } from 'astro:assets';
 import pastoresFoto from '@assets/img/pastores.jpg';
 
 interface Props {
-  layout?: 'horizontal' | 'stacked';
   /** Cuando la sección que envuelve la tarjeta ya muestra el nombre
       como encabezado, pasar false para no duplicarlo dentro. */
   showHeading?: boolean;
 }
-const { layout = 'horizontal', showHeading = true } = Astro.props;
+const { showHeading = true } = Astro.props;
 ---
-<aside class={`pastores pastores--${layout}`}>
+<aside class="pastores pastores--horizontal">
   <div class="pastores__media">
     <Image
       src={pastoresFoto}

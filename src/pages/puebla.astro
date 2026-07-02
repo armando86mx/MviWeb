@@ -8,7 +8,7 @@ import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
 
 const title = 'Iglesia Cristiana en Puebla · Amor y Gracia (sede en Amozoc)';
-const description = 'Iglesia cristiana evangélica para gente de Puebla capital y zona metropolitana. Nuestra sede física está en Amozoc — a minutos de Puebla — y nos visitan cada domingo desde San Andrés Cholula, San Pedro, Atlixco y la capital.';
+const description = 'Iglesia cristiana evangélica para gente de Puebla capital: la sede está en Amozoc, a minutos de la ciudad, y nos visitan desde las Cholulas y Atlixco.';
 
 const faq = [
   { question: '¿Tienen sede en Puebla capital?', answer: 'No. Nuestra sede física está en Amozoc, parte del área metropolitana de Puebla. Estamos a pocos minutos de la capital y recibimos cada domingo a hermanos que vienen desde el centro de Puebla y zonas conurbadas.' },
@@ -76,7 +76,7 @@ const faq = [
     <div class="container container--prose">
       <p class="eyebrow">Preguntas frecuentes</p>
       <h2>Lo que la gente nos pregunta desde Puebla</h2>
-      <div class="faq" style="margin-top: var(--sp-5);">
+      <div class="faq mt-5">
         {faq.map((qa) => (
           <details class="faq__item">
             <summary>{qa.question}</summary>

@@ -9,10 +9,6 @@ interface Props {
   /** Línea final del H1 en itálica de acento (la firma del estilo). */
   titleAccent?: string;
   subtitle?: string;
-  /** Cita bíblica opcional. Solo la pinta la variante "page":
-      repetirla en cada página la desgastaba y empujaba los CTAs
-      fuera del primer viewport en móvil. */
-  scripture?: { text: string; reference: string };
   primaryCTA?: { label: string; href: string };
   secondaryCTA?: { label: string; href: string };
   variant?: 'home' | 'page';
@@ -26,7 +22,6 @@ const {
   title,
   titleAccent,
   subtitle,
-  scripture,
   primaryCTA,
   secondaryCTA,
   variant = 'page',
@@ -79,17 +74,10 @@ const {
       </h1>
       {subtitle && <p class="hero__subtitle text-pretty">{subtitle}</p>}
 
-      {scripture && (
-        <figure class="hero__scripture">
-          <blockquote>“{scripture.text}”</blockquote>
-          <figcaption>{scripture.reference}</figcaption>
-        </figure>
-      )}
-
       {(primaryCTA || secondaryCTA) && (
         <div class="hero__ctas">
           {primaryCTA && <Button variant="primary" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
-          {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+          {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} <span aria-hidden="true">→</span></Button>}
         </div>
       )}
     </div>
@@ -142,42 +130,6 @@ const {
     max-width: 620px;
   }
 
-  .hero__scripture {
-    position: relative;
-    margin: var(--sp-7) 0 0;
-    padding-left: var(--sp-5);
-  }
-  .hero__scripture::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 3px;
-    bottom: 3px;
-    width: 4px;
-    border-radius: 2px;
-    background: var(--amber-500);
-  }
-  .hero__scripture blockquote {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: var(--fw-regular);
-    font-size: var(--fs-quote);
-    line-height: 1.4;
-    color: var(--cream-text);
-    margin: 0;
-    border: 0;
-    padding: 0;
-    max-width: 60ch;
-  }
-  .hero__scripture figcaption {
-    margin-top: var(--sp-3);
-    font-family: var(--font-body);
-    font-weight: var(--fw-bold);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--amber-400);
-  }
 
   /* ── §7.4 · HERO CLARO A DOS COLUMNAS (variant="home") ───── */
   .hero--home {

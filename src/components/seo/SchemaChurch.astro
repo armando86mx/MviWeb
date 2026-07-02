@@ -27,15 +27,20 @@ const name = variant === 'tehuacan'
     ? 'MVI Amor y Gracia · Amozoc'
     : SITE.name;
 
+// La descripción global habla de Amozoc; Tehuacán necesita la suya
+const description = variant === 'tehuacan'
+  ? 'Iglesia cristiana evangélica en Tehuacán, Puebla — iglesia hija de MVI Amor y Gracia (Amozoc), bajo cobertura de Ministerios Visión Internacional.'
+  : SITE.description;
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Church',
   '@id': id,
   name,
   alternateName: SITE.alternateNames,
-  description: SITE.description,
+  description,
   url: variant === 'main' ? `${SITE.url}/` : `${SITE.url}/sedes/${variant}`,
-  logo: `${SITE.url}/favicon.svg`,
+  logo: `${SITE.url}/favicon-512.png`,
   image: `${SITE.url}${SITE.ogImage}`,
   email: SITE.email,
   // Teléfono, calle, CP y geo entran al schema solo cuando son datos
@@ -59,22 +64,27 @@ const schema = {
       }
     : {}),
   ...('mapsUrl' in sede && sede.mapsUrl ? { hasMap: sede.mapsUrl } : {}),
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Sunday',
-      opens: '10:30',
-      closes: '12:30',
-      description: 'Servicio dominical (estudio bíblico 10:30, servicio completo 11:00)',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Thursday',
-      opens: '19:30',
-      closes: '21:00',
-      description: 'Tiempos de Mesa (en una casa familiar)',
-    },
-  ],
+  // Horarios confirmados solo de Amozoc; Tehuacán aún no tiene horario público
+  ...(variant !== 'tehuacan'
+    ? {
+        openingHoursSpecification: [
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'Sunday',
+            opens: '10:30',
+            closes: '12:30',
+            description: 'Servicio dominical (estudio bíblico 10:30, servicio completo 11:00)',
+          },
+          {
+            '@type': 'OpeningHoursSpecification',
+            dayOfWeek: 'Thursday',
+            opens: '19:30',
+            closes: '21:00',
+            description: 'Tiempos de Mesa (en una casa familiar)',
+          },
+        ],
+      }
+    : {}),
   parentOrganization: {
     '@type': 'ReligiousOrganization',
     name: SITE.parentOrganization.name,

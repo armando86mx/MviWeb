@@ -6,49 +6,15 @@ import Hero from '@components/sections/Hero.astro';
 import EventoCard from '@components/sections/EventoCard.astro';
 import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
-import SchemaEvent from '@components/seo/SchemaEvent.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 
-const title = 'Cómo nos reunimos · Servicios en Amozoc y Tiempos de Mesa';
+const title = 'Cómo nos reunimos · Horarios en Amozoc · Amor y Gracia';
 const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominicales en Amozoc a las 11:00 AM, Tiempos de Mesa los jueves, y vida en comunidad.';
 
-const eventos = [
-  {
-    name: 'Estudio bíblico previo',
-    description: 'Sentarse con la Palabra antes del servicio dominical.',
-    recurringDayOfWeek: 'Sunday' as const,
-    startTime: '10:30',
-    endTime: '11:00',
-    locationName: 'MVI Amor y Gracia · Amozoc',
-    addressLocality: 'Amozoc',
-    addressRegion: 'Puebla',
-  },
-  {
-    name: 'Servicio dominical',
-    description: 'Adoración, Palabra y comunión en familia.',
-    recurringDayOfWeek: 'Sunday' as const,
-    startTime: '11:00',
-    endTime: '12:30',
-    locationName: 'MVI Amor y Gracia · Amozoc',
-    addressLocality: 'Amozoc',
-    addressRegion: 'Puebla',
-  },
-  {
-    name: 'Tiempos de Mesa',
-    description: 'Estudio en una casa familiar. Comida sencilla compartida y conversación profunda alrededor de la Palabra.',
-    recurringDayOfWeek: 'Thursday' as const,
-    startTime: '19:30',
-    endTime: '21:00',
-    locationName: 'Casa familiar · Tiempos de Mesa',
-    addressLocality: 'Amozoc',
-    addressRegion: 'Puebla',
-  },
-];
 ---
 
 <BaseLayout title={title} description={description} path="/como-nos-reunimos">
   <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Cómo nos reunimos', href: '/como-nos-reunimos' }]} />
-  <SchemaEvent slot="head" events={eventos} />
 
   <Hero
     eyebrow="Reuniones"
