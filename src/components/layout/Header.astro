@@ -147,8 +147,15 @@ const isActivePath = (href: string) => {
   .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
   .mobile-nav {
+    /* Capa sobre el contenido (no empuja el sitio hacia abajo):
+       el header sticky es el bloque contenedor */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     border-top: 1px solid var(--paper-line);
     background: var(--paper-200);
+    box-shadow: var(--shadow-lg);
     /* En landscape el panel puede ser más alto que el viewport:
        que scrollee él, no que esconda items */
     max-height: calc(100dvh - var(--header-h));
@@ -206,6 +213,8 @@ const isActivePath = (href: string) => {
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
       mobile.hidden = !open;
+      // Con el menú abierto el fondo no se desliza
+      document.documentElement.style.overflow = open ? 'hidden' : '';
     };
 
     toggle.addEventListener('click', () => {
@@ -226,6 +235,12 @@ const isActivePath = (href: string) => {
       if (mobile.hidden) return;
       const target = e.target as Node;
       if (header && !header.contains(target)) setOpen(false);
+    });
+
+    // Al pasar al layout de escritorio (p. ej. rotar a landscape) el menú
+    // se oculta por CSS: cerrar de verdad para no dejar el scroll bloqueado
+    window.matchMedia('(min-width: 880px)').addEventListener('change', (e) => {
+      if (e.matches && !mobile.hidden) setOpen(false);
     });
   }
 </script>
