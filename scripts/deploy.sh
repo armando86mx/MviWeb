@@ -53,8 +53,8 @@ rm -rf .git
 [ "${ok:-0}" = "1" ] || { echo "✗ No se pudo subir la rama deploy" >&2; exit 1; }
 
 echo "✓ Rama '$RAMA_DEPLOY' actualizada en GitHub."
-echo "  Si el webhook de Hostinger está configurado, el sitio se publica solo"
-echo "  en unos segundos; si no, hPanel → Git → Desplegar."
+echo "  La publicación normal la hace GitHub Actions (sube por FTP); esta"
+echo "  rama es el respaldo manual: hPanel → GIT → botón Desplegar."
 
 # Si el sitio ya está en línea, verificación rápida
 if curl -s -o /dev/null --max-time 10 https://amorygraciapuebla.org/ 2>/dev/null; then

@@ -14,23 +14,24 @@ Todo el código ya está listo: el build genera un `dist/` completo que incluye
    - Crear **noreply@amorygraciapuebla.org** — apunta su contraseña, la usarás en el paso 3.
    - Confirmar que **web@amorygraciapuebla.org** existe (ahí llegan las notificaciones de descargas).
 
-2. **Conectar Hostinger con GitHub** (hPanel → Avanzado → **GIT**):
-   - Como el repo es privado, hPanel te muestra una **clave SSH** — cópiala
-     y pégala en GitHub: repo `MviWeb` → Settings → **Deploy keys** →
-     "Add deploy key" (solo lectura es suficiente).
-   - En hPanel → GIT → "Crear repositorio":
-     · **URL**: `git@github.com:armando86mx/MviWeb.git` (la forma SSH, no la HTTPS)
-     · **Rama**: `deploy`  ← ¡importante! esta rama contiene el sitio YA
-       construido; `main` tiene el código fuente y NO funcionaría
-     · **Directorio**: dejar vacío (= public_html). La primera vez,
-       public_html debe estar vacío: borra el archivo de bienvenida de
-       Hostinger si existe.
-   - **Auto-publicación**: en la misma pantalla de GIT, copia la URL del
-     **webhook** que te da Hostinger y pégala en GitHub: repo → Settings →
-     Webhooks → "Add webhook" (solo eventos push). Con esto, cada push a la
-     rama `deploy` publica solo — y como GitHub Actions
-     (`.github/workflows/publicar.yml`) reconstruye el sitio cada 3 horas,
-     **las prédicas y episodios nuevos aparecen en el home sin que hagas nada**.
+2. **Publicación automática por FTP** — GitHub Actions construye el sitio y
+   lo sube DIRECTO a public_html; el Git de hPanel no se necesita para nada:
+   - hPanel → Archivos → **Cuentas FTP** → crear una cuenta nueva cuyo
+     **directorio** sea el `public_html` del dominio (así esa cuenta no puede
+     tocar nada fuera — tu `amorygracia-config.php` queda intocable).
+     Apunta el host (el dominio, sin `ftp://`), el usuario y la contraseña.
+   - GitHub: repo `MviWeb` → Settings → Secrets and variables → **Actions** →
+     "New repository secret", tres veces: `FTP_HOST`, `FTP_USER` y `FTP_PASS`
+     con los datos de esa cuenta.
+   - Con eso, `.github/workflows/publicar.yml` publica solo: cada 3 horas
+     (medios frescos de YouTube/Spotify) y en cada push a `main`. **Las
+     prédicas y episodios nuevos aparecen en el home sin que hagas nada.**
+   - *(Opcional, respaldo)* El Git de hPanel (URL SSH + deploy key + rama
+     `deploy`, directorio vacío) sigue sirviendo para publicar a mano con su
+     botón "Desplegar" — sin configurar su webhook, que de todos modos falla.
+     Si algún día usas ese botón: después borra de public_html el archivo
+     `.ftp-deploy-sync-state.json` y la carpeta `.git` que deja el clon — el
+     siguiente run del workflow resube todo limpio (son 2.5 MB, segundos).
 
 3. En esta Mac: si haces el `.env` desde cero, `cp .env.example .env`
    (las llaves de GA4 y Clarity ya vienen con sus valores).
@@ -48,6 +49,13 @@ workflow** → esperar el ✓ verde y ver en el log "Medios del home completos:
 también desde GitHub. Si fallara repetido ahí (y en local sí funciona),
 avísale a Claude: el plan B es usar la API oficial de YouTube.
 
+Con los secrets FTP del punto 2 ya creados, **ese mismo run publica el
+sitio**: al ✓ verde, https://amorygraciapuebla.org ya está en línea.
+
+**Antes del primer run**: hPanel → Administrador de archivos → vacía
+public_html (borra el `index.php` de "Próximamente" y cualquier otro resto —
+el deploy por FTP solo sube, nunca borra lo que no es suyo).
+
 ### 1. Config del formulario en el servidor (5 min)
 
 La forma más fácil sin SSH: hPanel → **Administrador de archivos** →
@@ -57,15 +65,15 @@ hosting (la de ARRIBA de public_html), renómbralo a
 noreply@ en `NOREPLY_PASS`. Permisos: 600 (clic derecho → Permissions).
 **Queda FUERA de public_html a propósito** — ningún deploy lo toca.
 
-### 2. Deploy (1 comando)
+### 2. Deploy
 
-```bash
-./scripts/deploy.sh
-```
+Nada que correr: el Run workflow del paso 0 ya publicó todo por FTP. Para
+publicar a mano cualquier otro día: repo → Actions → "Publicar sitio" →
+Run workflow (o simplemente espera al siguiente run automático).
 
-Construye el sitio aquí (con los guards y los medios frescos de
-YouTube/Spotify) y empuja el resultado a la rama `deploy` de GitHub.
-Hostinger la jala solo (webhook) o con el botón "Desplegar" de hPanel → GIT.
+Respaldo local si GitHub Actions no estuviera disponible:
+`./scripts/deploy.sh` construye aquí y empuja la rama `deploy`; luego
+hPanel → GIT → botón "Desplegar".
 
 ### 3. Smoke test (5 min)
 

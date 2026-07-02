@@ -1,7 +1,8 @@
 # Publica el sitio solo, sin pasos manuales:
 #   - cada 3 horas: reconstruye para refrescar prédicas de YouTube y episodios
-#     de Spotify (se hornean en cada build) y empuja a la rama `deploy`;
-#     Hostinger la jala vía webhook (DEPLOY.md, "Auto-publicación").
+#     de Spotify (se hornean en cada build) y lo sube DIRECTO a Hostinger por
+#     FTP (su Git no auto-despliega; la rama `deploy` queda como respaldo
+#     para el botón "Desplegar" de hPanel).
 #   - en cada push a main: publica los cambios de código/contenido.
 # Si YouTube/Spotify no responden, check-medios.mjs aborta y el sitio en línea
 # se queda como estaba; el siguiente run lo reintenta.
@@ -22,6 +23,10 @@ on:
 concurrency:
   group: publicar
   cancel-in-progress: false
+
+env:
+  # Los secrets FTP se crean el día D (DEPLOY.md); sin los tres, el paso FTP se salta.
+  FTP_LISTO: ${{ secrets.FTP_HOST != '' && secrets.FTP_USER != '' && secrets.FTP_PASS != '' }}
 
 permissions:
   contents: write
@@ -49,3 +54,18 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           bash scripts/deploy.sh || { echo "— reintento en 60 s (YouTube parpadea a veces)…"; sleep 60; bash scripts/deploy.sh; }
+      # Sube solo lo que cambió (lleva su propio estado en el servidor).
+      # Si FTPS diera error de conexión, cambiar protocol a ftp.
+      - name: Subir dist/ a Hostinger por FTP
+        if: env.FTP_LISTO == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          # No usar security: strict — el cert FTP de Hostinger es *.hstgr.io,
+          # no coincide con el dominio (el default loose sí conecta).
+          protocol: ftps
+          timeout: 60000
+          local-dir: dist/
+          server-dir: ./

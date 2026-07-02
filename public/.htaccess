@@ -2,9 +2,16 @@
 # Vive en public/ para viajar con cada build (el rsync --delete no lo borra).
 # Directivas conservadoras compatibles con Apache y LiteSpeed (Hostinger).
 
+# Nuestro home manda: inmune a un index.php residual (p.ej. el "Próximamente"
+# de Hostinger, que LiteSpeed prioriza por default y el deploy FTP no borra)
+DirectoryIndex index.html index.php
+
 # ── Canónico: HTTPS + sin www (una sola forma de URL para SEO) ──
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Nada de .git servible por web (lo deja el clon del botón Desplegar de hPanel)
+  RewriteRule ^\.git(/.*)?$ - [F,L]
   RewriteCond %{HTTPS} !=on [OR]
   RewriteCond %{HTTP_HOST} ^www\. [NC]
   RewriteRule ^ https://amorygraciapuebla.org%{REQUEST_URI} [L,R=301]
@@ -13,6 +20,11 @@
   # con meta-refresh queda para hosts sin mod_rewrite)
   RewriteRule ^visitanos/?$ /contacto [L,R=301]
 </IfModule>
+
+# El estado del deploy por FTP (GitHub Actions) no es público
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
 
 # ── Cabeceras de seguridad básicas ──
 <IfModule mod_headers.c>
