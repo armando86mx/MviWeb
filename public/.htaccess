@@ -1,6 +1,37 @@
-# MVI Amor y Gracia — vive en public/ para viajar con cada build
-# (el rsync --delete del deploy no puede borrarlo)
+# MVI Amor y Gracia — .htaccess de producción
+# Vive en public/ para viajar con cada build (el rsync --delete no lo borra).
+# Directivas conservadoras compatibles con Apache y LiteSpeed (Hostinger).
 
-# /visitanos se fusionó en /contacto (el HTML de respaldo hace meta-refresh;
-# esto lo convierte en 301 real para buscadores)
-Redirect 301 /visitanos /contacto
+# ── Canónico: HTTPS + sin www (una sola forma de URL para SEO) ──
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://amorygraciapuebla.org%{REQUEST_URI} [L,R=301]
+
+  # /visitanos se fusionó en /contacto (301 real; el HTML de respaldo
+  # con meta-refresh queda para hosts sin mod_rewrite)
+  RewriteRule ^visitanos/?$ /contacto [L,R=301]
+</IfModule>
+
+# ── Cabeceras de seguridad básicas ──
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── Caché por tipo: CSS/JS/fuentes de Astro van con hash en el nombre,
+#    así que un año es seguro; el HTML siempre fresco ──
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 week"
+</IfModule>
