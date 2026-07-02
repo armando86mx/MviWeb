@@ -1,0 +1,530 @@
+# Auditoría UX/UI — MVI Amor y Gracia
+
+**Fecha:** 1 de julio de 2026 · **Rama:** test-ux · **Método:** 5 skills (impeccable audit+critique, web-design-guidelines, accessibility-review, design-critique, emil-design-eng) ejecutadas vía 6 examinadores independientes + verificación adversarial de cada hallazgo (20 agentes) + pasada de navegador en vivo (contraste medido en DOM, teclado, 320px, targets táctiles, consola).
+
+**Resultado:** 63 hallazgos verificados (15 P1 · 12 P2 · 36 P3) · 5 refutados en verificación.
+
+**Scores** — Nielsen (crítica de diseño): 31/40 (bueno). Auditoría técnica impeccable: a11y 3/4 · performance 2.5/4 · theming 3.5/4 · responsive 3.5/4 · anti-patrones 4/4 = **16.5/20 (bueno)**.
+
+Nota de marca: fondo crema, Newsreader, eyebrows y sombras ámbar son identidad aprobada (handoff Equilibrio) y NO se auditan como error. La excepción ya decidida (refs tan-500 / eyebrows ocre bajo AA) se respetó; todo hallazgo de contraste listado está FUERA de esa excepción.
+
+---
+
+## P1 — corregir antes de publicar
+
+### P1.1 · Arquitectura de información / Jordan (primeriza)
+- **Dónde:** src/pages/visitanos.astro:28
+- **Qué:** La página /visitanos — destino del CTA principal del header — no contiene el horario del servicio ("11:00" no aparece en el HTML renderizado), ni la dirección, ni enlace a Google Maps. La única mención horaria es incidental dentro de una respuesta de FAQ ("10:30 AM").
+- **Por qué importa:** Jordan llega con una sola pregunta: "¿cuándo y dónde me presento el domingo?". La página que la marca como conversión principal responde el cómo emocional (excelente) pero obliga a dos saltos más (/sedes/amozoc o /contacto) para el dato operativo. Es el fallo de reconocimiento-vs-recuerdo más costoso del sitio: rompe el peak justo antes del end.
+- **Fix sugerido:** Añadir un bloque compacto arriba del FAQ (o bajo el hero) con: Domingos 11:00 AM (estudio 10:30), la dirección verbatim C. 4 Nte. 207… y botón "Abrir en Google Maps" — reutilizando EventoCard y el patrón .direccion de contacto.astro.
+- **Fuente:** critica-diseno · **Verificación:** Verificado con curl: /visitanos no contiene '11:00', ni enlace a maps, ni 'C. 4 Nte.'; la única hora es '10:30 AM' dentro de una FAQ, mientras que site.ts y /sedes/amozoc sí tienen dirección, mapsUrl y 'servicio completo 11:00'.
+
+### P1.2 · Accesibilidad / WCAG AA 1.4.3
+- **Dónde:** src/components/ui/Button.astro:128
+- **Qué:** El estado hover de .btn--secondary pone texto blanco (#fff) sobre --amber-500 (#DFA24E): ratio 2.23:1 con texto de 14–17 px bold (no califica como texto grande). Se repite en las variantes sobre navy (Button.astro:167).
+- **Por qué importa:** WCAG 1.4.3 aplica a todos los estados del control. Este es el botón secundario usado en toda la home ("Lee nuestra confesión completa", "Ver horarios…"), así que el fallo se dispara en cada hover. No está cubierto por la excepción de marca (que solo ampara tan-500 y eyebrows ocre).
+- **Fix sugerido:** En hover usar color: var(--blue-cta-text) (#22305A) sobre ámbar — mismo par que .btn--amber, ya validado a 5.75:1 — en lugar de #fff.
+- **Fuente:** critica-diseno · **Verificación:** Verificado Button.astro:126-132 y 164-169 (#fff sobre --amber-500 #DFA24E) y calculado el ratio: 2.23:1; el texto es 14-17px peso 600 (semibold, no bold como dice el hallazgo — aún más lejos de 'texto grande'), y no está amparado por la excepción tan-500/eyebrows.
+
+### P1.3 · Accesibilidad / WCAG AA 1.4.3
+- **Dónde:** src/styles/tokens.css:41
+- **Qué:** --ink-muted (#7E7A6E) se usa para texto pequeño y queda bajo AA: 4.05:1 sobre paper-100 y 3.74:1 sobre paper-200 (mínimo 4.5:1). Afecta .field__hint a 11.5–12.5 px (DownloadForm.astro:73), .form__help (DownloadForm.astro:61), .evento__location (EventoCard.astro:84), .channel__hint (contacto.astro:153) y .muted.
+- **Por qué importa:** Son justo los textos que cargan información operativa (dónde es el evento, qué pasará con tu correo). Sam con baja visión y Casey al sol en móvil los pierden primero. No está en la lista de excepciones aprobadas por el dueño.
+- **Fix sugerido:** Oscurecer el token a ~#6A665A (≈4.9:1 sobre paper-200) o cambiar estos usos a --ink-body (6.3:1), reservando --ink-muted para texto ≥18.66 px bold.
+- **Fuente:** critica-diseno+web-guidelines · **Verificación:** Calculé los ratios de #7E7A6E: 4.05:1 sobre paper-100 y 3.74:1 sobre paper-200 (<4.5:1) y verifiqué todos los usos citados (DownloadForm.astro:61,73; EventoCard.astro:84; contacto.astro:153; utilities.css:80 .muted); no está en las excepciones aprobadas.
+
+### P1.4 · Prevención y recuperación de errores
+- **Dónde:** src/components/forms/DownloadForm.astro:7
+- **Qué:** El formulario de descarga envía a action="/api/descarga.php", que responde 404 en el sitio actual (verificado con curl). Todo envío termina en el mensaje de error del catch; el camino "recibir por correo" está 100% roto aunque luce operativo.
+- **Por qué importa:** Nielsen h5: el sistema invita a un error garantizado. El usuario invierte esfuerzo (nombre, correo, aceptar privacidad) y recibe un fallo. El mensaje de recuperación es bueno (redirige a la descarga directa), pero es una promesa incumplida en la página de mayor generosidad del sitio. (Backend PHP está en el backlog conocido — aún así es hallazgo hasta que exista.)
+- **Fix sugerido:** Ocultar el formulario tras un flag (igual que GA4_ID) hasta que exista el endpoint, dejando solo la descarga directa; o detectar 404 y colapsar la sección "¿Prefieres recibirlo por correo?" en build.
+- **Fuente:** critica-diseno · **Verificación:** Verificado: action='/api/descarga.php' en DownloadForm.astro:7 y curl GET/POST devuelven 404, así que todo envío cae en el catch; se queda P1 (no P0) porque el mensaje de error redirige a la descarga directa de la misma página, pero el formulario recoge datos personales y falla garantizado.
+
+### P1.5 · Accesibilidad · Contraste (WCAG 1.4.3)
+- **Dónde:** src/components/ui/Button.astro:128
+- **Qué:** El hover de .btn--secondary pone texto #fff sobre --amber-500 (#DFA24E): 2.23:1 — falla incluso el umbral de texto grande (3:1). Se repite en Button.astro:167 (.section--invert/.hero--page) y en CookieBanner.astro:87 (botón «Rechazar» en hover), a tamaño fs-sm.
+- **Por qué importa:** Los estados hover/focus también deben cumplir AA; el botón de rechazar cookies es además un control con implicaciones de privacidad que queda casi ilegible justo cuando el usuario va a pulsarlo.
+- **Fix sugerido:** En hover usar color: var(--blue-cta-text) (#22305A, 5.75:1 sobre ámbar — es exactamente lo que ya hace .btn--amber) en vez de #fff, en los tres lugares.
+- **Fuente:** web-guidelines · **Verificación:** Verificado en código: Button.astro .btn--secondary:hover y variante invert ponen #fff sobre --amber-500 (#DFA24E, tokens.css:31) = 2.23:1, y se repite en CookieBanner.astro:84-86 (ruta real: src/components/sections/, no ui/) en «Rechazar»; falla AA incluso para texto grande y NO es la excepción tan-500/eyebrows.
+
+### P1.6 · Forms · Contraste no textual (WCAG 1.4.11)
+- **Dónde:** src/components/forms/DownloadForm.astro:79
+- **Qué:** El borde del input (--paper-line #E4DAC6) contrasta 1.31:1 contra el fondo del campo/tarjeta (--paper-100), muy por debajo del 3:1 para componentes de UI; el campo casi no tiene límite visible. El estado :focus (línea 85-89) quita el outline y lo sustituye por borde ámbar + sombra ámbar-tint, que también ronda ~2:1.
+- **Por qué importa:** Los límites del campo y el indicador de foco deben ser perceptibles (1.4.11); sobre papel crema el ámbar claro se pierde.
+- **Fix sugerido:** Usar un borde más oscuro en reposo (p. ej. --paper-line-2/--tan-500 al 60%) y en focus un anillo con --blue-700 (como el :focus-visible global) o un ámbar más oscuro (--ochre-500) de ≥3:1.
+- **Fuente:** web-guidelines · **Verificación:** Calculé los ratios: borde #E4DAC6 vs #FCF8EF = 1.31:1, foco ámbar #DFA24E = 2.10:1, y fondo del input vs página = 1.08:1, así que el borde es el ÚNICO límite visible y DownloadForm.astro:85-89 sí pone outline:none. Viola WCAG 1.4.11 (AA) y NO es la excepción tan-500/eyebrows (eso es texto); por la escala dada (P1 = viola AA) sube a P1. Formulario vivo en /recursos/descargar.
+
+### P1.7 · 1.4.3 Contraste (mínimo)
+- **Dónde:** src/styles/tokens.css:41 (--ink-muted #7E7A6E)
+- **Qué:** Texto pequeño en --ink-muted queda bajo 4.5:1 sobre todos los papeles: 3.74:1 sobre paper-200 (#F4EFE6), 4.05:1 sobre paper-100 (#FCF8EF) y 3.58:1 sobre paper-300 (#F0EADD, badge neutro).
+- **Por qué importa:** WCAG 1.4.3 exige ≥4.5:1 para texto normal. Usos afectados (todos fs-xs/fs-sm, ninguno califica como texto grande): DownloadForm.astro:61,72,73,100 (ayuda, hint, '(opcional)', legal), EventoCard.astro:84 (ubicación), Breadcrumbs.astro:49 (migas), contacto.astro:153 (channel__hint), BlogLayout.astro:86 (post__meta), blog/index.astro:86, recursos/descargar.astro:137, Badge.astro:23 (badge--neutro) y la utilidad .muted (utilities.css:80).
+- **Fix sugerido:** Oscurecer el token a #6B675B: da 5.33:1 sobre paper-100, 4.93:1 sobre paper-200 y 4.71:1 sobre paper-300 — pasa AA en todos los fondos crema sin perder el carácter cálido.
+- **Fuente:** wcag-aa · **Verificación:** Verifiqué las 12 ubicaciones citadas por grep y recalculé: ink-muted da 3.74/4.05/3.58 sobre paper-200/100/300 (<4.5); todos los usos son fs-xs/fs-sm (ninguno texto grande) y NO es la excepción tan-500/eyebrows — P1 justificado.
+
+### P1.8 · 1.4.3 Contraste (mínimo) — estado hover
+- **Dónde:** src/components/ui/Button.astro:128 (.btn--secondary:hover color:#fff) y src/components/sections/CookieBanner.astro:86
+- **Qué:** En hover, los botones secundarios (y el botón 'Rechazar' del banner de cookies) se rellenan de --amber-500 con texto blanco: #FFFFFF sobre #DFA24E = 2.23:1.
+- **Por qué importa:** 1.4.3 aplica a todos los estados del texto; 2.23:1 está muy por debajo de 4.5:1. El propio sistema ya resuelve texto sobre ámbar con --blue-cta-text (#22305A sobre #DFA24E = 5.75:1) en .btn--amber, así que el hover blanco es inconsistente además de inaccesible.
+- **Fix sugerido:** En .btn--secondary:hover (Button.astro:128 y su variante invert :165-169) y .cookie-banner__btn--secondary:hover cambiar color:#fff por color:var(--blue-cta-text) → 5.75:1, igual que el botón ámbar primario.
+- **Fuente:** wcag-aa · **Verificación:** Confirmado Button.astro:126-132 y CookieBanner.astro:84-90: hover rellena amber-500 con color:#fff = 2.23:1 (calculado); .btn--amber sí usa blue-cta-text (5.75:1), la inconsistencia es real y hay secundarios en fondos claros (index.astro, banner cookies) — P1 justificado.
+
+### P1.9 · 2.4.7 Foco visible / 1.4.11 Contraste no textual
+- **Dónde:** src/styles/base.css:78 (.cookie-banner :focus-visible → outline ámbar)
+- **Qué:** La regla que cambia el anillo de foco a ámbar 'en fondos oscuros' incluye .cookie-banner, pero el banner de cookies es CLARO (background: var(--paper-100) en CookieBanner.astro:27). El anillo --amber-400 (#E7B870) sobre #FCF8EF da 1.72:1.
+- **Por qué importa:** El indicador de foco en los botones 'Aceptar analíticas' / 'Rechazar' y el enlace 'Más información' resulta casi invisible para usuarios de teclado (1.4.11 exige ≥3:1 para indicadores de estado). El anillo navy global sí pasaría: --blue-700 sobre paper-100 = 10.70:1.
+- **Fix sugerido:** Quitar .cookie-banner :focus-visible de la lista de base.css:75-80 para que herede el outline navy global (10.70:1).
+- **Fuente:** wcag-aa · **Verificación:** Confirmado: base.css:78 incluye .cookie-banner en el grupo de anillo ámbar pero CookieBanner.astro:27 usa fondo paper-100 (claro); calculado amber-400/paper-100 = 1.72:1 vs 10.70:1 del navy — bug real (el comentario 'fondos oscuros' no aplica al banner), P1 justificado.
+
+### P1.10 · 2.4.7 Foco visible / 1.4.11 Contraste no textual
+- **Dónde:** src/components/forms/DownloadForm.astro:85-89 (.field input:focus { outline: none })
+- **Qué:** Los inputs del formulario de descarga eliminan el outline y lo sustituyen por borde --amber-500 (#DFA24E sobre paper-100 = 2.10:1) más un glow --amber-tint (composición #F1E6D4 ≈ 1.08:1). Ningún indicador alcanza 3:1.
+- **Por qué importa:** Al usar outline:none en :focus (que también aplica en foco por teclado), el único indicador de foco de Nombre/Apellido/Correo queda bajo el umbral de 1.4.11 (≥3:1). Un usuario de teclado con baja visión no distingue qué campo está enfocado.
+- **Fix sugerido:** No suprimir el outline: dejar que actúe el :focus-visible global (blue-700, 9.90:1 sobre paper-200 / 10.70:1 sobre paper-100) y conservar el borde ámbar solo como decoración; o cambiar el borde de foco a --ochre-600 (3.49:1 sobre paper-100).
+- **Fuente:** wcag-aa · **Verificación:** Confirmado DownloadForm.astro:85-89: outline:none en :focus (la especificidad scoped de Astro vence al :focus-visible global) y calculé borde amber-500/paper-100 = 2.10:1 y glow compuesto #F9EEDC = 1.08:1 — ningún indicador llega a 3:1, P1 justificado.
+
+### P1.11 · 1.4.3 Contraste (mínimo) — estado hover
+- **Dónde:** src/styles/base.css:66 (a:hover → --ochre-600)
+- **Qué:** El hover global de enlaces pinta el texto en --ochre-600: #B07A2E sobre paper-200 = 3.23:1 en enlaces de cuerpo (16-17px), y 3.09:1 sobre paper-400 en la navegación (Header.astro:117 y :181), 2.93:1 sobre paper-500 en la sección FAQ. También Button.astro:146 (.btn--ghost:hover) y Breadcrumbs.astro:54.
+- **Por qué importa:** 1.4.3 aplica al texto en cualquier estado; a tamaño normal se requiere ≥4.5:1 y el hover ocre queda en 2.93–3.23:1. (Nota: distinto de la excepción ya decidida de eyebrows/refs — aquí es el texto de enlaces y navegación en hover, no etiquetas de marca.)
+- **Fix sugerido:** Usar un ocre más profundo solo para hover de texto, p. ej. #8A5F1F: 4.91:1 sobre paper-200, 4.69:1 sobre paper-400 y 5.30:1 sobre paper-100 — conserva el gesto cálido y pasa AA. Alternativa: mantener el color azul y reforzar hover solo con el subrayado.
+- **Fuente:** wcag-aa · **Verificación:** Verificado: a:hover ocre-600 existe en base.css:66, Header.astro:117/181, Button.astro:146, Breadcrumbs.astro:54; ratios calculados 3.23 (paper-200), 3.09 (paper-400, header confirmado línea 70) y 2.93 (paper-500) — todos <4.5:1 en texto normal, y NO es la excepción tan-500/eyebrows, así que P1 se sostiene (aunque el token documenta ochre-600 como 'hover nav', el color de texto hover no está en la lista de identidad protegida).
+
+### P1.12 · 1.4.11 Contraste no textual (indicador de foco)
+- **Dónde:** src/components/sections/PilaresGrid.astro:127-131 (.pilar__summary:focus-visible outline --amber-500)
+- **Qué:** El anillo de foco del acordeón de pilares es --amber-500 2px: #DFA24E da 2.10:1 sobre la tarjeta paper-100 y 1.95:1 sobre el fondo paper-200 donde se dibuja el outline (offset 4px).
+- **Por qué importa:** Indicador de foco bajo 3:1 (1.4.11). Es la única señal de foco del summary porque el override reemplaza al outline navy global.
+- **Fix sugerido:** Cambiar el outline a var(--color-focus) (blue-700, 9.90:1) o al menos --ochre-600 (3.23–3.49:1); el borde ámbar de la tarjeta puede seguir siendo la decoración de hover.
+- **Fuente:** wcag-aa · **Verificación:** Verificado en PilaresGrid.astro:127-131: outline 2px --amber-500 offset 4px reemplaza (por especificidad del scope) al anillo navy global de base.css:68; ratios calculados 2.10 vs tarjeta paper-100 (línea 94) y 1.95 vs paper-200 — única señal de foco del summary bajo 3:1, viola 1.4.11 AA.
+
+### P1.13 · 1.4.11 Contraste no textual (límite de componente)
+- **Dónde:** src/components/forms/DownloadForm.astro:79 (border: 1.5px solid var(--paper-line))
+- **Qué:** El borde de los inputs (--paper-line #E4DAC6) da 1.31:1 contra el fondo del propio input (paper-100) y 1.21:1 contra paper-200. En /recursos/descargar el formulario vive en .form-wrap con fondo paper-100 (descargar.astro:149-151), idéntico al fondo del input, así que el borde 1.31:1 es la ÚNICA señal visual del límite del campo.
+- **Por qué importa:** 1.4.11 pide ≥3:1 para la información visual necesaria para identificar controles. Un usuario con baja visión no percibe dónde empieza el área de captura.
+- **Fix sugerido:** Introducir un token de borde de input más firme, p. ej. --ochre-600 al 100% (3.49:1 sobre paper-100) o un gris cálido ~#8C8270 (≥3:1), reservando --paper-line para separadores decorativos.
+- **Fuente:** wcag-aa · **Verificación:** Verificado: DownloadForm.astro:79-81 borde --paper-line (1.31:1 calculado) sobre input paper-100 idéntico al fondo de .form-wrap (descargar.astro:149-151), sin placeholder; la etiqueta indica que el campo existe pero el borde 1.31:1 es la única señal del área de captura — sostenible como 1.4.11 aunque el Understanding admite debate cuando hay label visible; siendo el formulario la interacción principal de la página, P1 se mantiene.
+
+### P1.14 · A11Y/CONTRASTE
+- **Dónde:** src/components/ui/Button.astro:128
+- **Qué:** En hover, .btn--secondary pinta texto #fff sobre fondo --amber-500 (#DFA24E): contraste ≈ 2.2:1. Mismo patrón en Button.astro:167 (:global .section--invert) y CookieBanner.astro:86 (botón Rechazar).
+- **Por qué importa:** WCAG AA exige 4.5:1 en todos los estados, incluido hover; 2.2:1 hace el texto casi ilegible justo cuando el usuario interactúa. No está en las excepciones conocidas (solo tan-500 y eyebrows ocre). El propio sistema ya resuelve texto-sobre-ámbar en .btn--amber con --blue-cta-text (5.75:1, verificado).
+- **Fix sugerido:** Cambiar color: #fff por color: var(--blue-cta-text) en los tres hovers (Button.astro:128 y 167, CookieBanner.astro:86). Mantiene la identidad ámbar y pasa AA sin tocar el handoff.
+- **Fuente:** tecnico-impeccable · **Verificación:** Medido 2.23:1 (#fff sobre #DFA24E): falla 4.5:1 e incluso 3:1 en texto 14-19px semibold. Reglas confirmadas en Button.astro:128 y :167 y en el hover de Rechazar en CookieBanner.astro:86 (ruta real: src/components/sections/, no ui/). No está en las excepciones tan-500/eyebrows; el propio .btn--amber demuestra la solución (5.75:1 verificado). P1 sostenido.
+
+### P1.15 · A11Y/CONTRASTE
+- **Dónde:** src/styles/tokens.css:41
+- **Qué:** --ink-muted (#7E7A6E) sobre los fondos crema (paper-100/200/300) da ≈ 3.6–3.9:1 y se usa en texto pequeño: DownloadForm.astro:61,72,73,100 (ayuda/hints fs-sm y fs-xs), EventoCard.astro:84 (ubicación fs-sm), utilities.css:80 (.muted) y Badge.astro (badge--neutro fs-xs).
+- **Por qué importa:** Texto < 18.66px bold requiere 4.5:1 (WCAG AA); los hints de formulario y ubicaciones de eventos son contenido informativo, no decorativo. Esta combinación NO está en la lista de excepciones aprobadas por el dueño (que solo cubre tan-500 y eyebrows ocre).
+- **Fix sugerido:** Oscurecer el token a ~#6B665A (≥4.5:1 sobre paper-200 manteniendo el tono cálido) o reservar --ink-muted solo para texto ≥ 24px y usar --ink-body en fs-sm/fs-xs.
+- **Fuente:** tecnico-impeccable · **Verificación:** Medido: --ink-muted #7E7A6E da 4.05:1 sobre paper-100, 3.74:1 sobre paper-200 y 3.58:1 sobre paper-300 (el rango citado 3.6-3.9 subestima paper-100, pero todo falla 4.5:1). Usos confirmados en texto fs-sm/fs-xs: DownloadForm.astro:61,72,73,100; EventoCard.astro:84 (card paper-100); utilities.css:80; Badge.astro:23. No está en las excepciones aprobadas. P1 sostenido.
+
+## P2 — siguiente pasada
+
+### P2.1 · Visibilidad de estado / orientación
+- **Dónde:** src/components/layout/Header.astro:31
+- **Qué:** Al estar en /visitanos ningún elemento de navegación marca la ubicación actual (0 aria-current="page" en el HTML renderizado): "Visítanos" no está en NAV_PRIMARY y el Button del CTA no recibe estado activo ni aria-current.
+- **Por qué importa:** Es la única ruta del nav sin señal de "estás aquí". Sam no recibe anuncio de página actual y Jordan pierde el hilo de dónde está — precisamente en la página más importante del funnel.
+- **Fix sugerido:** Pasar aria-current y una clase is-active al Button del CTA cuando isActivePath(NAV_CTA.href), con un estilo activo discreto (borde inferior ámbar como los nav__link).
+- **Fuente:** critica-diseno · **Verificación:** Verificado: 0 aria-current en el HTML de /visitanos; 'Visítanos' solo existe como NAV_CTA (Button sin estado activo ni soporte de aria-current en sus Props) mientras las 7 rutas de NAV_PRIMARY sí reciben is-active + aria-current en Header.astro:27.
+
+### P2.2 · Accesibilidad / WCAG AA 1.4.11 (no-texto)
+- **Dónde:** src/pages/visitanos.astro:133
+- **Qué:** Los indicadores de expansión quedan bajo el 3:1 exigido a componentes de UI: el "+" del FAQ en --ochre-500 sobre paper-500 da 2.32:1 (también en lo-que-creemos.astro:291) y el chevron de PilaresGrid en --tan-500 sobre paper-100 da 2.88:1 (PilaresGrid.astro:161).
+- **Por qué importa:** Ese signo es la única pista visual de que la fila se expande. Mitigante: toda la fila summary es clicable con hover de fondo, por eso P2 y no P1 — pero un usuario con baja visión no descubre que hay contenido oculto.
+- **Fix sugerido:** Usar --ochre-600 sobre paper-100/200 no basta (3.2:1 justo); mejor --blue-700 o un ocre más oscuro (~#8F6325) para ambos indicadores.
+- **Fuente:** critica-diseno · **Verificación:** Recalculé ratios desde tokens.css: '+' #C98A33 sobre #EBE4D6 = 2.32:1 (visitanos.astro:129-136 y lo-que-creemos.astro idéntico) y chevron #A8906C sobre #FCF8EF = 2.88:1 (PilaresGrid.astro:161-162); ambos <3:1 y NO los cubre la excepción de marca (esa es solo texto: refs tan-500/eyebrows). P2 justo por la fila completa clicable.
+
+### P2.3 · Arquitectura de información / Jordan y Casey
+- **Dónde:** src/components/layout/Footer.astro:31
+- **Qué:** La dirección física no aparece en ninguna parte visible de la home ni del footer global: en la home solo vive dentro del alt de la foto y del JSON-LD; el footer dice únicamente "Amozoc · Tehuacán · Puebla".
+- **Por qué importa:** El footer es el lugar convencional donde un visitante (y Google, para NAP local) busca la dirección de una organización física. Hoy el camino mínimo desde la home hasta la dirección son 2 clics.
+- **Fix sugerido:** Añadir en la columna Contacto del footer la dirección verbatim (SITE.sedes.amozoc.fullAddress) con enlace al mapsUrl — un dato, cero ruido.
+- **Fuente:** critica-diseno · **Verificación:** Confirmado: Footer.astro:31 solo dice 'Amozoc · Tehuacán · Puebla' y en el HTML de la home 'C. 4 Nte. 207' aparece solo en JSON-LD y en un alt de imagen; corrección menor: el camino es 1 clic (nav Contacto → <address> visible en /contacto), no 2 — y de paso /visitanos tampoco muestra la dirección. P2 se sostiene.
+
+### P2.4 · Layout · Navegación
+- **Dónde:** src/components/layout/Header.astro:190
+- **Qué:** Entre 880px y ~1040px de viewport el nav de escritorio no cabe: «Lo que creemos» se parte en dos líneas (alto 62px vs 35px del resto), los links quedan en 2 filas y el header crece de 82 a 90px. Verificado con Chromium headless en 880/900/940/1000px (rows:2); a 1050px ya cabe (rows:1). Incluye iPad landscape (1024px).
+- **Por qué importa:** Nav visualmente roto en un rango de anchos muy común (tablets horizontales y ventanas medianas de laptop).
+- **Fix sugerido:** Subir el breakpoint del nav de escritorio de 880px a ~1060px (Header.astro:190 y el matchMedia de Header.astro:242 deben cambiar juntos), o reducir gap/font-size del .nav__list y añadir white-space: nowrap a .nav__link.
+- **Fuente:** web-guidelines · **Verificación:** Reproducido en vivo a 880/900/1000px: «Lo que creemos» se parte en 2 líneas (h 62-63px vs 35px) y el header crece a 91px; PERO a 1024px real (sin scrollbar) NO se rompe (link h 36, header 83) — el rango es ~880-1010px, la mención de iPad landscape 1024px no se sostiene (artefacto de scrollbar del headless).
+
+### P2.5 · Layout · Scroll horizontal
+- **Dónde:** src/pages/recursos/descargar.astro:146
+- **Qué:** En /recursos/descargar hay scrollbar horizontal a 320px (scrollWidth 337 > 320, verificado headless): la fila .pdf-item no puede comprimirse porque .pdf-item__action lleva white-space: nowrap («Descargar ↓») junto al icono fijo de 48px y los paddings.
+- **Por qué importa:** Regla: sin scrollbars horizontales accidentales. En iPhone SE/pantallas de 320px toda la página se desplaza lateralmente.
+- **Fix sugerido:** Permitir wrap del texto de acción en anchos chicos (quitar el nowrap bajo una media query), añadir min-width: 0 a .pdf-item__text, o esconder .pdf-item__action en <360px (la tarjeta completa ya es el enlace).
+- **Fuente:** web-guidelines · **Verificación:** Reproducido en vivo a 320px: scrollWidth 338 > clientWidth 320 (18px de scroll horizontal) causado por las filas .pdf-item (borde derecho en 338), y descargar.astro:~146 confirma white-space:nowrap en .pdf-item__action.
+
+### P2.6 · Accesibilidad · Anclas con header sticky
+- **Dónde:** src/components/layout/BaseLayout.astro:95
+- **Qué:** No existe scroll-margin-top en ningún archivo del proyecto (grep vacío) y el header es sticky de 82px. Verificado headless: al navegar a un id de heading de un post (#empieza-por-tres-preguntas-básicas) el heading queda en top:0 con el header terminando en 83px — completamente oculto. Lo mismo pasa con el destino del skip link (#main llega a top:0 bajo el header).
+- **Por qué importa:** Regla: scroll-margin-top en anchors. Los headings de Markdown reciben id automático en Astro, así que cualquier enlace compartido con #fragmento aterriza tapado; el skip link deja el inicio del contenido oculto al usuario de teclado que ya scrolleó.
+- **Fix sugerido:** Regla global en base.css: :is(main, h2, h3, h4)[id], [id] { scroll-margin-top: calc(var(--header-h) + 1rem); } (o al menos main y los headings del post body).
+- **Fuente:** web-guidelines · **Verificación:** Verificado: grep de scroll-margin en src/ vacío y navegación en vivo al anchor #empieza-por-tres-preguntas-básicas deja el heading en top:0 bajo el header sticky (bottom 83px, scroll-margin-top computado 0px) — heading completamente tapado.
+
+### P2.7 · Imágenes · Perf (LCP)
+- **Dónde:** src/components/sections/Hero.astro:60
+- **Qué:** La foto del hero de la home lleva loading="eager" pero fetchpriority queda en "auto" y no se pasan widths/sizes: el HTML servido trae un único src de 2048×1536 sin srcset, que es el candidato LCP de la portada.
+- **Por qué importa:** Regla explícita: fetchpriority="high" en la imagen del hero. Además servir 2048px a móviles infla el LCP.
+- **Fix sugerido:** Añadir fetchpriority="high" y widths={[480, 800, 1200, 1600]} + sizes acorde al layout (~50vw en desktop, 100vw en móvil) al <Image> del hero.
+- **Fuente:** web-guidelines · **Verificación:** Confirmado en HTML servido: el hero de la home trae loading="eager" pero fetchpriority="auto", un único src de 2048×1536 sin srcset/sizes (Hero.astro:60 no pasa widths ni fetchpriority). Es el candidato LCP de la portada; P2 justo.
+
+### P2.8 · 1.4.11 Contraste no textual (indicadores de estado)
+- **Dónde:** src/pages/lo-que-creemos.astro:287 (summary::after '+' en --ochre-500); también visitanos.astro:129, puebla.astro:124 y PilaresGrid.astro:156-165 (chevron --tan-500)
+- **Qué:** Los indicadores de abrir/cerrar de los acordeones quedan bajo 3:1: el '+' ocre (#C98A33) da 2.32:1 sobre paper-500 (sección FAQ) y 2.56:1 sobre paper-200; el chevron tan (#A8906C) da 2.88:1 sobre paper-100.
+- **Por qué importa:** 1.4.11 pide ≥3:1 para indicadores de estado. Es P2 (no P1) porque el estado abierto también se percibe por el contenido revelado y la rotación del glifo, pero el affordance de 'esto se expande' se pierde para baja visión.
+- **Fix sugerido:** Pintar '+' y chevron en --blue-700 (8.96:1 sobre paper-500, 10.70:1 sobre paper-100) o en el ocre profundo #8A5F1F; el hover puede seguir siendo ámbar.
+- **Fuente:** wcag-aa · **Verificación:** Verificado: '+' ocre-500 en lo-que-creemos.astro:287-291, visitanos.astro:129-133 y puebla.astro:124-128 (FAQ sobre paper-500 vía .section--faq, utilities.css:28 → 2.32:1; sobre paper-200 → 2.56:1) y chevron tan-500 en PilaresGrid.astro:156-165 → 2.88:1 vs paper-100; P2 es justo porque el estado abierto se percibe por el contenido revelado (indicador redundante), solo se pierde el affordance.
+
+### P2.9 · Touch / sticky hover (checklist 6)
+- **Dónde:** src/components/ui/Card.astro:33
+- **Qué:** Ningún estado :hover del sitio está envuelto en @media (hover: hover) and (pointer: fine). Confirmado en la página renderizada: 0 guards, 2 reglas translateY(-4px) sin proteger solo en la home. Afecta: Card.astro:33 (.card--link:hover, translateY(-4px)), PilaresGrid.astro:102 (.pilar:hover — al tocar el summary para abrir el acordeón en móvil la tarjeta queda 'levantada' con sombra ámbar pegada), contacto.astro:131 (.channel:hover — el canal de WhatsApp, CTA principal móvil), lo-que-creemos.astro:180, recursos/descargar.astro:111 (.pdf-item:hover), Button.astro:81/95/108/126 (translateY(-2px); btn--secondary además se queda relleno de ámbar con texto blanco), CookieBanner.astro:70/84, DownloadForm.astro:124, YouTubeEmbed.astro:42 (scale(1.1)), y los hovers de color/fondo en Header.astro:117/181, Footer.astro, visitanos.astro:128, puebla.astro y base.css:64.
+- **Por qué importa:** En touch, el primer tap aplica :hover y lo deja pegado hasta que el foco se mueve. En este sitio es especialmente visible: tarjetas y pilares quedan flotando a -4px con sombra tras cada tap, y el botón secundario queda relleno de ámbar. En el acordeón de pilares (tap para abrir/cerrar) el efecto pegado ocurre en CADA interacción. El propio brief lo marca como importante.
+- **Fix sugerido:** Envolver todos los bloques :hover que cambian transform/box-shadow/background en @media (hover: hover) and (pointer: fine) { ... }. Dado que el patrón se repite con la misma receta (§7.6 del handoff), conviene un mixin/clase utilitaria o al menos aplicar el guard en Card.astro, Button.astro, PilaresGrid.astro, contacto.astro, descargar.astro, CookieBanner.astro, DownloadForm.astro y YouTubeEmbed.astro. Los hovers de solo color (nav, footer, links) pueden quedarse fuera del guard si se acepta el color pegado, pero lo limpio es guardar todo.
+- **Fuente:** animacion-emil · **Verificación:** Hechos 100% confirmados (0 guards @media (hover:hover) en src/ ni en la home renderizada; Card.astro:33, PilaresGrid.astro:102 —en sections/, no home/—, contacto.astro:131, Button.astro:81/95/108/126 verificados), pero P1 está inflado: sticky hover es cosmético, no viola WCAG AA ni bloquea nada — es P2 menor con workaround, aunque pervasivo.
+
+### P2.10 · Affordance falsa en hover
+- **Dónde:** src/pages/lo-que-creemos.astro:180
+- **Qué:** .pilares-detallados :global(.card:hover) aplica translateY(-4px) + sombra + borde ámbar a tarjetas <Card> SIN href (lo-que-creemos.astro:90 no pasa href, renderizan como <div>). Esto anula a propósito el contrato documentado del componente: Card.astro:23-24 dice explícitamente que solo las tarjetas-enlace levantan porque «una tarjeta informativa que flota al hover sugiere un clic que no existe».
+- **Por qué importa:** El usuario ve la tarjeta levantarse con sombra, entiende que es clicable, hace clic y no pasa nada. Es exactamente el anti-patrón que el propio componente Card previene; la página lo reintroduce con :global().
+- **Fix sugerido:** Eliminar el bloque .pilares-detallados :global(.card:hover) (lo-que-creemos.astro:180-184) y la transition de la línea 175-178; dejar las tarjetas de pilares estáticas como las demás Card informativas del sitio.
+- **Fuente:** animacion-emil · **Verificación:** Verificado: lo-que-creemos.astro:90 no pasa href (Card renderiza <div>) y las líneas 168-184 aplican vía :global() el hover completo de tarjeta-enlace (translateY(-4px)+sombra+borde ámbar), anulando el contrato documentado en Card.astro:23-24. Affordance falsa real; P2 justo.
+
+### P2.11 · PERFORMANCE
+- **Dónde:** src/components/sections/Hero.astro:60
+- **Qué:** La imagen LCP del hero de la home se sirve como un único archivo de 2048px (142KB webp verificado en dist/_astro/foto-hero.F3gUJ0b6_6Gzv5.webp) sin widths/sizes, y con fetchpriority="auto".
+- **Por qué importa:** Un móvil de 375px descarga ~5x los píxeles que necesita para el elemento más pesado del primer viewport, y sin fetchpriority="high" el navegador no prioriza el recurso LCP: penaliza directamente LCP en la página más importante del sitio.
+- **Fix sugerido:** En el <Image> del hero: añadir widths={[480, 800, 1200, 1600, 2048]}, sizes="(max-width: 900px) 100vw, 45vw" y fetchpriority="high" (mantener loading="eager").
+- **Fuente:** tecnico-impeccable · **Verificación:** Confirmado en HTML renderizado: un solo archivo w=2048 sin srcset/sizes, fetchpriority="auto" explícito, dist 142,410 bytes. Pero severidad inflada: en <=900px la foto se apila DEBAJO del copy (Hero.astro:233-238), así que en móvil 375px el LCP probable es el H1, no la imagen; y 142KB webp ya es liviano. Defecto real (oversize ~4x en desktop + sin priorizar) pero P2, no P1.
+
+### P2.12 · PERFORMANCE
+- **Dónde:** src/components/layout/Header.astro:18
+- **Qué:** El logo del header queda con loading="lazy" y fetchpriority="auto" en el HTML final (verificado en dist/index.html): astro:assets aplica lazy por defecto y el componente no lo sobreescribe.
+- **Por qué importa:** El logo está above-the-fold en TODAS las páginas; lazy-load lo saca de la primera ola de descargas y la marca aparece tarde/parpadea, afectando la percepción de carga en cada navegación.
+- **Fix sugerido:** Añadir loading="eager" al <Image> del logo en Header.astro:18 (19KB webp, costo trivial en la primera ola).
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado en dist/index.html: el <img> del logo (mvi-logo-full) sale con loading="lazy" decoding="async" fetchpriority="auto" y Header.astro:18 no pasa loading="eager" — logo above-the-fold lazy en todas las páginas, P2 justo.
+
+## P3 — pulido / notas
+
+### P3.1 · Consistencia / lenguaje
+- **Dónde:** src/lib/site.ts:79
+- **Qué:** La misma página tiene dos nombres: "Reuniones" en NAV_PRIMARY, pero "Cómo nos reunimos" en el footer (site.ts:92), en el H1 y en los CTAs de otras páginas ("Ver horarios y reuniones", "Conocer cómo nos reunimos").
+- **Por qué importa:** Nielsen h4/h6: el usuario que memorizó "Cómo nos reunimos" desde un CTA no encuentra ese literal en el nav y duda si "Reuniones" es otra cosa (¿eventos?).
+- **Fix sugerido:** Unificar: "Reuniones" es más corto y funciona en el nav — cambiar el literal del footer a "Reuniones" o alinear todo a "Cómo nos reunimos"; una sola etiqueta en todo el sitio.
+- **Fuente:** critica-diseno · **Verificación:** Confirmado: site.ts:79 'Reuniones' vs :92 'Cómo nos reunimos', H1 renderizado 'Cómo nos reunimos' y CTAs en index.astro:123 y lo-que-creemos.astro:155 — pero rebajo a P3: mismo href, raíz léxica compartida ('reun-') y el nav es la única superficie divergente; la confusión con 'eventos' es especulativa.
+
+### P3.2 · Móvil / Casey (una mano)
+- **Dónde:** src/pages/contacto.astro:40
+- **Qué:** El número +52 238 385 6790 se presenta grande como valor del canal pero solo enlaza a wa.me; no existe ningún tel: en todo el sitio (0 coincidencias en el HTML de todas las páginas).
+- **Por qué importa:** Casey ve un teléfono y su modelo mental es "tocar para llamar"; que abra WhatsApp sorprende (el hint lo aclara, por eso P3). Adultos mayores — audiencia real de una iglesia — llaman más de lo que escriben.
+- **Fix sugerido:** Añadir un tercer canal o enlace secundario "Llamar" con href="tel:+522383856790", o al menos aclarar en el tag que es solo WhatsApp.
+- **Fuente:** critica-diseno · **Verificación:** Confirmado: contacto.astro:40 enlaza el número solo a SITE.social.whatsapp (wa.me) y grep de href="tel: en las 13 páginas renderizadas da 0 en todas; el hint 'abre la conversación con un toque' mitiga — P3 correcto.
+
+### P3.3 · Accesibilidad / Sam (teclado)
+- **Dónde:** src/components/layout/Header.astro:220
+- **Qué:** Al abrir el menú móvil el foco permanece en el botón hamburguesa y no hay contención: con el scroll bloqueado, Tab puede seguir hacia el contenido de la página detrás del panel.
+- **Por qué importa:** El orden DOM salva el caso principal (el panel viene justo después del toggle) y Escape/clic-fuera funcionan bien, así que el impacto es menor — pero un usuario de teclado puede "perderse" bajo un fondo congelado.
+- **Fix sugerido:** Al abrir, mover el foco al primer enlace del panel y devolverlo al toggle al cerrar; opcionalmente inert en main mientras esté abierto.
+- **Fuente:** critica-diseno · **Verificación:** Verificado en src/components/layout/Header.astro:212-245: setOpen() bloquea scroll (overflow:hidden) pero nunca mueve el foco al panel ni lo contiene; solo hay Escape (227-231) y clic-fuera (234-238). El panel viene justo después del toggle en el DOM (línea 44), así que Tab entra bien al menú, pero tras el último ítem sigue al contenido congelado detrás. P3 justo: no es diálogo modal estricto y hay salidas (Escape devuelve foco al botón).
+
+### P3.4 · Accesibilidad / target size (WCAG 2.2 · 2.5.8)
+- **Dónde:** src/components/layout/Footer.astro:205
+- **Qué:** Los enlaces legales del footer ("Aviso de privacidad", "Términos de uso") renderizan a ~12 px sin padding vertical: objetivo táctil de ~18 px de alto, bajo el mínimo AA de 24 px que sí cumplen los demás enlaces del footer (padding-block: var(--sp-2)).
+- **Por qué importa:** Son enlaces de baja frecuencia (por eso P3), pero el propio footer ya resolvió el patrón para el resto de sus enlaces; esta lista quedó fuera.
+- **Fix sugerido:** Aplicar el mismo display:inline-block + padding-block: var(--sp-2) a .legal-links a y al botón .cookie-prefs.
+- **Fuente:** critica-diseno · **Verificación:** Verificado en Footer.astro:205-213 y tokens.css: .legal-links a solo define color (línea 213), sin padding; la barra usa --fs-xs (~11.5-12.5px, tokens.css:70) con line-height 1.6 → objetivo ~18-20px de alto, mientras que .site-footer__nav a / __contact a sí tienen padding-block: var(--sp-2)=8px (Footer.astro:187-191). La inconsistencia es real. Matiz: con gap: var(--sp-5)=24px entre enlaces, probablemente aplica la excepción de espaciado de WCAG 2.5.8, así que técnicamente no es una violación AA dura — P3 correcto como pulido/consistencia, no subir.
+
+### P3.5 · Carga cognitiva / NOTA
+- **Dónde:** src/lib/site.ts:75
+- **Qué:** El nav primario ofrece 8 opciones simultáneas (7 enlaces + CTA), por encima del ideal de ≤4-5 para decisión rápida; "Recursos", "Blog" y (en footer) "Podcast" son la misma familia de contenido repartida en entradas separadas.
+- **Por qué importa:** Es un patrón convencional y el CTA destaca bien, así que el costo es bajo — pero Jordan escanea 8 etiquetas antes de decidir, y 3 de ellas compiten entre sí en vez de sumar.
+- **Fix sugerido:** Considerar a futuro agrupar Recursos/Blog/Podcast bajo una sola entrada "Recursos" con página índice (ya existe /recursos como hub natural). No urgente.
+- **Fuente:** critica-diseno · **Verificación:** Verificado en src/lib/site.ts:75-86: NAV_PRIMARY tiene exactamente 7 enlaces + NAV_CTA 'Visítanos' = 8 opciones; 'Recursos' y 'Blog' en nav primario y 'Podcast' en NAV_FOOTER_EXPLORA (102) son familia de contenido repartida. Factualmente correcto, pero es guía heurística (≤4-5 es ideal NN/g, no norma) y el patrón es convencional — se sostiene solo como NOTA P3.
+
+### P3.6 · Imágenes · Perf (LCP)
+- **Dónde:** src/components/layout/Header.astro:18
+- **Qué:** El logo del header se renderiza con loading="lazy" fetchpriority="auto" (default de <Image> de Astro, confirmado en el HTML servido) pese a estar siempre above the fold en todas las páginas.
+- **Por qué importa:** Regla: lazy solo bajo el fold. El logo (la marca) puede aparecer tarde/parpadear en conexiones lentas y compite mal en la cola de descarga.
+- **Fix sugerido:** Añadir loading="eager" al <Image> del logo en Header.astro:18 (el isotipo del footer sí puede quedarse lazy).
+- **Fuente:** web-guidelines · **Verificación:** Verificado en HTML servido de /: el logo del header sale con loading="lazy" fetchpriority="auto" (Header.astro:18 no pasa loading). Real, pero impacto mínimo: imagen chica con width/height fijos (sin CLS) y no es candidato LCP; es pulido de una línea (loading="eager"), no P2.
+
+### P3.7 · Dark/Theme
+- **Dónde:** src/components/layout/BaseLayout.astro:47
+- **Qué:** Tres valores de theme incoherentes entre sí y con el fondo real: <meta name="theme-color" content="#25386A"> (navy) mientras la página y el header son crema (#F4EFE6/#EFEAE0); el manifest declara theme_color #133299 (un azul que no existe en los tokens Equilibrio) y background_color #FAFAFA (tampoco es token).
+- **Por qué importa:** Regla: theme-color acorde al fondo. En móvil la barra del navegador queda navy sobre un sitio crema, y el splash de PWA usa colores del sistema anterior.
+- **Fix sugerido:** meta theme-color: #EFEAE0 (paper-400, el color del header sticky); manifest: theme_color #25386A o #EFEAE0 coherente y background_color #F4EFE6.
+- **Fuente:** web-guidelines · **Verificación:** Verificado: BaseLayout.astro:47 tiene theme-color #25386A y el manifest servido trae theme_color #133299 y background_color #FAFAFA; #133299 y #FAFAFA no existen en tokens.css (sistema anterior). Matiz: #25386A SÍ es token (--blue-700), pero la incoherencia meta/manifest/fondo crema es real. P3 correcto.
+
+### P3.8 · Touch
+- **Dónde:** src/components/layout/Header.astro:149
+- **Qué:** No hay ni un touch-action: manipulation ni overscroll-behavior en todo src/ (grep vacío). El panel .mobile-nav tiene overflow-y: auto sin overscroll-behavior: contain, y el scroll-lock se hace con overflow:hidden en <html> (línea 217), que en iOS no impide el scroll chaining desde el panel.
+- **Por qué importa:** Reglas: touch-action manipulation en interactivos; overscroll-behavior contain en paneles. Al llegar al final del menú móvil el gesto sigue scrolleando la página de fondo.
+- **Fix sugerido:** Añadir overscroll-behavior: contain a .mobile-nav, y touch-action: manipulation a .btn, .nav-toggle, links de nav y summary (puede ser una regla global a, button, summary).
+- **Fuente:** web-guidelines · **Verificación:** Verificado con grep: cero apariciones de touch-action u overscroll-behavior en src/; .mobile-nav tiene overflow-y:auto (Header.astro:162) sin contain, y el scroll-lock es overflow:hidden en <html> (línea 217), que en iOS no corta el scroll chaining al agotar el panel. Real, P3 justo.
+
+### P3.9 · Perf · Fuentes
+- **Dónde:** src/components/layout/BaseLayout.astro:83
+- **Qué:** Las fuentes se cargan con la hoja CSS remota de Google Fonts (render-blocking); hay preconnect a ambos dominios y display=swap en la URL, pero ningún <link rel="preload"> de los woff2 críticos ni self-hosting.
+- **Por qué importa:** Regla: preload de fuentes críticas con font-display swap. Con la CSS remota el navegador descubre los woff2 tarde → FOUT más largo de Newsreader/Hanken.
+- **Fix sugerido:** Self-hostear las dos familias (p. ej. astro-font o fontsource) con preload de los pesos usados above-the-fold (Newsreader 500, Hanken 400/700) y font-display: swap.
+- **Fuente:** web-guidelines · **Verificación:** Verificado BaseLayout.astro:81-86: solo preconnect x2 + <link rel=stylesheet> a fonts.googleapis.com con display=swap; cero rel=preload de woff2 y sin self-hosting. P3 justo (mitigado por preconnect+swap; el fix robusto sería self-host, no preload de URLs de Google que rotan).
+
+### P3.10 · Tipografía
+- **Dónde:** src/pages/terminos.astro:58
+- **Qué:** Comillas rectas en texto visible: «"tal como está"» (terminos.astro:58) y «("la iglesia", "nosotros")» (aviso-de-privacidad.astro:21). El resto del sitio ya usa comillas curvas y «» correctamente.
+- **Por qué importa:** Regla: comillas curvas, no rectas.
+- **Fix sugerido:** Sustituir por «tal como está» y («la iglesia», «nosotros») — o “ ” si prefieren comillas inglesas curvas, consistente con las citas del hero.
+- **Fuente:** web-guidelines · **Verificación:** Verificado: terminos.astro:58 tiene "tal como está" y aviso-de-privacidad.astro:21 tiene ("la iglesia", "nosotros") con comillas rectas en texto visible. Real, P3 correcto.
+
+### P3.11 · Tipografía · Cifras
+- **Dónde:** src/pages/contacto.astro:42
+- **Qué:** El teléfono «+52 238 385 6790» se pinta en .channel__value con overflow-wrap: anywhere (contacto.astro:149), que permite romper el número en cualquier punto; y los horarios «11:00 AM» / «7:30 PM» (index.astro:107, EventoCard, contacto.astro:83-85) usan espacio normal entre hora y AM/PM.
+- **Por qué importa:** Regla: espacios no separables en cifras+unidad. Un teléfono partido a mitad de grupo o «11:00 / AM» en líneas distintas se lee mal.
+- **Fix sugerido:** Usar &nbsp; (U+00A0) dentro del teléfono y entre hora y meridiano, y cambiar overflow-wrap: anywhere por white-space: nowrap en el valor del canal WhatsApp (el número cabe de sobra).
+- **Fuente:** web-guidelines · **Verificación:** Verificado: site.ts:49 phone='+52 238 385 6790' con espacios normales, renderizado en .channel__value (contacto.astro:42) que tiene overflow-wrap:anywhere (contacto.astro:149); horarios '11:00 AM'/'7:30 PM' con espacio normal en contacto.astro:83-85 e index.astro:107. Real, aunque anywhere solo rompe al desbordar (viewports muy angostos) — P3 justo.
+
+### P3.12 · Animación
+- **Dónde:** src/styles/utilities.css:101
+- **Qué:** .skip-link anima la propiedad top (transition: top var(--dur-2)) — propiedad de layout, no transform/opacity.
+- **Por qué importa:** Regla: animar solo transform/opacity. Además animar la aparición del skip link retrasa ver a dónde saltó el foco.
+- **Fix sugerido:** Usar transform: translateY(-200%) → translateY(0) en :focus, o directamente sin transición (los skip links suelen aparecer instantáneos).
+- **Fuente:** web-guidelines · **Verificación:** Verificado utilities.css:101: transition: top var(--dur-2) en .skip-link (propiedad de layout, no transform/opacity). Real; impacto marginal (0.18s, un solo elemento, y prefers-reduced-motion pone dur-2=0ms en tokens.css:230). P3 correcto.
+
+### P3.13 · i18n
+- **Dónde:** src/components/layout/Footer.astro:28
+- **Qué:** Ningún nombre de marca lleva translate="no": «MVI Amor y Gracia» en el footer (línea 28), tagline (línea 30), «Tiempos de Mesa» y «serie Crecer» en todo el sitio (grep de translate= vacío).
+- **Por qué importa:** Regla: translate="no" en nombres de marca. Google Translate convertiría «Crecer 1» o «Tiempos de Mesa» en literales raros para visitantes que traducen la página.
+- **Fix sugerido:** Envolver las apariciones clave: <span translate="no">MVI Amor y Gracia</span> en footer/header y en los nombres de la serie Crecer / Tiempos de Mesa donde son marca, no frase.
+- **Fuente:** web-guidelines · **Verificación:** Verificado con grep -rn 'translate=' src/ → cero resultados; 'MVI Amor y Gracia' en Footer.astro:28 y demás nombres de marca (Tiempos de Mesa, Crecer) sin translate="no". Real, P3 correcto.
+
+### P3.14 · UX · Affordance
+- **Dónde:** src/pages/lo-que-creemos.astro:180
+- **Qué:** Las tarjetas informativas de pilares (Card sin href) reciben hover-lift + sombra ámbar vía :global(.card:hover), contradiciendo el contrato del propio Card.astro (líneas 23-25: «una tarjeta informativa que flota al hover sugiere un clic que no existe» — solo .card--link debe levantar).
+- **Por qué importa:** Sugiere interactividad inexistente; inconsistente con EventoCard y PastoresCard que deliberadamente no levantan.
+- **Fix sugerido:** Eliminar el bloque .pilares-detallados :global(.card:hover) (lo-que-creemos.astro:180-184) y la transition asociada, o convertir cada pilar en enlace real si se quiere el hover.
+- **Fuente:** web-guidelines · **Verificación:** Verificado: lo-que-creemos.astro:180 aplica lift a Cards sin href y Card.astro:23-25 dice lo contrario; PERO el handoff §7.6 'Tarjeta de pilar' especifica ese hover verbatim (translateY(-4px)+shadow-card-hover), así que es spec aprobada → NOTA P3 decisión de marca; la contradicción real es comentario de Card.astro vs receta del handoff.
+
+### P3.15 · Accesibilidad · Lectores de pantalla
+- **Dónde:** src/pages/visitanos.astro:130
+- **Qué:** Caracteres decorativos expuestos a AT: el «+» de los acordeones FAQ se inyecta con content: "+" en ::after (visitanos.astro:129-135, lo-que-creemos.astro:287, puebla.astro:124) y entra al árbol de accesibilidad («más»); las flechas «→» van dentro del texto de los enlaces/CTAs (Hero.astro:52/84, footer «Escríbenos →», etc.) y VoiceOver las lee.
+- **Por qué importa:** Regla: iconos decorativos con aria-hidden / texto alternativo vacío.
+- **Fix sugerido:** Usar la sintaxis de texto alterno content: "+" / "" en los ::after, y mover las flechas a un <span aria-hidden="true"> (o pseudo-elemento) en Button/Hero/CTAs.
+- **Fuente:** web-guidelines · **Verificación:** Verificado: content:"+" sin alt (/ "") en visitanos:129-135, lo-que-creemos:287, puebla:~125, y "→" dentro del texto en Hero:52/84, Footer:63 (15 ocurrencias en src, 7 en home renderizado); contenido generado y flechas sí se exponen a VoiceOver. P3 justo.
+
+### P3.16 · Forms
+- **Dónde:** src/components/forms/DownloadForm.astro:32
+- **Qué:** El input de correo no lleva spellcheck="false" ni autocapitalize="none" (sí tiene type/inputmode/autocomplete correctos).
+- **Por qué importa:** Regla: spellcheck off en emails/códigos — evita subrayado rojo y autocapitalización del teclado móvil sobre la dirección.
+- **Fix sugerido:** Añadir spellcheck="false" autocapitalize="none" al input dl-email.
+- **Fuente:** web-guidelines · **Verificación:** Verificado DownloadForm.astro:32: sin spellcheck/autocapitalize (type/inputmode/autocomplete sí correctos); ojo: autocapitalize es discutible porque type=email ya no autocapitaliza por spec — solo el spellcheck aporta. P3 mínimo.
+
+### P3.17 · Imágenes · Código muerto
+- **Dónde:** src/components/youtube/YouTubeEmbed.astro:12
+- **Qué:** YouTubeEmbed.astro no se usa en ninguna página (grep sin resultados) y su <img> del thumbnail no lleva width/height explícitos (no produce CLS porque vive en un contenedor aspect-ratio con posicionamiento absoluto, pero incumple la regla literal). Tampoco habría preconnect a i.ytimg.com al usarlo.
+- **Por qué importa:** Componente muerto que además arrastraría dos incumplimientos menores el día que se conecte (podcast pendiente).
+- **Fix sugerido:** Al activarlo: añadir width="480" height="360" al img y <link rel="preconnect" href="https://i.ytimg.com"> en las páginas que lo usen; mientras tanto puede eliminarse.
+- **Fuente:** web-guidelines · **Verificación:** Verificado: grep en src/ sin ningún import/uso de YouTubeEmbed fuera del propio archivo (código muerto) y el img línea 12 sin width/height (sin CLS por el contenedor aspect-ratio, como admite el hallazgo). P3 correcto.
+
+### P3.18 · NOTA · Decisión de marca (contraste hover)
+- **Dónde:** src/styles/base.css:66
+- **Qué:** a:hover cambia los enlaces a --ochre-600 (#B07A2E): 3.23:1 sobre paper-200, bajo AA para texto normal. Es el «hover → ocre» del sistema Equilibrio (tokens.css:34 lo documenta como color de hover), así que se reporta como nota de marca, igual que los eyebrows ocre ya exceptuados.
+- **Por qué importa:** Estado transitorio y decisión estética del handoff; el enlace conserva el subrayado ámbar como señal no dependiente del color.
+- **Fix sugerido:** Si el dueño quisiera AA estricta en hover: oscurecer a ~#96682a (≥4.5:1) solo en el hover de enlaces de cuerpo, dejando eyebrows como están.
+- **Fuente:** web-guidelines · **Verificación:** Verificado base.css:66 (a:hover → ochre-600) y calculado 3.23:1 sobre paper-200; tokens.css:34 lo documenta como hover de marca y el subrayado ámbar persiste — P3 NOTA de marca es el encuadre correcto.
+
+### P3.19 · 2.5.5 Tamaño del objetivo (AAA — nota)
+- **Dónde:** src/components/layout/Footer.astro:186-191; Header.astro:108-116; Button.astro:70; Breadcrumbs.astro:48-53
+- **Qué:** Varios objetivos quedan bajo 44px de alto: enlaces del footer (padding-block 8px + texto 14.5px ≈ 39px), enlaces de nav de escritorio (≈31px), CTA del header btn--sm (10px+14px+10px ≈ 34px) y migas de pan (≈21px).
+- **Por qué importa:** 2.5.5 es nivel AAA, no bloquea AA (el toggle móvil sí cumple 44×44, los links del menú móvil ≈51px y los botones de cookies min-height:44px). Los enlaces del footer y las migas son los más relevantes por usarse en móvil.
+- **Fix sugerido:** Subir padding-block de los enlaces del footer a ~12px y de las migas a ~10px; para el CTA del header usar size='md' o min-height:44px en btn--sm.
+- **Fuente:** wcag-aa · **Verificación:** Verificado: footer links padding-block 8px + 14.5px ≈39px (Footer.astro:184-191), nav 0.5rem+fs-sm ≈31px (Header.astro:114), btn--sm 10px+lh:1 ≈34px (Button.astro:56/70), crumbs padding-block 4px ≈21-26px (Breadcrumbs.astro:51); 2.5.5 es AAA y los targets móviles críticos sí cumplen 44px (toggle 44×44 Header:133-134, cookies min-height 44 CookieBanner:54), así que P3 nota es correcto — solo las migas (~21-26px) rozarían además 2.5.8 AA de WCAG 2.2 si se adopta ese estándar.
+
+### P3.20 · 1.4.11 Contraste no textual (nota)
+- **Dónde:** src/components/layout/Header.astro:118-123 (.nav__link.is-active border-bottom --amber-500)
+- **Qué:** El subrayado ámbar del enlace activo da 1.86:1 sobre paper-400.
+- **Por qué importa:** No es fallo estricto: el estado activo tiene señales redundantes (color blue-700 9.74:1, peso semibold y aria-current='page' programático), pero el subrayado en sí no aporta a baja visión.
+- **Fix sugerido:** Si se quiere que el subrayado sea perceptible, usar --ochre-600 (3.09:1 sobre paper-400) manteniendo la familia ámbar.
+- **Fuente:** wcag-aa · **Verificación:** Verificado: computé el contraste amber-500 #DFA24E vs paper-400 #EFEAE0 = 1.86:1 exacto y Header.astro:118-123 coincide; señales redundantes reales (blue-700 9.46:1, semibold, aria-current), bien clasificado como nota P3 no-fallo.
+
+### P3.21 · 2.4.3 Orden de foco (nota)
+- **Dónde:** src/components/layout/Header.astro:197-245 (menú móvil)
+- **Qué:** Con el panel móvil abierto, Tab después del último elemento del menú lleva el foco al contenido de la página que queda visualmente detrás del overlay (no hay contención de foco).
+- **Por qué importa:** Es un patrón de disclosure (no un modal), el fondo sigue operable y Escape cierra devolviendo el foco al toggle, así que no viola AA; pero el usuario de teclado puede 'perderse' bajo el panel.
+- **Fix sugerido:** Opcional: al llegar el foco fuera del header con el menú abierto, cerrarlo (listener de focusin), o marcar el panel como dialog con foco contenido.
+- **Fuente:** wcag-aa · **Verificación:** Verificado en Header.astro:197-245: el script no contiene el foco (solo toggle, Escape con retorno de foco al botón, clic fuera); el panel es dropdown absolute no modal, así que Tab tras el último ítem sí cae al contenido de atrás — nota P3 correcta.
+
+### P3.22 · 1.4.11 Contraste no textual (nota)
+- **Dónde:** src/components/youtube/YouTubeEmbed.astro:32-41 (icono ▶ sobre miniatura)
+- **Qué:** El glifo de reproducción cream-text se dibuja sobre la miniatura del video: el contraste depende de la imagen (sobre el fondo #000 del contenedor da 17.89:1, pero sobre una miniatura clara puede caer bajo 3:1).
+- **Por qué importa:** El text-shadow (0 2px 12px rgba(0,0,0,0.5)) mitiga, y el botón tiene nombre accesible correcto ('Reproducir: …'), por eso es pulido y no fallo.
+- **Fix sugerido:** Darle al ▶ una pastilla de fondo semitransparente oscura (p. ej. rgba(26,39,71,0.75) circular), garantizando ≥3:1 sobre cualquier miniatura.
+- **Fuente:** wcag-aa · **Verificación:** Verificado YouTubeEmbed.astro:32-42: glifo cream-text sobre <img> de miniatura (contraste dependiente de imagen), text-shadow rgba(0,0,0,0.5) presente, aria-label 'Reproducir: …' correcto, cream vs #000 = 17.89:1 exacto — P3 justo.
+
+### P3.23 · Curvas de easing (checklist 3, 13)
+- **Dónde:** src/styles/tokens.css:156-158
+- **Qué:** Los tres tokens de curva resuelven al keyword genérico: --ease: ease; --ease-out: ease; --ease-in-out: ease. Los tokens --ease-out y --ease-in-out mienten: Header.astro:74,143 y YouTubeEmbed.astro:40 piden explícitamente var(--ease-out) esperando desaceleración y reciben `ease` genérico, que arranca con una fase de aceleración (ease-in suave) — lo contrario de lo que quiere una UI que responde al usuario.
+- **Por qué importa:** Emil Kowalski: la UI debe responder inmediato y desacelerar (ease-out); `ease` genérico añade un arranque lento y cero carácter. NOTA de marca: el handoff (SISTEMA_DE_DISENO.md §6) especifica literalmente `.18s ease`, así que el valor de --ease es decisión de marca (P3 en sí mismo); lo reportable como bug es que --ease-out/--ease-in-out sean alias de `ease` en vez de curvas reales, y que no exista ninguna cubic-bezier custom en todo el sistema.
+- **Fix sugerido:** Definir curvas reales: --ease-out: cubic-bezier(0.25, 1, 0.5, 1) (o al menos el keyword ease-out) y --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1). Opcional (consultar con el dueño porque el handoff dice `ease`): apuntar --ease a una ease-out suave tipo cubic-bezier(0.25, 0.8, 0.4, 1) para dar carácter consistente a botones y tarjetas.
+- **Fuente:** animacion-emil · **Verificación:** Verificado tokens.css:156-158 (los 3 alias resuelven a `ease`, cero cubic-bezier en src/ y handoff) y los 3 usos de var(--ease-out) en Header.astro:74,143 y YouTubeEmbed.astro:40; pero el handoff especifica literalmente `.18s ease` (SISTEMA_DE_DISENO.md:198-201) y a ≤200ms la diferencia es imperceptible — es higiene de tokens/pulido P3, no P2.
+
+### P3.24 · Animación en acción de teclado + propiedad de layout (checklist 5, 9)
+- **Dónde:** src/styles/utilities.css:101
+- **Qué:** .skip-link tiene transition: top var(--dur-2) var(--ease) y aparece deslizándose desde top:-100px cuando recibe foco por teclado (Tab). Doble falta: anima una acción 100% de teclado (deberían ser instantáneas) y anima `top`, propiedad de layout que dispara reflow en cada frame.
+- **Por qué importa:** El skip link es una herramienta de teclado puro: el usuario que tabula quiere el enlace YA, no 180ms de slide. Además animar top/left fuerza layout por frame en vez de componerse en GPU.
+- **Fix sugerido:** Quitar la transition (aparición instantánea es lo correcto para teclado): eliminar la línea 101. Si se quiere conservar el slide como firma, usar transform: translateY() en lugar de top y limitarlo a :focus-visible, pero la recomendación Kowalski es sin animación.
+- **Fuente:** animacion-emil · **Verificación:** Verificado utilities.css:101: transition top 180ms (--dur-2) al recibir foco, animando propiedad de layout. Los hechos son ciertos, pero la severidad estaba inflada: el enlace funciona, aparece en <200ms, el reflow de un solo elemento absoluto es despreciable y reduced-motion ya lo pone en 0ms. Es pulido, no P2.
+
+### P3.25 · prefers-reduced-motion (checklist 11)
+- **Dónde:** src/styles/tokens.css:224-232
+- **Qué:** La estrategia de movimiento reducido pone TODAS las duraciones en 0ms, matando también los fades de color/opacity (reducido ≠ cero: un fade de color de 160ms no es 'motion' vestibular y debe conservarse). Además el tratamiento es inconsistente: PilaresGrid.astro:194-197 sí neutraliza el transform de hover (.pilar:hover { transform:none }), pero Card, .channel, .pdf-item y los botones siguen saltando -4px/-2px instantáneamente bajo reduce.
+- **Por qué importa:** reduced-motion pide eliminar movimiento espacial (translate/scale), no transiciones de color. Con 0ms global los hovers de color parpadean secos, y los saltos de posición instantáneos siguen siendo desplazamiento espacial — justo lo que el usuario pidió evitar. PilaresGrid demuestra que el equipo conoce el patrón correcto; falta aplicarlo global.
+- **Fix sugerido:** En el bloque reduce de tokens.css: conservar --dur-link/--dur-1 (fades de color) y añadir una regla global tipo @media (prefers-reduced-motion: reduce) { .card--link:hover, .channel:hover, .pdf-item:hover, .btn:hover, .pilar:hover { transform: none; } } — o replicar el patrón de PilaresGrid en cada componente con hover-lift.
+- **Fuente:** animacion-emil · **Verificación:** Verificado: tokens.css:224-232 pone los 6 tokens de duración en 0ms (mata también fades de color), y solo PilaresGrid.astro:194-197 neutraliza transform bajo reduce; .channel (contacto.astro:131), .pdf-item (descargar.astro:111), .card--link y .btn conservan translateY que salta seco. Inconsistencia real; P3 correcto.
+
+### P3.26 · Feedback :active (checklist 7)
+- **Dónde:** src/components/sections/CookieBanner.astro:58
+- **Qué:** Los botones del cookie banner (.cookie-banner__btn, líneas 50-90) no tienen ningún estado :active, a diferencia de Button.astro:67 y DownloadForm.astro:129 que sí dan translateY(1px). Tampoco tienen estado pressed las tarjetas-enlace (.card--link, .channel, .pdf-item) ni el botón de play de YouTubeEmbed. Nota adicional: el :active de Button.astro llega retardado — comparte la transition de 180ms, así que el press tarda ~180ms en verse.
+- **Por qué importa:** Sin feedback de presión el tap en móvil se siente muerto (y con el guard de hover del hallazgo P1, :active será el ÚNICO feedback táctil disponible). El retardo de 180ms en el press de Button hace que el feedback llegue después del click percibido.
+- **Fix sugerido:** Añadir a CookieBanner el mismo :active { transform: translateY(1px) } (o scale(0.97)) de la receta de botones; considerar :active en tarjetas-enlace. Para el retardo: en .btn:active usar transition-duration más corta (p. ej. 60ms) o transition: none para que el press sea inmediato y solo el release anime.
+- **Fuente:** animacion-emil · **Verificación:** Verificado con grep: solo existen 2 reglas :active en todo src/ (Button.astro:67 y DownloadForm.astro:129). Los botones del CookieBanner (líneas 50-90), .card--link, .channel, .pdf-item y YouTubeEmbed no tienen estado pressed, y el :active de Button comparte la transition de 180ms (--dur-btn: .18s) así que el press llega retardado. Todo exacto; P3 correcto.
+
+### P3.27 · Coherencia enter/exit (checklist 8, 10)
+- **Dónde:** src/components/layout/Header.astro:143
+- **Qué:** El panel móvil (.mobile-nav, Header.astro:164) y el cookie banner (CookieBanner.astro:34,99-100) aparecen/desaparecen con el atributo hidden — pop instantáneo sin transición — mientras el ícono hamburguesa sí anima su morph a X en 180ms (Header.astro:143-147). Además, todo el sitio usa el mismo timing para entrada y salida (morph del hamburger, acordeones, chevrons): la salida nunca es más rápida que la entrada.
+- **Por qué importa:** La incoherencia ícono-animado/panel-instantáneo se percibe como glitch: el usuario ve la X formarse mientras el menú ya apareció seco. Kowalski: exits más rápidos que enters porque el usuario ya decidió irse. Dicho esto, menú instantáneo es defendible (acción frecuente); lo incoherente es animar solo el ícono.
+- **Fix sugerido:** Opción A (mínima): quitar la transition del morph del hamburger para que todo sea instantáneo y coherente. Opción B: animar el panel con opacity + translateY(-4px) → 0 usando transitions interrumpibles (entrada ~180ms ease-out, salida ~120ms), manejando hidden con transition-behavior: allow-discrete o toggling de clase. Para el cookie banner, un fade+rise de ~180ms al aparecer suavizaría el pop de un overlay fijo.
+- **Fuente:** animacion-emil · **Verificación:** Verificado: .mobile-nav[hidden]{display:none} (Header.astro:164) y CookieBanner hidden (líneas 34, 99-100) aparecen/desaparecen instantáneos mientras el hamburger morfa a X en 180ms (Header.astro:143-147); los tokens de duración son únicos (tokens.css:159-164), ninguna salida es más rápida que su entrada. Incoherencia real; P3 correcto.
+
+### P3.28 · NOTA: propiedad de layout aceptada (checklist 9)
+- **Dónde:** src/components/sections/PilaresGrid.astro:113
+- **Qué:** El acordeón de pilares transiciona block-size en ::details-content (0 → auto con interpolate-size: allow-keywords, línea 97) más content-visibility con allow-discrete. Es animación de propiedad de layout, pero vía la API moderna de <details> con degradación correcta (navegadores sin soporte abren sin transición).
+- **Por qué importa:** Excepción ya aceptada en el brief: es el patrón moderno recomendado para acordeones nativos y está implementado con progressive enhancement y bloque reduced-motion propio (líneas 194-197). Se registra como nota, no como defecto. Los FAQ de visitanos/lo-que-creemos/puebla en cambio no animan la apertura (solo el «+»), lo cual es coherentemente instantáneo — la única asimetría es que pilares anima y FAQs no.
+- **Fix sugerido:** Nada obligatorio. Si se busca uniformidad total, aplicar el mismo patrón ::details-content a los FAQ (visitanos.astro:108, lo-que-creemos.astro:283, puebla.astro:120) o dejar constancia en el sistema de diseño de que solo los pilares animan apertura.
+- **Fuente:** animacion-emil · **Verificación:** Verificado en PilaresGrid.astro: transición block-size en ::details-content (l.110-116) con interpolate-size (l.97) y reduced-motion propio (l.194-197); es el único archivo con ::details-content, así que la asimetría con los FAQ también es cierta. Nota P3 correcta como excepción aceptada.
+
+### P3.29 · Tokens muertos
+- **Dónde:** src/styles/tokens.css:158
+- **Qué:** --ease-in-out (línea 158) y --dur-3 (línea 164) están definidos pero no se usan en ningún archivo de src/ (grep con 0 resultados). --ease-out solo se usa en 3 declaraciones (Header.astro:74,143; YouTubeEmbed.astro:40) y hoy es indistinguible de --ease porque ambos valen `ease`.
+- **Por qué importa:** Tokens que nadie consume invitan a la deriva: el próximo componente elegirá al azar entre 6 duraciones/3 curvas que hoy colapsan en 3 valores reales. Fuera de esto la adopción de tokens es excelente: cero valores mágicos de timing en todo src/.
+- **Fix sugerido:** Eliminar --dur-3 y --ease-in-out, o documentar su caso de uso en tokens.css/SISTEMA_DE_DISENO.md. Si se aplica el fix del hallazgo de curvas (P2), --ease-out cobra sentido y se queda.
+- **Fuente:** animacion-emil · **Verificación:** Grep confirma: --ease-in-out (tokens.css:158) sin consumidores; --dur-3 (l.164) solo se redefine en reduced-motion (l.231), nadie lo usa; --ease-out solo en Header.astro:74,143 y YouTubeEmbed.astro:40, y vale `ease` igual que --ease. P3 justo.
+
+### P3.30 · PERFORMANCE
+- **Dónde:** src/components/sections/PastoresCard.astro:15
+- **Qué:** El <Image> de pastores.jpg define widths={[600,900,1280]} pero el atributo src fallback apunta al original de 4032px: el build publica dist/_astro/pastores.DdXis0xs_25Ukqi.webp de 1.15MB (verificado; además hay variante de 197KB, ambas > 200KB).
+- **Por qué importa:** Navegadores modernos usan el srcset, pero el archivo de 1.15MB se despliega igualmente y lo descargan crawlers, previews y cualquier consumidor sin soporte srcset — 1.15MB para una foto que nunca se muestra a más de 460px.
+- **Fix sugerido:** Añadir width={1280} (o densidad tope equivalente) al <Image> para que el src fallback sea la variante de 1280px (~112KB) y el original de 4032px no llegue a dist. Considerar quality más agresivo en la variante 1280 para bajar de 200KB la de 900px.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: dist/_astro/pastores.DdXis0xs_25Ukqi.webp pesa 1,151,580 bytes y es el src fallback en el HTML (width=4032); pero el srcset (57/112/197KB) cubre a ~99% de navegadores, así que el 1.15MB solo lo bajan crawlers/consumidores sin srcset — impacto real marginal, es higiene de build: P2 inflado, lo justo es P3 (además '197KB > 200KB' es falso, son 197,294 bytes).
+
+### P3.31 · PERFORMANCE
+- **Dónde:** astro.config.mjs:16
+- **Qué:** prefetch está configurado con prefetchAll:false y defaultStrategy:'hover', pero ningún enlace del sitio lleva data-astro-prefetch (grep en src y dist: 0 resultados). El runtime page.BT_9kWGp.js (2.25KB) se envía en cada página sin hacer nada.
+- **Por qué importa:** JS muerto en todas las páginas y, a la vez, una oportunidad perdida: en un sitio estático tan ligero, prefetch en hover haría la navegación interna casi instantánea.
+- **Fix sugerido:** O bien prefetchAll: true (recomendado para un sitio de ~16 páginas ligeras), o añadir data-astro-prefetch a los enlaces del Header; si no se quiere prefetch, eliminar el bloque para no enviar el runtime.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: astro.config.mjs:16-19 tiene prefetch {prefetchAll:false, defaultStrategy:'hover'}, grep de data-astro-prefetch en src+dist = 0 hits, y dist/_astro/page.BT_9kWGp.js (2,250 bytes, contiene el runtime de prefetch hover/tap) se referencia en 22 HTML de dist sin que ningún enlace lo active — P3 correcto.
+
+### P3.32 · PERFORMANCE
+- **Dónde:** src/components/layout/BaseLayout.astro:85
+- **Qué:** La URL de Google Fonts pide Hanken Grotesk 800, pero --fw-black no se usa en ningún componente ni página (grep: solo definido en tokens.css). El CSS de fonts es además el único recurso render-blocking externo.
+- **Por qué importa:** CSS extra innecesario en el recurso que bloquea el primer render; cada peso agregado agranda la hoja de Google Fonts. (Los preconnect a googleapis y gstatic con crossorigin están correctos — solo es recorte fino.)
+- **Fix sugerido:** Quitar ;800 de la URL (dejar 400;500;600;700). El handoff fija la URL exacta: confirmar con el dueño antes, o eliminar también --fw-black del token para coherencia.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: BaseLayout.astro:85 pide Hanken+Grotesk:wght@400;500;600;700;800 y --fw-black:800 solo existe en tokens.css:94 — cero usos de var(--fw-black) o font-weight:800 en src; el costo es solo CSS extra en la hoja render-blocking (los woff2 no usados no se descargan), P3 justo.
+
+### P3.33 · THEMING
+- **Dónde:** src/components/ui/Card.astro:19
+- **Qué:** NOTA (valores del handoff, decisión de marca): la receta de borde ámbar translúcido rgba(223,162,78,0.55/0.72/0.9/0.95) está repetida como literal en 8+ archivos: Card.astro:19,34,45,50,55; PilaresGrid.astro:95,103; EventoCard.astro:27,36; PastoresCard.astro:46; contacto.astro:124,132; lo-que-creemos.astro:171,181; Button.astro:130 y CookieBanner.astro:88 (sombra 0.7). Total ~21 rgba fuera de tokens.css, todos derivados de --amber-500.
+- **Por qué importa:** Los valores vienen del handoff Equilibrio (aceptables), pero al vivir fuera de tokens.css cualquier ajuste del ámbar de marca exige tocar 8 archivos en vez de 1, con riesgo de desincronización.
+- **Fix sugerido:** Crear tokens --border-amber: rgba(223,162,78,0.55), --border-amber-mesa: …0.72, --border-amber-hover: …0.95 y --shadow-amber-fill en tokens.css y referenciarlos. Cero cambio visual.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: rgba(223,162,78,…) aparece 16 veces (no ~21) fuera de tokens.css en exactamente 8 archivos — todas las líneas citadas (Card.astro:19/34/45/50/55 con 0.55/0.95/0.72/0.72/0.9, PilaresGrid:95/103, EventoCard:27/36, PastoresCard:46, contacto:124/132, lo-que-creemos:171/181, Button:130, CookieBanner:88) existen y tokens.css no tiene token de borde para esas opacidades; NOTA P3 decisión de marca, correcto.
+
+### P3.34 · THEMING
+- **Dónde:** src/components/layout/BaseLayout.astro:47
+- **Qué:** NOTA (posible decisión de marca): theme-color es #25386A (navy) pero el tope real de todas las páginas es el header crema (--paper-400 #EFEAE0); no hay variante con media="(prefers-color-scheme)". color-scheme: light sí está correctamente declarado en tokens.css.
+- **Por qué importa:** En Safari iOS y Chrome Android la franja del navegador se pinta navy contra el header crema — un corte duro que no existe en el diseño. Si es intencional como acento de marca, es válido; si no, desentona con el papel crema del sistema.
+- **Fix sugerido:** Si no es decisión deliberada: content="#EFEAE0" para fundirse con el header. Confirmar con el dueño.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: BaseLayout.astro:47 tiene <meta name="theme-color" content="#25386A"> sin variante media; Header.astro:70 usa --paper-400 (#EFEAE0) y tokens.css:171 declara color-scheme: light. Todo tal como se describe (detalle menor: #25386A es --blue-700 'azul primario', no --blue-950 navy del footer). P3 como nota de marca es justo.
+
+### P3.35 · RESPONSIVE
+- **Dónde:** src/components/layout/Footer.astro:128
+- **Qué:** El grid del footer salta de 1 a 4 columnas (1.4fr 1fr 1fr 1.2fr) justo en 700px: entre 700 y ~900px la columna de contacto queda en ~140-170px y el email contacto@amorygraciapuebla.org (una sola palabra de ~29 caracteres) fuerza a la pista a crecer a su min-content, comprimiendo las otras tres columnas.
+- **Por qué importa:** No produce overflow de página (verificado por cálculo de min-content: cabe a 700px), pero distorsiona el reparto 1.4/1/1/1.2 previsto y deja columnas de navegación apretadas en tablet vertical.
+- **Fix sugerido:** Paso intermedio de 2 columnas entre 700 y 1000px (como ya hace .grid--3), y overflow-wrap: anywhere en los enlaces de contacto como cinturón de seguridad.
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: Footer.astro:127-128 aplica grid 1.4fr/1fr/1fr/1.2fr desde 700px con gap 40px; el email contacto@amorygraciapuebla.org (site.ts:25) se renderiza a 14.5px sin overflow-wrap, y a 700px la pista 1.2fr recibiría ~137px (644px de contenido − 120px de gaps), menos que el min-content del email (~200px), así que la pista crece y comprime las otras columnas sin llegar a overflow. P3 correcto.
+
+### P3.36 · CÓDIGO/THEMING
+- **Dónde:** src/pages/404.astro:14
+- **Qué:** Tres estilos inline residuales pese a que utilities.css ya cubre los casos: 404.astro:14 style="margin-inline:auto" (existe .mx-auto), ofrendas.astro:63 style="margin-top: var(--sp-4)" (existe .mt-4) y puebla.astro:79 style="margin-top: var(--sp-5)" (existe .mt-5).
+- **Por qué importa:** El propio utilities.css declara que esas clases 'reemplazan estilos inline en páginas'; los tres restos contradicen la convención del sistema y escapan a futuros ajustes por token.
+- **Fix sugerido:** Sustituir por las clases utilitarias: class="lead mx-auto", class="mt-4", class="faq mt-5".
+- **Fuente:** tecnico-impeccable · **Verificación:** Verificado: los tres inline styles existen (404.astro:14 margin-inline:auto, ofrendas.astro:63 margin-top:var(--sp-4), puebla.astro:79 margin-top:var(--sp-5)) y utilities.css:126-131 declara .mx-auto/.mt-4/.mt-5 con el comentario 'reemplaza estilos inline en páginas'. Hallazgo exacto, P3 justo.
+
+---
+
+## Refutados en verificación adversarial
+
+- src/pages/sedes/amozoc.astro:35 — Breadcrumbs visibles solo existen en /sedes/* y /recursos/descargar; /visitanos, /nosotros, /lo-que-creemos, /como-nos-reunimos y /recursos solo emiten SchemaBreadcrumb (0 apariciones de .crumbs en su HTML).
+  - Razón: Verifiqué .crumbs en las 14 rutas: 0 en todas las páginas de nivel 1 y presentes en TODAS las de nivel 2 (/sedes/*, /recursos/descargar y también /recursos/crecer-* que el hallazgo omitió) — es la regla estándar 'breadcrumbs solo en subpáginas', no dos plantillas para 'páginas del mismo nivel' (/visitanos es nivel 1, no el mismo nivel que /sedes/amozoc). Único hueco real: los posts de /blog/* (nivel 2) no tienen crumbs, pero eso no es lo que describe el hallazgo.
+- src/pages/index.astro:61 — El alt de la foto del hero mezcla dato y eslogan: "Nuestra nueva ubicación: C. 4 Nte. 207… — Estás en casa". Si la imagen es el flyer con ese texto, el alt es válido; si es una foto del lugar, el alt está siendo usado como copy de marketing.
+  - Razón: Refutado abriendo src/assets/img/foto-hero.webp: la imagen SÍ es el flyer 'Nueva ubicación' con la dirección 'C. 4 Nte. 207…' y la lona 'Estás en casa' como texto incrustado — el propio hallazgo admite que en ese caso el alt es válido (equivalente textual del texto de la imagen, index.astro:61). No es alt-como-eslogan. Observación colateral cierta pero distinta: la dirección no aparece como texto visible en la home (solo en JSON-LD y en este alt).
+- src/components/layout/BaseLayout.astro:79 — Regla 'single-font' (una sola fuente para toda la página): el detector reporta que la única fuente usada es Newsreader.
+  - Razón: Refutado: falso positivo del detector confirmado. BaseLayout.astro:83-86 carga Newsreader Y Hanken Grotesk en una sola URL de Google Fonts, tokens.css:63-64 define --font-display (Newsreader) y --font-body (Hanken Grotesk), y --font-body se usa en nav, footer-h, etc. El detector solo vio 'newsreader' en la URL combinada. Además el par tipográfico es decisión de marca del sistema Equilibrio.
+- src/styles/base.css:101 — Regla 'side-tab' (borde de acento lateral grueso, señal típica de UI generada por IA): border-left: 4px solid var(--amber-500).
+  - Razón: Verificado base.css:101: el border-left ámbar está en el selector blockquote (barra de cita tipográfica documentada como marca Equilibrio), no en una card — la regla 'side-tab' del detector no aplica; falso positivo.
+- src/components/sections/CookieBanner.astro:23 — El banner de cookies es position: fixed con inset auto var(--sp-4) var(--sp-4) sin considerar env(safe-area-inset-bottom); en iPhone sin marco los botones quedan pegados a la zona del indicador de home.
+  - Razón: Código coincide (sin env()), pero el escenario no se sostiene: botones quedan ~40px sobre el borde (bottom 16px + padding 24px, indicador ~34px) y BaseLayout.astro:46 no lleva viewport-fit=cover → env(safe-area-inset-bottom)=0, el fix sería no-op; a lo sumo pulido defensivo futuro.
+
+## Lo que está bien (conservar)
+
+- Viaje emocional excepcional para el visitante primerizo: reaseguros constantes y concretos ("sin presión, sin requisitos", "si prefieres pasar inadvertido, está bien"), y la sección "Lo que NO vas a encontrar" en /visitanos es un momento de honestidad diferenciador que reduce la ansiedad exacta de quien nunca ha pisado una iglesia evangélica.
+- Sistema de diseño "Equilibrio" ejecutado con disciplina real: tokens exactos del handoff, jerarquía tipográfica Newsreader/Hanken consistente en todas las páginas, chunking de secciones ≤3-4 ítems por grid, y la firma navy→ámbar aplicada uniformemente en botones, tarjetas y canales.
+- Base de accesibilidad muy por encima del promedio: skip-link funcional, :focus-visible con inversión automática sobre fondos oscuros, sr-only en todos los enlaces target=_blank, role=status con aria-live en el formulario, prefers-reduced-motion respetado en tokens y componentes, y targets de 44px en el toggle móvil.
+- Formulario de descarga con validación inline ejemplar: errores solo tras interacción, aria-invalid + aria-describedby correctos, foco al primer campo inválido, mensajes específicos por tipo de error y honeypot en lugar de captcha visible.
+- Menú móvil robusto: Escape con retorno de foco, clic-fuera, scroll-lock con limpieza al rotar a desktop, y panel con scroll propio en landscape.
+- Honestidad radical como patrón de UX: /ofrendas explica por qué NO aceptan donaciones en línea, el copy de privacidad está en lenguaje llano ("si no quieres, quedas con el material y nada más"), y la regla "nunca placeholders al público" está codificada en site.ts con flags confirmed.
+- Divulgación progresiva bien usada: pilares como acordeón exclusivo con <details name> nativo + fallback JS mínimo, FAQ con details/summary, y descarga directa ofrecida ANTES que el formulario de correo en /recursos/descargar.
+- 404 con recuperación cálida y en voz de marca ("la mesa sigue puesta") más 4 rutas útiles — peak-end cuidado incluso en el error.
+- El detector determinístico corrió sin errores (exit code 2 = hallazgos) y solo produjo 2 avisos en todo src/, ambos verificados como probables falsos positivos o decisiones de marca documentadas.
+- El sistema tipográfico real sí usa dos familias correctamente tokenizadas (--font-display Newsreader, --font-body Hanken Grotesk) con fallbacks serif/sans apropiados en src/styles/tokens.css:63-64.
+- No se detectó ningún antipatrón real de UI generada por IA (gradientes genéricos, cards con side-tab, glassmorphism, etc.) en el código fuente.
+- Formulario de descarga ejemplar: labels asociados, autocomplete (given-name/family-name/email), inputmode, errores inline con aria-invalid + foco al primer campo inválido, estado async con role=status/aria-live, botón deshabilitado durante el envío con «Enviando…» (elipsis tipográfica correcta), honeypot bien ocultado (aria-hidden + tabindex=-1) y sin bloqueo de paste
+- Focus management sólido: :focus-visible global con outline 3px + offset, variante ámbar para fondos navy (.section--invert/.hero/.site-footer/.cookie-banner) y re-corrección a navy en el hero claro de la home; skip link visible al foco
+- prefers-reduced-motion resuelto de raíz: los tokens de duración colapsan a 0ms (tokens.css:224-233) y PilaresGrid añade overrides explícitos; cero transition:all en todo el código
+- Semántica correcta en todo el sitio: <button> para acciones y <a> para navegación (Button.astro elige el tag), nav/aside/article/address/details/summary nativos, breadcrumbs con aria-current=page, menú móvil con aria-expanded/aria-controls/aria-label dinámico, Escape devuelve el foco al toggle
+- Exactamente un h1 por página y sin saltos de jerarquía de headings en las 18 rutas (verificado con navegador headless); sin overflow horizontal en 17 de 18 páginas a 320/360/390px
+- Imágenes por astro:assets con width/height inferidos (sin CLS), densities/widths+sizes en logo/pastores/flyer, alt descriptivos y alt="" en decorativas con aria-hidden en el contenedor
+- Links externos con rel="noopener noreferrer" + aviso sr-only «(se abre en ventana nueva)» consistente en footer, contacto y sedes
+- i18n bien resuelto: Intl.DateTimeFormat('es-MX') con fix de timeZone UTC documentado, <time datetime>, html lang=es, og:locale es_MX
+- Estados vacíos manejados (blog sin posts ofrece rutas alternativas), 404 con CTAs de recuperación y noindex, page de ofrendas honesta sin pasarela falsa
+- color-scheme: light declarado, viewport sin user-scalable=no ni maximum-scale, text-wrap: balance en headings clave y text-wrap: pretty en subtítulos, tipografía con comillas curvas y guiones correctos en casi todo el contenido
+- Acordeón de pilares con <details name> nativo exclusivo + fallback JS mínimo, y transición de apertura progresiva (::details-content) con degradación limpia
+- GA4 solo tras consentimiento explícito (LFPDPPP) con banner aria-live=polite, revocación desde el footer y anonymize_ip; preconnect a fonts.googleapis/gstatic con crossorigin
+- TABLA DE CONTRASTE — PARES QUE PASAN (fórmula WCAG, 2 decimales): ink #2B2620/paper-200 #F4EFE6 = 13.09:1 · ink/paper-100 = 14.14:1 · ink/paper-500 = 11.85:1 · blue-700 #25386A/paper-200 = 9.90:1 (títulos y enlaces) · blue-700/paper-100 = 10.70:1 · blue-700/paper-500 = 8.96:1 (FAQ) · blue-500 #3A548C/paper-200 = 6.49:1 (itálica de acento h1) · nav-text #3C382F/paper-400 = 9.74:1 · ink-body 74%/paper-200 = 5.97:1 · ink-body-78/paper-200 = 6.84:1 · ink-body-80/paper-100 = 7.63:1
+- TABLA DE CONTRASTE — SOBRE AZULES (todos PASAN): cream-text #F4ECDD/blue-700 = 9.66:1 (botón primario) · cream-text/blue-700-hover = 8.47:1 · cream-text/blue-900 = 11.64:1 · cream-text/blue-950 = 12.55:1 · cream-text/blue-800 = 9.87:1 · slate-text #C2C9DB/blue-900 = 8.24:1 · slate-text/blue-950 = 8.89:1 · slate-text/blue-800 = 6.99:1 · footer-muted #9FA8BF/blue-950 = 6.19:1 · footer-copyright #8A93AD/blue-950 = 4.81:1 · amber-400 #E7B870/blue-950 = 8.06:1 (encabezados footer) · amber-500 #DFA24E/blue-950 = 6.61:1 y /blue-900 = 6.12:1 (hover de enlaces del footer) · blue-cta-text #22305A/amber-500 = 5.75:1 (botón ámbar) · blue-cta-text/amber-600 = 6.68:1 (hover) · error #b3261e/paper-100 = 6.17:1 y /paper-200 = 5.71:1 · success #1f7a4a/paper-200 = 4.65:1 · anillo de foco global blue-700/paper-200 = 9.90:1 · anillo invert amber-400/blue-950 = 8.06:1 · slate-text sobre card--dark compuesta (#263359) = 7.45:1
+- 1.3.1 Jerarquía de headings verificada en el HTML renderizado de las 14 rutas: un solo h1 por página y orden h1→h2→h3 sin saltos en todas (/, /nosotros, /lo-que-creemos, /como-nos-reunimos, /visitanos, /recursos, /contacto, /ofrendas, /blog, /podcast, /sedes/amozoc, /sedes/tehuacan, /puebla, /404).
+- 1.3.1 Landmarks completos y bien etiquetados: header/nav/main/footer en BaseLayout; múltiples <nav> desambiguados con aria-label ('Navegación principal', 'Navegación móvil', 'Conócenos', 'Explora el sitio', 'Ubicación en el sitio'); skip-link funcional a #main con tabindex=-1; role='list' restaurado en listas con list-style:none (fix del bug de Safari); <address> y <dl> semánticos.
+- 1.1.1 Todas las imágenes correctas: logo del header con alt del nombre del sitio, isotipo del footer decorativo con alt='' junto a texto visible, foto de pastores con alt descriptivo, flyer de Tiempos de Mesa con alt que transcribe el contenido del flyer (día y hora incluidos), facade de YouTube con alt='' + botón con aria-label 'Reproducir: {título}' e iframe con title. No hay SVGs inline sin tratamiento.
+- 4.1.2 / 2.1.1 Header ejemplar: hamburguesa con aria-expanded + aria-controls + aria-label que alterna Abrir/Cerrar; Escape cierra y devuelve el foco al botón; scroll lock; cierre al pasar a viewport de escritorio; acordeones con <details>/<summary> nativos (operables por teclado sin JS); acordeón exclusivo vía atributo name con fallback JS.
+- 3.3.1 / 3.3.2 DownloadForm sólido: <label for> en todos los campos, required nativo + validación JS con mensajes específicos en español, aria-invalid + aria-describedby hacia el error, foco movido al primer campo inválido, región role='status' aria-live='polite' para el resultado, '(opcional)' explícito en apellido, honeypot fuera del árbol de accesibilidad (aria-hidden + tabindex=-1 + visibility:hidden).
+- 3.2.1 Sin cambios de contexto on focus en ningún componente; enlaces target='_blank' anuncian '(se abre en ventana nueva)' vía .sr-only en footer, contacto y sedes; aria-current='page' en la navegación activa.
+- prefers-reduced-motion respetado en tres capas: tokens de duración a 0ms, transiciones de PilaresGrid anuladas y scroll-behavior:smooth condicionado a no-preference.
+- Correcciones de foco conscientes del fondo: .section--invert/.hero/.site-footer cambian el anillo a ámbar (8.06:1 sobre navy) y Hero.astro:191 devuelve correctamente el anillo navy en el hero claro de la home — solo quedó mal mapeado el cookie-banner (ver hallazgo).
+- Targets táctiles que sí cumplen 44px: nav-toggle (min 44×44 con comentario explícito), botones del cookie banner (min-height 44px), botones md/lg (~47-51px), enlaces del menú móvil (~51px).
+- lang='es' en <html>, color-scheme declarado, ::selection con 6.12:1 (blue-900 sobre amber-500).
+- Cero `transition: all` en todo src/ — cada transition lista propiedades exactas (transform, box-shadow, border-color, background-color, color), verificado por grep exhaustivo.
+- Cero @keyframes en el codebase: todo es transitions interrumpibles (checklist 8 aprobado por diseño), y no hay animaciones de entrada tipo scale(0) ni entrance-spam en héroes/secciones — restraint correcto para un sitio de contenido.
+- Todas las duraciones viven entre 160-200ms — ninguna supera 300ms (checklist 4 limpio) — y el 100% de las declaraciones usa tokens var(--dur-*) + var(--ease*): cero valores mágicos de timing sueltos.
+- Smooth scroll correctamente condicionado a @media (prefers-reduced-motion: no-preference) en src/components/layout/BaseLayout.astro:128-130.
+- PilaresGrid.astro es el componente modelo de motion: interpolate-size: allow-keywords con degradación progresiva, bloque prefers-reduced-motion propio que además neutraliza el transform de hover (líneas 194-197), y acordeón exclusivo nativo con <details name>.
+- Card.astro:23-24 documenta y aplica la decisión correcta de affordance: solo las tarjetas-enlace (.card--link) transicionan/levantan; las informativas quedan estáticas (aunque lo-que-creemos.astro lo anula — ver hallazgo P2).
+- Button.astro:67 y DownloadForm.astro:129 sí incluyen feedback :active (translateY(1px)), y DownloadForm neutraliza transform/sombra en :disabled (líneas 130-136).
+- El header sticky usa transition interrumpible de background/box-shadow al scrollear (Header.astro:74-79) con listener passive — patrón correcto para un trigger de alta frecuencia.
+- Solo transform/opacity en los morphs interactivos (hamburguesa→X, chevrons, play de YouTube): nada de height/margin/padding animados fuera de la excepción documentada del acordeón.
+- YouTubeEmbed es una fachada perfecta: miniatura estática + iframe de youtube-nocookie creado solo al clic — cero JS/peso de YouTube en la carga inicial.
+- Presupuesto de JS ejemplar: sitio estático Astro sin frameworks cliente; solo ~2.25KB de runtime + scripts inline mínimos (menú, acordeón, consentimiento), todos sin layout thrashing (scroll handler pasivo que solo alterna una clase; cero lecturas de offsetHeight/getBoundingClientRect).
+- Imágenes bajo el fold correctamente lazy por defecto vía astro:assets, y PastoresCard/flyer usan widths+sizes+quality de forma consciente; CSS final de solo 21KB por página.
+- prefers-reduced-motion resuelto a nivel de sistema: tokens de duración a 0ms en tokens.css, scroll-behavior condicionado en BaseLayout y transiciones anuladas en PilaresGrid — patrón consistente, no parche por componente.
+- Sistema de theming maduro: color-scheme: light declarado, tokens exhaustivos con valores exactos del handoff, aliases de compatibilidad documentados para la migración, y solo 5 literales hex fuera de tokens en todo src.
+- Responsive sólido: tipografía 100% fluida con clamp() en toda la escala, cero anchos fijos que rompan 320px, cero tablas/pre en las 16 rutas renderizadas, grids con pasos intermedios y el panel móvil con max-height:100dvh scrolleable.
+- A11y por encima de la media: skip link, focus-visible con anillo que cambia de color según el fondo (navy sobre crema, ámbar sobre navy), aria-current/aria-expanded/aria-controls correctos, menú móvil con Escape + clic-fuera + cierre al cruzar el breakpoint (matchMedia) que además libera el overflow bloqueado.
+- Formulario de descarga cuidado: validación accesible (aria-invalid, aria-describedby, errores solo tras interacción), honeypot, reCAPTCHA cargado solo si hay site key, y estados de envío con role=status.
+- Privacidad bien resuelta: GA4 y banner de cookies solo existen si hay Measurement ID configurado, y gtag se carga únicamente tras consentimiento explícito (LFPDPPP) con anonymize_ip.
+- Preconnect correcto a fonts.googleapis.com y fonts.gstatic.com (con crossorigin) + display=swap; theme-color y manifest presentes; build con guard de placeholders.
