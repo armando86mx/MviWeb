@@ -4,6 +4,7 @@ import Hero from '@components/sections/Hero.astro';
 import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
+import SchemaFAQ from '@components/seo/SchemaFAQ.astro';
 import { SITE } from '@lib/site';
 
 // Solo lo confirmado se muestra
@@ -13,12 +14,27 @@ const social = [
   { label: 'YouTube', href: SITE.social.youtube },
 ].filter((s) => Boolean(s.href));
 
+// Espacios no separables: el teléfono y las horas no deben partirse en línea
+const nbsp = (s: string) => s.replace(/ /g, ' ');
+
+// FAQ de primera visita (antes vivía en /visitanos; hoy /visitanos redirige aquí)
+const faq = [
+  { question: '¿Qué se hace en una reunión cristiana evangélica?', answer: 'Cantamos al Señor, se predica un pasaje de la Biblia, oramos, y compartimos la Cena del Señor con regularidad. Es sencillo, ordenado y enfocado en la Palabra.' },
+  { question: '¿Cuánto duran los servicios?', answer: 'El servicio dominical dura aproximadamente hora y media. Si vienes al estudio bíblico previo de las 10:30 AM, suma una hora más.' },
+  { question: '¿Cómo me visto para ir a una iglesia evangélica?', answer: 'Como te sientas cómodo. La gente viste casual o semi-formal. No hay código de vestimenta. Lo importante es que vengas, no cómo vienes.' },
+  { question: '¿Tengo que ser miembro para asistir?', answer: 'No. Puedes asistir como visitante el tiempo que quieras. Nadie te va a presionar para nada. La membresía formal viene mucho después, si tras conocernos tú eliges ser parte de la familia.' },
+  { question: '¿Hay actividades para niños?', answer: 'Las familias permanecen juntas y los niños son bienvenidos en el servicio. Si más adelante se formaliza un espacio infantil, lo anunciaremos aquí.' },
+  { question: '¿Aceptan ofrendas?', answer: 'Hay una caja para ofrenda voluntaria, sin presión. Si vienes de visita, no te preocupes por dar nada. La ofrenda es un acto de los que ya son parte de la familia.' },
+  { question: '¿Tengo que hablar adelante o presentarme?', answer: 'No. Si quieres saludar al pastor al final, eres bienvenido. Si prefieres pasar inadvertido tu primera vez, también está bien.' },
+];
+
 const title = 'Contacto · MVI Amor y Gracia · Iglesia en Puebla';
-const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@amorygraciapuebla.org. Si vives en Puebla, Amozoc o Tehuacán y quieres conocer la iglesia, este es el camino.';
+const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@amorygraciapuebla.org. Y si vienes por primera vez: qué esperar de un domingo en Amor y Gracia, sin sorpresas.';
 ---
 
 <BaseLayout title={title} description={description} path="/contacto">
   <SchemaBreadcrumb slot="head" items={[{ name: 'Inicio', href: '/' }, { name: 'Contacto', href: '/contacto' }]} />
+  <SchemaFAQ slot="head" items={faq} />
 
   <Hero
     eyebrow="Contacto"
@@ -39,7 +55,7 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
           <div class="channel-list">
             <a class="channel" href={SITE.social.whatsapp} target="_blank" rel="noopener noreferrer">
               <span class="channel__tag">WhatsApp</span>
-              <span class="channel__value">{SITE.sedes.amozoc.phone}</span>
+              <span class="channel__value">{nbsp(SITE.sedes.amozoc.phone)}</span>
               <span class="channel__hint">El camino más rápido — abre la conversación con un toque<span class="sr-only"> (se abre en ventana nueva)</span></span>
             </a>
             <a class="channel" href={`mailto:${SITE.email}`}>
@@ -59,7 +75,7 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
               <Button variant="primary" href={SITE.sedes.amozoc.mapsUrl} target="_blank" rel="noopener noreferrer">
                 Abrir en Google Maps<span class="sr-only"> (se abre en ventana nueva)</span>
               </Button>
-              <Button variant="ghost" href="/visitanos">Tu primera visita →</Button>
+              <Button variant="ghost" href="#primera-visita">Qué esperar en tu visita ↓</Button>
             </div>
           </Card>
         </article>
@@ -80,9 +96,9 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
           <Card variant="subtle">
             <p class="eyebrow">Horarios</p>
             <h3>Cuándo nos encontramos</h3>
-            <p><strong>Domingo · 10:30 AM</strong><br />Estudio bíblico previo</p>
-            <p><strong>Domingo · 11:00 AM</strong><br />Servicio dominical</p>
-            <p><strong>Jueves · 7:30 PM</strong><br />Tiempos de Mesa (en hogar)</p>
+            <p><strong>Domingo · {nbsp('10:30 AM')}</strong><br />Estudio bíblico previo</p>
+            <p><strong>Domingo · {nbsp('11:00 AM')}</strong><br />Servicio dominical</p>
+            <p><strong>Jueves · {nbsp('7:30 PM')}</strong><br />Tiempos de Mesa (en hogar)</p>
           </Card>
 
           <Card variant="subtle">
@@ -94,6 +110,67 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
             </p>
           </Card>
         </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" id="primera-visita">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Lo que sí esperar</p>
+        <h2>Qué encontrarás un domingo en Amor y Gracia</h2>
+      </header>
+      <div class="grid grid--3">
+        <Card variant="subtle">
+          <h3>Calidez sin presión</h3>
+          <p>Te recibimos con saludo, no con preguntas incómodas. Si quieres pasar inadvertido tu primera vez, está bien. Si quieres conocer al pastor al final, también.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Predicación expositiva</h3>
+          <p>Se abre la Biblia, se lee un pasaje, y se explica lo que dice. Sin teatralidad. Si nunca habías oído predicar así, vas a apreciar la calma.</p>
+        </Card>
+        <Card variant="subtle">
+          <h3>Mesa pequeña</h3>
+          <p>Somos pocos, y eso nos permite conocernos por nombre. Vas a sentir que importas como persona, no como número.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Lo que NO vas a encontrar</p>
+        <h2>Honestos sobre lo que no somos</h2>
+      </header>
+      <div class="grid grid--3">
+        <Card>
+          <h3>No somos espectáculo</h3>
+          <p>No vas a ver máquinas de humo, luces de concierto ni shows. La adoración es sencilla y central.</p>
+        </Card>
+        <Card>
+          <h3>No predicamos prosperidad</h3>
+          <p>No te van a prometer riqueza por sembrar pacto. El evangelio es Cristo, no una fórmula de éxito.</p>
+        </Card>
+        <Card>
+          <h3>No te vamos a presionar</h3>
+          <p>No hay altar de manipulación emocional ni listas de obligaciones para visitantes. Tu paso lo marcas tú.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--faq">
+    <div class="container container--prose">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2>Lo que la gente nos pregunta antes de venir</h2>
+      <div class="faq mt-5">
+        {faq.map((qa) => (
+          <details class="faq__item">
+            <summary>{qa.question}</summary>
+            <p>{qa.answer}</p>
+          </details>
+        ))}
       </div>
     </div>
   </section>
@@ -121,17 +198,19 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
     gap: 4px;
     padding: var(--sp-5) var(--sp-6);
     background: var(--paper-100);
-    border: 1.5px solid rgba(223,162,78,0.55);
+    border: 1.5px solid var(--border-amber);
     border-radius: var(--radius-card);
     text-decoration: none;
     transition: transform var(--dur-card) var(--ease),
                 box-shadow var(--dur-card) var(--ease),
                 border-color var(--dur-card) var(--ease);
   }
-  .channel:hover {
-    border-color: rgba(223,162,78,0.95);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
+  @media (hover: hover) and (pointer: fine) {
+    .channel:hover {
+      border-color: var(--border-amber-hover);
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
   }
   .channel__tag {
     font-family: var(--font-body);
@@ -168,5 +247,48 @@ const description = 'Escríbenos por WhatsApp (+52 238 385 6790) o a contacto@am
   }
 
   .contact-info { display: grid; gap: var(--sp-4); }
-  .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--ink-body); }
+  .contact-info ul { list-style: none; padding: 0; margin: 0; display: grid; font-size: var(--fs-sm); color: var(--ink-body); }
+  /* Target táctil ≥24px para los links de redes */
+  .contact-info ul a { display: inline-block; padding-block: var(--sp-2); }
+
+  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+
+  /* FAQ (receta §7.11) */
+  .faq__item {
+    border-bottom: 1px solid var(--paper-line-3);
+    border-radius: var(--radius-xs);
+  }
+  .faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 16px;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-medium);
+    color: var(--blue-700);
+    cursor: pointer;
+    list-style: none;
+    border-radius: var(--radius-xs);
+    transition: background var(--dur-link) var(--ease);
+  }
+  .faq__item summary::-webkit-details-marker { display: none; }
+  @media (hover: hover) and (pointer: fine) {
+    .faq__item summary:hover { background: var(--amber-tint); }
+  }
+  .faq__item summary::after {
+    content: "+" / "";
+    font-size: 26px;
+    line-height: 1;
+    color: var(--ochre-700);
+    transition: transform var(--dur-2) var(--ease);
+  }
+  .faq__item[open] summary::after { transform: rotate(45deg); }
+  .faq__item p {
+    margin: 0;
+    padding: 0 16px 24px;
+    color: var(--ink-body);
+    line-height: var(--lh-relaxed);
+  }
 </style>

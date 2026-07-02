@@ -19,7 +19,7 @@ const { eyebrow, title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
     </div>
     <div class="cta-band__actions">
       <Button variant="amber" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>
-      {secondaryCTA && <Button variant="ghost" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+      {secondaryCTA && <Button variant="ghost" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} <span aria-hidden="true">→</span></Button>}
     </div>
   </div>
 </section>

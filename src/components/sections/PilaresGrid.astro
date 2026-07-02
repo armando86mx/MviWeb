@@ -92,17 +92,19 @@ const pilares = [
      Ahora como acordeón exclusivo (details name="pilares"). */
   .pilar {
     background: var(--paper-100);
-    border: 1.5px solid rgba(223,162,78,0.55);
+    border: 1.5px solid var(--border-amber);
     border-radius: var(--radius-card);
     interpolate-size: allow-keywords;
     transition: transform var(--dur-card) var(--ease),
                 box-shadow var(--dur-card) var(--ease),
                 border-color var(--dur-card) var(--ease);
   }
-  .pilar:hover {
-    border-color: rgba(223,162,78,0.95);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
+  @media (hover: hover) and (pointer: fine) {
+    .pilar:hover {
+      border-color: var(--border-amber-hover);
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
   }
 
   /* Animación de apertura/cierre (progresiva: navegadores sin
@@ -125,7 +127,8 @@ const pilares = [
   }
   .pilar__summary::-webkit-details-marker { display: none; }
   .pilar__summary:focus-visible {
-    outline: 2px solid var(--amber-500, #DFA24E);
+    /* Navy como el anillo global: el ámbar daba 2.10:1 sobre la tarjeta (1.4.11) */
+    outline: 3px solid var(--color-focus);
     outline-offset: 4px;
     border-radius: var(--radius-card);
   }
@@ -158,8 +161,9 @@ const pilares = [
     margin-left: auto;
     width: 11px;
     height: 11px;
-    border-right: 2px solid var(--tan-500);
-    border-bottom: 2px solid var(--tan-500);
+    /* ochre-700: el tan daba 2.88:1, bajo el 3:1 de indicadores (1.4.11) */
+    border-right: 2px solid var(--ochre-700);
+    border-bottom: 2px solid var(--ochre-700);
     transform: rotate(45deg);
     transition: transform var(--dur-card) var(--ease);
   }

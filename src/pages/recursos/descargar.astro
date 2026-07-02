@@ -108,11 +108,13 @@ const pdfs = [
     color: var(--ink);
     transition: transform var(--dur-card) var(--ease), box-shadow var(--dur-card) var(--ease), border-color var(--dur-card) var(--ease);
   }
-  .pdf-item:hover {
-    border-color: var(--amber-500);
-    box-shadow: var(--shadow-card-sm-hover);
-    transform: translateY(-2px);
-    color: var(--ink);
+  @media (hover: hover) and (pointer: fine) {
+    .pdf-item:hover {
+      border-color: var(--amber-500);
+      box-shadow: var(--shadow-card-sm-hover);
+      transform: translateY(-2px);
+      color: var(--ink);
+    }
   }
   .pdf-item__icon {
     flex: 0 0 auto;
@@ -132,6 +134,7 @@ const pdfs = [
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
   }
   .pdf-item__text strong { font-family: var(--font-display); font-size: var(--fs-md); color: var(--blue-700); }
   .pdf-item__text span:last-child { font-size: var(--fs-sm); color: var(--ink-muted); }
@@ -144,6 +147,11 @@ const pdfs = [
     letter-spacing: var(--tracking-wide);
     color: var(--ochre-600);
     white-space: nowrap;
+  }
+  /* En pantallas muy angostas la etiqueta decorativa desbordaba (scroll a 320px);
+     toda la fila ya es el enlace de descarga */
+  @media (max-width: 480px) {
+    .pdf-item__action { display: none; }
   }
 
   .form-wrap {

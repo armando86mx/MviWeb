@@ -49,7 +49,7 @@ const {
         {(primaryCTA || secondaryCTA) && (
           <div class="hero__ctas">
             {primaryCTA && <Button variant="primary" size="lg" href={primaryCTA.href}>{primaryCTA.label}</Button>}
-            {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} →</Button>}
+            {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} <span aria-hidden="true">→</span></Button>}
           </div>
         )}
       </div>
@@ -57,7 +57,15 @@ const {
       {photo && (
         <div class="hero__media">
           <div class="hero__photo">
-            <Image src={photo} alt={photoAlt ?? ''} class="hero__img" loading="eager" />
+            <Image
+              src={photo}
+              alt={photoAlt ?? ''}
+              class="hero__img"
+              loading="eager"
+              fetchpriority="high"
+              widths={[480, 800, 1200, 1600, 2048]}
+              sizes="(max-width: 900px) 100vw, 45vw"
+            />
           </div>
         </div>
       )}

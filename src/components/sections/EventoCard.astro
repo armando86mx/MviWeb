@@ -24,7 +24,7 @@ const { title, weekday, time, location, description, variant = 'default', badge 
 <style>
   .evento {
     background: var(--paper-100);
-    border: 1.5px solid rgba(223,162,78,0.55);
+    border: 1.5px solid var(--border-amber);
     border-radius: var(--radius-card);
     padding: clamp(1.5rem, 2vw, 2rem);
     position: relative;
@@ -33,7 +33,7 @@ const { title, weekday, time, location, description, variant = 'default', badge 
 
   /* Tiempo de Mesa: mismo papel, borde ámbar más intenso */
   .evento--mesa {
-    border-color: rgba(223,162,78,0.72);
+    border-color: var(--border-amber-mesa);
   }
 
   .evento__badge {
@@ -70,6 +70,7 @@ const { title, weekday, time, location, description, variant = 'default', badge 
     font-size: var(--fs-lg);
     font-weight: var(--fw-medium);
     color: var(--blue-700);
+    white-space: nowrap; /* "11:00 AM" no se parte */
   }
 
   .evento__title {

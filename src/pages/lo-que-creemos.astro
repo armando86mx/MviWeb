@@ -165,22 +165,15 @@ const faq = [
     display: grid;
     gap: var(--sp-5);
   }
+  /* Sin hover-lift ni transition: estas tarjetas son informativas (sin href)
+     y el levantamiento sugería un clic que no existe */
   .pilares-detallados :global(.card) {
     display: block;
     background: var(--paper-100);
-    border: 1.5px solid rgba(223,162,78,0.55);
+    border: 1.5px solid var(--border-amber);
     border-radius: var(--radius-card);
     padding: 32px 36px;
     box-shadow: none;
-    transition:
-      transform var(--dur-card) var(--ease),
-      box-shadow var(--dur-card) var(--ease),
-      border-color var(--dur-card) var(--ease);
-  }
-  .pilares-detallados :global(.card:hover) {
-    border-color: rgba(223,162,78,0.95);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
   }
   .pilar-detail {
     display: grid;
@@ -283,12 +276,14 @@ const faq = [
     transition: background var(--dur-link) var(--ease);
   }
   .faq__item summary::-webkit-details-marker { display: none; }
-  .faq__item summary:hover { background: var(--amber-tint); }
+  @media (hover: hover) and (pointer: fine) {
+    .faq__item summary:hover { background: var(--amber-tint); }
+  }
   .faq__item summary::after {
-    content: "+";
+    content: "+" / "";
     font-size: 26px;
     line-height: 1;
-    color: var(--ochre-500);
+    color: var(--ochre-700);
     transition: transform var(--dur-2) var(--ease);
   }
   .faq__item[open] summary::after { transform: rotate(45deg); }

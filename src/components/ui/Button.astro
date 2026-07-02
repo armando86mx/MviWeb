@@ -23,6 +23,7 @@ const {
   rel,
   target,
   class: extraClass = '',
+  ...rest
 } = Astro.props;
 
 const cls = [
@@ -35,11 +36,11 @@ const cls = [
 ---
 
 {href ? (
-  <a href={href} class={cls} aria-label={ariaLabel} rel={rel} target={target}>
+  <a href={href} class={cls} aria-label={ariaLabel} rel={rel} target={target} {...rest}>
     <slot />
   </a>
 ) : (
-  <button type={type} class={cls} disabled={disabled} aria-label={ariaLabel}>
+  <button type={type} class={cls} disabled={disabled} aria-label={ariaLabel} {...rest}>
     <slot />
   </button>
 )}
@@ -67,6 +68,9 @@ const cls = [
   .btn:active { transform: translateY(1px); }
   .btn:disabled { opacity: 0.55; cursor: not-allowed; }
 
+  /* Los hovers solo aplican con puntero real: en touch quedarían "pegados"
+     tras el tap (levantamiento y relleno ámbar persistentes) */
+
   .btn--sm { padding: 10px 18px; font-size: var(--fs-sm); }
   .btn--md { padding: 15px 28px; font-size: var(--fs-base); }
   .btn--lg { padding: 17px 32px; font-size: var(--fs-md); }
@@ -78,11 +82,13 @@ const cls = [
     color: var(--cream-text);
     box-shadow: var(--shadow-btn-hero);
   }
-  .btn--primary:hover {
-    background-color: var(--blue-700-hover);
-    color: var(--cream-text);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-btn-hero-hover);
+  @media (hover: hover) and (pointer: fine) {
+    .btn--primary:hover {
+      background-color: var(--blue-700-hover);
+      color: var(--cream-text);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-btn-hero-hover);
+    }
   }
 
   /* CTA ámbar (sobre navy) */
@@ -92,11 +98,13 @@ const cls = [
     box-shadow: var(--shadow-cta-amber);
   }
   .btn--amber.btn--md { padding: 16px 30px; }
-  .btn--amber:hover {
-    background-color: var(--amber-600);
-    color: var(--blue-cta-text);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-cta-amber-hover);
+  @media (hover: hover) and (pointer: fine) {
+    .btn--amber:hover {
+      background-color: var(--amber-600);
+      color: var(--blue-cta-text);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-cta-amber-hover);
+    }
   }
 
   /* CTA crema (alternativo sobre navy) */
@@ -105,11 +113,13 @@ const cls = [
     color: var(--blue-cta-text);
     box-shadow: var(--shadow-cta-cream);
   }
-  .btn--invert:hover {
-    background-color: var(--cream-text);
-    color: var(--blue-cta-text);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-cta-amber-hover);
+  @media (hover: hover) and (pointer: fine) {
+    .btn--invert:hover {
+      background-color: var(--cream-text);
+      color: var(--blue-cta-text);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-cta-amber-hover);
+    }
   }
 
   /* Secundario: enlace-botón subrayado que se rellena de ámbar en hover */
@@ -123,12 +133,14 @@ const cls = [
     text-underline-offset: 4px;
   }
   .btn--secondary.btn--md { padding: 15px 22px; }
-  .btn--secondary:hover {
-    background-color: var(--amber-500);
-    color: #fff;
-    text-decoration: none;
-    box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7);
-    transform: translateY(-2px);
+  @media (hover: hover) and (pointer: fine) {
+    .btn--secondary:hover {
+      background-color: var(--amber-500);
+      color: var(--blue-cta-text); /* #fff daba 2.23:1 sobre ámbar; este par pasa AA (5.75:1) */
+      text-decoration: none;
+      box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7);
+      transform: translateY(-2px);
+    }
   }
 
   /* Ghost: enlace de texto con subrayado ámbar */
@@ -143,7 +155,9 @@ const cls = [
     padding-inline: 0;
     border-radius: 0;
   }
-  .btn--ghost:hover { color: var(--ochre-600); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--ghost:hover { color: var(--ochre-700); }
+  }
 
   /* Sobre fondos navy (hero oscuro, bandas CTA), ghost y secondary
      heredarían tinta sobre navy → texto invisible. Variantes claras.
@@ -152,19 +166,21 @@ const cls = [
   :global(.hero--page) .btn--ghost {
     color: var(--slate-text);
   }
-  :global(.section--invert) .btn--ghost:hover,
-  :global(.hero--page) .btn--ghost:hover {
-    color: var(--amber-400);
-  }
   :global(.section--invert) .btn--secondary,
   :global(.hero--page) .btn--secondary {
     color: var(--cream-text);
     text-decoration-color: var(--amber-500);
   }
-  :global(.section--invert) .btn--secondary:hover,
-  :global(.hero--page) .btn--secondary:hover {
-    background-color: var(--amber-500);
-    color: #fff;
-    text-decoration: none;
+  @media (hover: hover) and (pointer: fine) {
+    :global(.section--invert) .btn--ghost:hover,
+    :global(.hero--page) .btn--ghost:hover {
+      color: var(--amber-400);
+    }
+    :global(.section--invert) .btn--secondary:hover,
+    :global(.hero--page) .btn--secondary:hover {
+      background-color: var(--amber-500);
+      color: var(--blue-cta-text);
+      text-decoration: none;
+    }
   }
 </style>

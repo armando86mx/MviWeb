@@ -79,18 +79,18 @@ export const NAV_PRIMARY = [
   { label: 'Reuniones',      href: '/como-nos-reunimos' },
   { label: 'Recursos',       href: '/recursos' },
   { label: 'Blog',           href: '/blog' },
-  { label: 'Contacto',       href: '/contacto' },
 ] as const;
 
-/** CTA destacado del header: la página con mayor intención de visita. */
-export const NAV_CTA = { label: 'Visítanos', href: '/visitanos' } as const;
+/** CTA destacado del header. Contacto absorbe a la antigua /visitanos
+    (qué esperar, lo que no somos y FAQ viven al final de /contacto). */
+export const NAV_CTA = { label: 'Contacto', href: '/contacto' } as const;
 
 export const NAV_FOOTER_CONOCE = [
-  { label: 'Inicio',            href: '/' },
-  { label: 'Nosotros',          href: '/nosotros' },
-  { label: 'Lo que creemos',    href: '/lo-que-creemos' },
-  { label: 'Cómo nos reunimos', href: '/como-nos-reunimos' },
-  { label: 'Visítanos',         href: '/visitanos' },
+  { label: 'Inicio',         href: '/' },
+  { label: 'Nosotros',       href: '/nosotros' },
+  { label: 'Lo que creemos', href: '/lo-que-creemos' },
+  { label: 'Reuniones',      href: '/como-nos-reunimos' },
+  { label: 'Contacto',       href: '/contacto' },
 ] as const;
 
 export const NAV_FOOTER_EXPLORA = [

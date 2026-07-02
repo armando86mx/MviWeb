@@ -31,14 +31,21 @@
   --amber-500: #DFA24E;   /* ÁMBAR PRIMARIO: bordes, acentos, sombras hover */
   --amber-600: #E7B262;   /* hover botón ámbar */
   --ochre-500: #C98A33;   /* signo "+", subrayados */
-  --ochre-600: #B07A2E;   /* eyebrows sobre crema, hover nav */
+  --ochre-600: #B07A2E;   /* eyebrows sobre crema */
+  --ochre-700: #8A5F1F;   /* hover de enlaces e indicadores: mismo ocre, pasa AA (≥4.5:1 sobre cremas) */
   --tan-500:   #A8906C;   /* metadatos (referencia bíblica) */
   --amber-tint: rgba(223,162,78,0.12);  /* hover FAQ / fondos de tinte */
+
+  /* Borde ámbar translúcido de tarjetas (receta §7.6 del handoff) */
+  --border-amber:       rgba(223,162,78,0.55);
+  --border-amber-mesa:  rgba(223,162,78,0.72);
+  --border-amber-hover: rgba(223,162,78,0.95);
+  --line-input: #8C8270;  /* borde de inputs: ≥3:1 sobre paper-100 (WCAG 1.4.11) */
 
   /* ── Texto ───────────────────────────────────────────────── */
   --ink:            #2B2620;
   --ink-logo:       #20242e;
-  --ink-muted:      #7E7A6E;
+  --ink-muted:      #6B675B;  /* oscurecido de #7E7A6E: AA en texto chico sobre todas las cremas */
   --nav-text:       #3C382F;
   --cream-text:     #F4ECDD;
   --cream-text-2:   #F2ECDD;
@@ -154,8 +161,8 @@
 
   /* ── Motion (handoff) ────────────────────────────────────── */
   --ease: ease;
-  --ease-out: ease;
-  --ease-in-out: ease;
+  --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --dur-btn:  .18s;
   --dur-card: .2s;
   --dur-link: .16s;
@@ -206,7 +213,7 @@
   --color-fg-muted:     var(--ink-muted);
   --color-fg-on-deep:   var(--cream-text);
   --color-link:         var(--blue-700);
-  --color-link-hover:   var(--ochre-600);
+  --color-link-hover:   var(--ochre-700);
   --color-border:       var(--paper-line);
   --color-focus:        var(--blue-700);
   --color-focus-invert: var(--amber-400);
@@ -221,12 +228,13 @@
   --shadow-lg: 0 22px 48px -22px rgba(30,44,90,0.45);
 }
 
+/* Movimiento reducido ≠ cero: se anulan traslaciones/levantamientos
+   (dur-btn/card/2/3) pero se conservan los fades de color y opacidad
+   (dur-link/dur-1), que no son movimiento vestibular. */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --dur-btn: 0ms;
     --dur-card: 0ms;
-    --dur-link: 0ms;
-    --dur-1: 0ms;
     --dur-2: 0ms;
     --dur-3: 0ms;
   }

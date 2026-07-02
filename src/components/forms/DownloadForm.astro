@@ -29,7 +29,7 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
 
   <div class="field" data-field>
     <label class="field__label" for="dl-email">Correo <span aria-hidden="true">*</span></label>
-    <input id="dl-email" type="email" name="email" required maxlength="120" autocomplete="email" inputmode="email" aria-describedby="dl-email-hint dl-email-error" data-error-label="tu correo" />
+    <input id="dl-email" type="email" name="email" required maxlength="120" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="none" aria-describedby="dl-email-hint dl-email-error" data-error-label="tu correo" />
     <span class="field__hint" id="dl-email-hint">Solo lo usaremos para enviarte el material y, si lo decides después, el boletín.</span>
     <span class="field__error" id="dl-email-error" hidden></span>
   </div>
@@ -76,16 +76,18 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
     padding: 0.85rem 1rem;
     font-family: inherit;
     font-size: var(--fs-base);
-    border: 1.5px solid var(--paper-line);
+    /* --line-input ≥3:1 sobre paper-100: el campo necesita límite perceptible (1.4.11) */
+    border: 1.5px solid var(--line-input);
     border-radius: var(--radius-sm);
     background: var(--paper-100);
     color: var(--ink);
     transition: border-color var(--dur-1) var(--ease), box-shadow var(--dur-1) var(--ease);
   }
+  /* El foco lo marca el :focus-visible global (anillo navy 9.9:1);
+     el borde ámbar queda solo como acento decorativo */
   .field input:focus {
     border-color: var(--amber-500);
     box-shadow: 0 0 0 3px var(--amber-tint);
-    outline: none;
   }
 
   /* Error solo tras interacción (JS), nunca al cargar */
@@ -121,10 +123,12 @@ const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '';
                 box-shadow var(--dur-btn) var(--ease),
                 background-color var(--dur-btn) var(--ease);
   }
-  .btn:hover {
-    background: var(--blue-700-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-btn-hero-hover);
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover {
+      background: var(--blue-700-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-btn-hero-hover);
+    }
   }
   .btn:active { transform: translateY(1px); }
   .btn:disabled {

@@ -9,12 +9,16 @@ export default defineConfig({
   trailingSlash: 'never',
   // El preview de Claude asigna puerto vía PORT; sin la env se queda el default 4321.
   server: { port: Number(process.env.PORT) || 4321 },
+  // /visitanos se fusionó en /contacto (su contenido vive al final, #primera-visita)
+  redirects: {
+    '/visitanos': '/contacto',
+  },
   build: {
     format: 'directory',
     inlineStylesheets: 'auto',
   },
   prefetch: {
-    prefetchAll: false,
+    prefetchAll: true,
     defaultStrategy: 'hover',
   },
   integrations: [

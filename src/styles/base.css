@@ -63,7 +63,15 @@ a {
   text-underline-offset: 4px;
   transition: color var(--dur-link) var(--ease);
 }
-a:hover { color: var(--ochre-600); }
+a:hover { color: var(--ochre-700); }
+
+/* Con el header sticky (82px), los saltos a anclas no deben quedar tapados */
+[id] { scroll-margin-top: calc(var(--header-h) + 1rem); }
+
+/* Evita el retraso de doble tap en móvil sin bloquear zoom */
+a, button, summary, input, select, textarea, [role="button"] {
+  touch-action: manipulation;
+}
 
 :focus-visible {
   outline: 3px solid var(--color-focus);
@@ -71,11 +79,11 @@ a:hover { color: var(--ochre-600); }
   border-radius: 3px;
 }
 
-/* En fondos oscuros el anillo navy no se ve: ámbar */
+/* En fondos oscuros el anillo navy no se ve: ámbar.
+   (El cookie banner NO va aquí: su fondo es crema.) */
 .section--invert :focus-visible,
 .hero :focus-visible,
-.site-footer :focus-visible,
-.cookie-banner :focus-visible {
+.site-footer :focus-visible {
   outline-color: var(--color-focus-invert);
 }
 

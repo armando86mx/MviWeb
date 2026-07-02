@@ -9,7 +9,7 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
 ---
 <div class="yt" data-video-id={videoId}>
   <button class="yt__btn" type="button" aria-label={`Reproducir: ${title}`}>
-    <img src={thumb} alt="" loading="lazy" decoding="async" />
+    <img src={thumb} alt="" width="480" height="360" loading="lazy" decoding="async" />
     <span class="yt__play" aria-hidden="true">▶</span>
   </button>
 </div>
@@ -32,14 +32,21 @@ const thumb = thumbnail ?? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   .yt__play {
     position: absolute;
     inset: 0;
+    margin: auto;
     display: grid;
     place-content: center;
+    /* Pastilla navy translúcida: garantiza ≥3:1 sobre cualquier miniatura */
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: rgba(26,39,71,0.75);
     color: var(--cream-text);
-    font-size: 3rem;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+    font-size: 2.5rem;
     transition: transform var(--dur-2) var(--ease-out);
   }
-  .yt__btn:hover .yt__play { transform: scale(1.1); }
+  @media (hover: hover) and (pointer: fine) {
+    .yt__btn:hover .yt__play { transform: scale(1.1); }
+  }
 </style>
 
 <script>

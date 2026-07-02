@@ -16,7 +16,7 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
   /* Tarjeta crema firma: borde ámbar translúcido sobre papel */
   .card {
     background-color: var(--paper-100);
-    border: 1.5px solid rgba(223,162,78,0.55);
+    border: 1.5px solid var(--border-amber);
     border-radius: var(--radius-card);
     padding: clamp(1.25rem, 2vw, 1.75rem);
   }
@@ -30,10 +30,12 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
                 box-shadow var(--dur-card) var(--ease),
                 border-color var(--dur-card) var(--ease);
   }
-  .card--link:hover {
-    border-color: rgba(223,162,78,0.95);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-4px);
+  @media (hover: hover) and (pointer: fine) {
+    .card--link:hover {
+      border-color: var(--border-amber-hover);
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
   }
   /* Neutra: sin acento ámbar */
   .card--subtle {
@@ -42,18 +44,20 @@ const cls = ['card', `card--${variant}`, href ? 'card--link' : '', extraClass].f
   }
   /* Tiempo de Mesa: mismo papel, borde ámbar más intenso */
   .card--mesa {
-    border-color: rgba(223,162,78,0.72);
+    border-color: var(--border-amber-mesa);
   }
   /* Tarjeta sobre banda navy (§7.7) */
   .card--dark {
     background-color: rgba(220,230,255,0.04);
-    border: 1.5px solid rgba(223,162,78,0.72);
+    border: 1.5px solid var(--border-amber-mesa);
     border-radius: var(--radius-card-sm);
     padding: 28px;
   }
-  .card--dark.card--link:hover {
-    border-color: rgba(223,162,78,0.9);
-    box-shadow: var(--shadow-card-sm-hover);
-    transform: translateY(-4px);
+  @media (hover: hover) and (pointer: fine) {
+    .card--dark.card--link:hover {
+      border-color: rgba(223,162,78,0.9);
+      box-shadow: var(--shadow-card-sm-hover);
+      transform: translateY(-4px);
+    }
   }
 </style>

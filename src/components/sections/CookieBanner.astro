@@ -67,11 +67,14 @@
     font-weight: var(--fw-bold);
     box-shadow: var(--shadow-btn);
   }
-  .cookie-banner__btn--primary:hover {
-    background: var(--blue-700-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-btn-hover);
+  @media (hover: hover) and (pointer: fine) {
+    .cookie-banner__btn--primary:hover {
+      background: var(--blue-700-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-btn-hover);
+    }
   }
+  .cookie-banner__btn:active { transform: translateY(1px); }
   /* Receta secondary: subrayado ocre que se rellena de ámbar */
   .cookie-banner__btn--secondary {
     background: transparent;
@@ -81,12 +84,14 @@
     text-decoration-color: var(--ochre-500);
     text-underline-offset: 4px;
   }
-  .cookie-banner__btn--secondary:hover {
-    background: var(--amber-500);
-    color: #fff;
-    text-decoration: none;
-    box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7);
-    transform: translateY(-2px);
+  @media (hover: hover) and (pointer: fine) {
+    .cookie-banner__btn--secondary:hover {
+      background: var(--amber-500);
+      color: var(--blue-cta-text); /* #fff daba 2.23:1 sobre ámbar */
+      text-decoration: none;
+      box-shadow: 0 16px 32px -14px rgba(223,162,78,0.7);
+      transform: translateY(-2px);
+    }
   }
 </style>
 

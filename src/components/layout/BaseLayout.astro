@@ -44,7 +44,8 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#25386A" />
+    {/* Coincide con el header sticky (paper-400): el chrome del navegador se funde con la barra */}
+    <meta name="theme-color" content="#EFEAE0" />
 
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
@@ -82,7 +83,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
     />
 
     {showSiteSchema && <SchemaWebSite />}

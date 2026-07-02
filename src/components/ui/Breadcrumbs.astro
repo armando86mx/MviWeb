@@ -48,15 +48,17 @@ const { items, invert = false } = Astro.props;
   .crumbs a {
     color: var(--ink-muted);
     text-decoration: none;
-    padding-block: var(--sp-1);
+    padding-block: var(--sp-2); /* target táctil ≥24px */
     transition: color var(--dur-link) var(--ease);
   }
-  .crumbs a:hover { color: var(--ochre-600); text-decoration: none; }
   .crumbs [aria-current="page"] { color: var(--ink); }
   .crumbs__sep { color: var(--paper-line-2); }
 
   .crumbs--invert a { color: var(--slate-text); }
-  .crumbs--invert a:hover { color: var(--amber-400); }
+  @media (hover: hover) and (pointer: fine) {
+    .crumbs a:hover { color: var(--ochre-700); text-decoration: none; }
+    .crumbs--invert a:hover { color: var(--amber-400); }
+  }
   .crumbs--invert [aria-current="page"] { color: var(--amber-400); }
   .crumbs--invert .crumbs__sep { color: var(--slate-text); }
 </style>

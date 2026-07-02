@@ -25,7 +25,7 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
         <span class="footer-brand__mark" aria-hidden="true">
           <Image src={isotipo} alt="" class="footer-brand__iso" width={30} densities={[1, 2]} />
         </span>
-        <span class="footer-brand__name">MVI Amor y Gracia</span>
+        <span class="footer-brand__name" translate="no">MVI Amor y Gracia</span>
       </a>
       <p class="footer-tagline">{SITE.tagline}</p>
       <p class="footer-locale">Iglesia Cristiana Evangélica<br/>Amozoc · Tehuacán · Puebla</p>
@@ -51,6 +51,11 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
 
     <section class="site-footer__contact">
       <h2 class="footer-h">Contacto</h2>
+      <address class="footer-addr">
+        <a href={SITE.sedes.amozoc.mapsUrl} target="_blank" rel="noopener noreferrer">
+          {SITE.sedes.amozoc.fullAddress}<span class="sr-only"> (mapa, se abre en ventana nueva)</span>
+        </a>
+      </address>
       <ul>
         <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
         {whatsapp && (
@@ -116,7 +121,9 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     text-decoration: none;
     transition: color var(--dur-link) var(--ease);
   }
-  .site-footer a:hover { color: var(--amber-500); }
+  @media (hover: hover) and (pointer: fine) {
+    .site-footer a:hover { color: var(--amber-500); }
+  }
 
   .site-footer__grid {
     display: grid;
@@ -124,7 +131,11 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     gap: 40px;
     padding-block: var(--sp-10) var(--sp-9);
   }
+  /* Paso intermedio: de 700 a 1000px las 4 columnas apretaban el contacto */
   @media (min-width: 700px) {
+    .site-footer__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1000px) {
     .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; }
   }
 
@@ -190,6 +201,16 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     padding-block: var(--sp-2);
   }
 
+  .footer-addr {
+    font-style: normal;
+    font-size: 14.5px;
+    line-height: var(--lh-normal);
+    color: var(--footer-muted);
+    margin-bottom: var(--sp-2);
+    max-width: 32ch;
+    overflow-wrap: anywhere;
+  }
+
   .site-footer__bar {
     border-top: 1px solid rgba(255,255,255,0.1);
   }
@@ -210,12 +231,17 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
     flex-wrap: wrap;
     align-items: center;
   }
-  .legal-links a { color: var(--footer-copyright); }
+  /* Target táctil ≥24px para legales y preferencias */
+  .legal-links a {
+    color: var(--footer-copyright);
+    display: inline-block;
+    padding-block: var(--sp-2);
+  }
   .legal-links a:hover { color: var(--amber-500); }
   .cookie-prefs {
     background: none;
     border: 0;
-    padding: 0;
+    padding: var(--sp-2) 0;
     font: inherit;
     color: var(--footer-copyright);
     cursor: pointer;

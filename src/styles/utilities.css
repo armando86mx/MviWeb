@@ -36,7 +36,7 @@
 .section--invert h1, .section--invert h2, .section--invert h3, .section--invert h4 { color: var(--cream-text-2); }
 .section--invert p { color: var(--slate-text); }
 .section--invert a { color: var(--slate-text); text-decoration-color: var(--amber-500); }
-.section--invert a:hover { color: var(--amber-500); }
+.section--invert a:hover { color: var(--amber-400); }
 
 /* Eyebrow: Hanken 700, tracking amplio — ocre sobre crema, ámbar sobre oscuro */
 .eyebrow {
@@ -98,7 +98,6 @@
   border-radius: var(--radius-pill);
   text-decoration: none;
   font-weight: var(--fw-semibold);
-  transition: top var(--dur-2) var(--ease);
 }
 .skip-link:focus { top: var(--sp-4); }
 
