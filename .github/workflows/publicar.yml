@@ -1,0 +1,51 @@
+# Publica el sitio solo, sin pasos manuales:
+#   - cada 3 horas: reconstruye para refrescar prédicas de YouTube y episodios
+#     de Spotify (se hornean en cada build) y empuja a la rama `deploy`;
+#     Hostinger la jala vía webhook (DEPLOY.md, "Auto-publicación").
+#   - en cada push a main: publica los cambios de código/contenido.
+# Si YouTube/Spotify no responden, check-medios.mjs aborta y el sitio en línea
+# se queda como estaba; el siguiente run lo reintenta.
+name: Publicar sitio
+
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      saltar_guard:
+        description: 'Emergencia: publicar aunque falten videos/episodios'
+        type: boolean
+        default: false
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: cp .env.example .env
+      - name: Build y push a la rama deploy
+        env:
+          DEPLOY_PUSH_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          MIN_MEDIOS: ${{ inputs.saltar_guard && '0' || '4' }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash scripts/deploy.sh || { echo "— reintento en 60 s (YouTube parpadea a veces)…"; sleep 60; bash scripts/deploy.sh; }

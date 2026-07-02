@@ -15,17 +15,31 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 RAMA_DEPLOY="deploy"
-ORIGEN=$(git remote get-url origin)
+# DEPLOY_PUSH_URL: lo usa GitHub Actions para autenticar el push; en local no hace falta.
+ORIGEN=${DEPLOY_PUSH_URL:-$(git remote get-url origin)}
 COMMIT_FUENTE=$(git rev-parse --short HEAD)
 
 echo "── Build…"
 pnpm build
+node scripts/check-medios.mjs
 
 echo "── Publicando dist/ como rama '$RAMA_DEPLOY'…"
 cd dist
 rm -rf .git
 git init -q -b "$RAMA_DEPLOY"
+
+# Encadenar al historial ya publicado: el push sale fast-forward (más amable
+# con el pull de Hostinger) y permite saltar publicaciones idénticas
+# (los builds programados sin video nuevo terminan aquí).
+if git fetch -q --depth 1 "$ORIGEN" "$RAMA_DEPLOY" 2>/dev/null; then
+  git reset -q --soft FETCH_HEAD
+fi
 git add -A
+if git rev-parse -q --verify HEAD >/dev/null 2>&1 && git diff --cached --quiet; then
+  echo "✓ Sin cambios respecto a lo ya publicado — no se sube nada."
+  rm -rf .git
+  exit 0
+fi
 git commit -q -m "Deploy $(date '+%Y-%m-%d %H:%M') desde $COMMIT_FUENTE"
 
 # Push con reintentos (la red a GitHub a veces parpadea)

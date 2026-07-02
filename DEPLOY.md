@@ -27,8 +27,10 @@ Todo el código ya está listo: el build genera un `dist/` completo que incluye
        Hostinger si existe.
    - **Auto-publicación**: en la misma pantalla de GIT, copia la URL del
      **webhook** que te da Hostinger y pégala en GitHub: repo → Settings →
-     Webhooks → "Add webhook" (solo eventos push). Con esto, cada vez que
-     corras `./scripts/deploy.sh` el sitio se actualiza solo.
+     Webhooks → "Add webhook" (solo eventos push). Con esto, cada push a la
+     rama `deploy` publica solo — y como GitHub Actions
+     (`.github/workflows/publicar.yml`) reconstruye el sitio cada 3 horas,
+     **las prédicas y episodios nuevos aparecen en el home sin que hagas nada**.
 
 3. En esta Mac: si haces el `.env` desde cero, `cp .env.example .env`
    (las llaves de GA4 y Clarity ya vienen con sus valores).
@@ -36,6 +38,15 @@ Todo el código ya está listo: el build genera un `dist/` completo que incluye
 ---
 
 ## El día de publicación
+
+### 0. Confirmar la publicación automática (2 min)
+
+En GitHub: repo → **Actions** → debe aparecer "Publicar sitio" (si no, el
+workflow aún no llegó a `main` con el merge de release). Botón **Run
+workflow** → esperar el ✓ verde y ver en el log "Medios del home completos:
+4 videos, 4 episodios" — esa es la prueba de que YouTube/Spotify responden
+también desde GitHub. Si fallara repetido ahí (y en local sí funciona),
+avísale a Claude: el plan B es usar la API oficial de YouTube.
 
 ### 1. Config del formulario en el servidor (5 min)
 
@@ -92,17 +103,18 @@ SSL "Full (Strict)" + Always Use HTTPS + Web Analytics.
 
 | Cuándo | Qué |
 |---|---|
-| Publicaron prédica/episodio nuevo | `./scripts/deploy.sh` (los medios del home se hornean en cada build) |
-| Post nuevo del blog | escribir el `.md` en `src/content/blog/` → deploy |
-| Publicar los posts 3 y 4 (tras revisión pastoral) | cambiar `draft: true` → `false` en LOS DOS archivos (se enlazan entre sí) → deploy |
-| reCAPTCHA (opcional, si llega spam) | crear llaves v3 en google.com/recaptcha → site key al `.env`, secret al config del servidor → deploy |
+| Publicaron prédica/episodio nuevo | **Nada** — GitHub Actions reconstruye y publica cada 3 horas; aparece solo. (¿Prisa? repo → Actions → "Publicar sitio" → Run workflow) |
+| Post nuevo del blog | escribir el `.md` en `src/content/blog/` → push a `main` → se publica solo |
+| Publicar los posts 3 y 4 (tras revisión pastoral) | cambiar `draft: true` → `false` en LOS DOS archivos (se enlazan entre sí) → push a `main` |
+| reCAPTCHA (opcional, si llega spam) | crear llaves v3 en google.com/recaptcha → site key a **`.env.example`** (es pública; los builds automáticos construyen desde ahí — un valor solo en tu `.env` local se borra del sitio en el siguiente build) → secret al config del servidor → push a `main` |
 
 ## Si algo sale mal
 
 - **No llega el correo del formulario**: revisa `~/amorygracia-config.php`
   (contraseña de noreply@, chmod 600). El formulario mientras tanto degrada
   amable: ofrece la descarga directa.
-- **El home salió sin videos**: YouTube no respondió durante el build (pasa a
-  veces) — vuelve a correr `./scripts/deploy.sh`.
+- **El home salió sin videos**: ya no puede pasar — `check-medios.mjs` aborta
+  el deploy si el build no trae los 4 videos y 4 episodios; el sitio en línea
+  se queda como estaba y el siguiente run (máx. 3 h) lo reintenta.
 - **Deshacer un deploy**: `git log` → `git checkout <commit-anterior>` →
   `./scripts/deploy.sh` → `git checkout main`.
