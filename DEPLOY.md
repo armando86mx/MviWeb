@@ -52,9 +52,11 @@ avísale a Claude: el plan B es usar la API oficial de YouTube.
 Con los secrets FTP del punto 2 ya creados, **ese mismo run publica el
 sitio**: al ✓ verde, https://amorygraciapuebla.org ya está en línea.
 
-**Antes del primer run**: hPanel → Administrador de archivos → vacía
-public_html (borra el `index.php` de "Próximamente" y cualquier otro resto —
-el deploy por FTP solo sube, nunca borra lo que no es suyo).
+**Antes del primer run**: hPanel → Administrador de archivos → en
+public_html borra **solo** el `index.php` de "Próximamente" y `logo.png`.
+**NO toques la carpeta `app/`** (el subdominio de la app de finanzas) ni
+nada más: el deploy por FTP solo administra sus propios archivos — nunca
+borra ni pisa lo ajeno, así que `app/` convive en paz con el sitio.
 
 ### 1. Config del formulario en el servidor (5 min)
 
