@@ -38,6 +38,8 @@ const ogImageURL = ogImage.startsWith('http') ? ogImage : `${SITE.url}${ogImage}
 // El banner de cookies solo tiene sentido cuando GA4 está configurado:
 // sin Measurement ID no hay nada que consentir y el banner sería fricción.
 const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
+const CLARITY_ID = import.meta.env.PUBLIC_CLARITY_PROJECT_ID || '';
+const HAY_ANALITICA = Boolean(GA4_ID || CLARITY_ID);
 ---
 <!doctype html>
 <html lang={SITE.language}>
@@ -97,27 +99,38 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID || '';
       <slot />
     </main>
     <Footer />
-    {GA4_ID && <CookieBanner />}
-    {GA4_ID && (
-      <script is:inline define:vars={{ GA4_ID }}>
-        // Carga GA4 únicamente con consentimiento explícito (LFPDPPP).
+    {HAY_ANALITICA && <CookieBanner />}
+    {HAY_ANALITICA && (
+      <script is:inline define:vars={{ GA4_ID, CLARITY_ID }}>
+        // Carga GA4 y Clarity únicamente con consentimiento explícito (LFPDPPP).
         (function () {
           var loaded = false;
-          function loadGA() {
+          function loadAnalitica() {
             if (loaded) return;
             loaded = true;
-            var s = document.createElement('script');
-            s.async = true;
-            s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
-            document.head.appendChild(s);
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { window.dataLayer.push(arguments); }
-            window.gtag = gtag;
-            gtag('js', new Date());
-            gtag('config', GA4_ID, { anonymize_ip: true });
+            if (GA4_ID) {
+              var s = document.createElement('script');
+              s.async = true;
+              s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA4_ID;
+              document.head.appendChild(s);
+              window.dataLayer = window.dataLayer || [];
+              function gtag() { window.dataLayer.push(arguments); }
+              window.gtag = gtag;
+              gtag('js', new Date());
+              gtag('config', GA4_ID, { anonymize_ip: true });
+            }
+            if (CLARITY_ID) {
+              window.clarity = window.clarity || function () {
+                (window.clarity.q = window.clarity.q || []).push(arguments);
+              };
+              var c = document.createElement('script');
+              c.async = true;
+              c.src = 'https://www.clarity.ms/tag/' + CLARITY_ID;
+              document.head.appendChild(c);
+            }
           }
-          if (localStorage.getItem('mvi-cookie-consent-v1') === 'granted') loadGA();
-          document.addEventListener('mvi:consent-granted', loadGA);
+          if (localStorage.getItem('mvi-cookie-consent-v1') === 'granted') loadAnalitica();
+          document.addEventListener('mvi:consent-granted', loadAnalitica);
         })();
       </script>
     )}
