@@ -38,10 +38,8 @@ const activo = videos.length > 0 || episodios.length > 0;
           </ul>
 
           <div class="medios__ctas">
+            {/* sub_confirmation=1: YouTube ofrece la suscripción al abrir el canal */}
             <Button variant="secondary" href={`${youtubeChannel}?sub_confirmation=1`} target="_blank" rel="noopener noreferrer">
-              Suscribirse al canal<span class="sr-only"> (se abre en YouTube)</span>
-            </Button>
-            <Button variant="secondary" href={youtubeChannel} target="_blank" rel="noopener noreferrer">
               Ver el canal en YouTube<span class="sr-only"> (se abre en ventana nueva)</span>
             </Button>
           </div>
