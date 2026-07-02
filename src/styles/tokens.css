@@ -36,6 +36,11 @@
   --tan-500:   #A8906C;   /* metadatos (referencia bíblica) */
   --amber-tint: rgba(223,162,78,0.12);  /* hover FAQ / fondos de tinte */
 
+  /* Colores de plataforma (solo en titulares grandes: pasan 3:1 sobre cremas,
+     no alcanzan 4.5:1 — no usarlos en texto chico) */
+  --brand-youtube: #FF0000;  /* rojo oficial: 3.49:1 sobre paper-200 */
+  --brand-spotify: #159743;  /* verde Spotify apenas profundizado: 3.31:1 */
+
   /* Borde ámbar translúcido de tarjetas (receta §7.6 del handoff) */
   --border-amber:       rgba(223,162,78,0.55);
   --border-amber-mesa:  rgba(223,162,78,0.72);

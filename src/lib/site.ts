@@ -109,7 +109,6 @@ export const NAV_FOOTER_EXPLORA = [
   { label: 'Sede Tehuacán',     href: '/sedes/tehuacan' },
   { label: 'Recursos',          href: '/recursos' },
   { label: 'Blog',              href: '/blog' },
-  { label: 'Podcast',           href: '/podcast' },
   { label: 'Ofrendas',          href: '/ofrendas' },
 ] as const;
 

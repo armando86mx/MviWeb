@@ -79,11 +79,6 @@ export async function fetchLatestVideos(limit = 4): Promise<VideoItem[]> {
   }
 }
 
-/** URL de embed de Spotify a partir de la URL pública del show. */
-export function spotifyEmbedUrl(showUrl: string): string {
-  return showUrl.replace('open.spotify.com/show/', 'open.spotify.com/embed/show/');
-}
-
 export interface EpisodeItem {
   id: string;
   title: string;

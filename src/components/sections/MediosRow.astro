@@ -24,7 +24,7 @@ const activo = Boolean(youtubeChannel || spotifyShow);
         <>
           <header class="medios__header">
             <p class="eyebrow">Prédicas recientes</p>
-            <h2 id="medios-heading">Últimas enseñanzas</h2>
+            <h2 id="medios-heading">Últimas enseñanzas <span class="marca-youtube">en YouTube</span></h2>
           </header>
 
           {videos.length > 0 && (
@@ -47,10 +47,10 @@ const activo = Boolean(youtubeChannel || spotifyShow);
       )}
 
       {spotifyShow && episodios.length > 0 && (
-        <div class={youtubeChannel ? 'medios__bloque-podcast' : ''}>
+        <div class="medios__podcast">
           <header class="medios__header">
             <p class="eyebrow">Podcast</p>
-            <h2>Escúchanos en Spotify</h2>
+            <h2>Escúchanos en <span class="marca-spotify">Spotify</span></h2>
           </header>
 
           <ul class="medios__row" aria-label="Episodios recientes del podcast">
@@ -76,8 +76,14 @@ const activo = Boolean(youtubeChannel || spotifyShow);
 <style>
   .medios__header { max-width: 60ch; margin-bottom: var(--sp-5); }
 
-  /* Mismo respiro entre bloques que entre secciones internas */
-  .medios__bloque-podcast { margin-top: var(--sp-9); }
+  /* La palabra de la plataforma en su color de marca (solo titular grande) */
+  .marca-youtube { color: var(--brand-youtube); }
+  .marca-spotify { color: var(--brand-spotify); }
+
+  /* Respiro simétrico: el mismo espacio que hay entre la fila y el botón
+     (margen sp-5 + padding sp-3 de la fila) queda bajo el botón antes
+     del bloque del podcast */
+  .medios__ctas + .medios__podcast { margin-top: calc(var(--sp-5) + var(--sp-3)); }
 
   /* Fila deslizable con snap; en desktop caben las 4 */
   .medios__row {
