@@ -15,7 +15,9 @@ export default defineConfig({
   },
   build: {
     format: 'directory',
-    inlineStylesheets: 'auto',
+    // El CSS del sitio es chico: incrustado en el HTML no queda ninguna
+    // petición de estilos bloqueando el render (clave en móvil).
+    inlineStylesheets: 'always',
   },
   prefetch: {
     prefetchAll: true,

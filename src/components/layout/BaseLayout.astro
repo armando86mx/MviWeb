@@ -79,14 +79,9 @@ const HAY_ANALITICA = Boolean(GA4_ID || CLARITY_ID);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    {/* Fonts del sistema "Equilibrio": Newsreader (display, con itálicas)
-        + Hanken Grotesk (UI/cuerpo). URL exacta del handoff. */}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
-    />
+    {/* Fonts del sistema "Equilibrio": Newsreader + Hanken Grotesk,
+        auto-hospedadas (src/styles/fonts.css + public/fonts/). Sin
+        peticiones a Google: más rápido y mejor para la privacidad. */}
 
     {showSiteSchema && <SchemaWebSite />}
 

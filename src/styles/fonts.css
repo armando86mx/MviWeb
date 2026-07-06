@@ -1,0 +1,67 @@
+/* Fuentes del sistema "Equilibrio", AUTO-HOSPEDADAS (antes Google Fonts).
+   Mismos archivos variables (subset latin) de css2, instanciados a los
+   ejes que el sitio usa (wght reales + opsz 18-72: el serif solo vive en
+   títulos y citas ≥21px, así que el render es idéntico y pesan la mitad).
+   OJO: los nombres llevan versión (-v26/-v12); si algún día se actualizan
+   los archivos hay que renombrar (van con caché de 1 año sin hash).
+   Los "Fallback" llevan métricas ajustadas (fontpie) para que el texto
+   no brinque cuando llega la fuente real (CLS ~0). */
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/newsreader-latin-v26.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/newsreader-italic-latin-v26.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/hanken-grotesk-latin-v12.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Respaldos con métricas de Newsreader/Hanken: mientras baja la fuente,
+   Times/Arial ocupan EXACTAMENTE el mismo espacio (sin salto de layout). */
+@font-face {
+  font-family: 'Newsreader Fallback';
+  font-style: normal;
+  src: local('Times New Roman');
+  ascent-override: 73.61%;
+  descent-override: 26.54%;
+  line-gap-override: 0%;
+  size-adjust: 99.84%;
+}
+
+@font-face {
+  font-family: 'Newsreader Fallback';
+  font-style: italic;
+  src: local('Times New Roman Italic');
+  ascent-override: 79.47%;
+  descent-override: 28.65%;
+  line-gap-override: 0%;
+  size-adjust: 92.48%;
+}
+
+@font-face {
+  font-family: 'Hanken Grotesk Fallback';
+  font-style: normal;
+  src: local('Arial');
+  ascent-override: 98.46%;
+  descent-override: 29.83%;
+  line-gap-override: 0%;
+  size-adjust: 101.56%;
+}

@@ -31,9 +31,9 @@
   --amber-500: #DFA24E;   /* ÁMBAR PRIMARIO: bordes, acentos, sombras hover */
   --amber-600: #E7B262;   /* hover botón ámbar */
   --ochre-500: #C98A33;   /* signo "+", subrayados */
-  --ochre-600: #B07A2E;   /* eyebrows sobre crema */
-  --ochre-700: #8A5F1F;   /* hover de enlaces e indicadores: mismo ocre, pasa AA (≥4.5:1 sobre cremas) */
-  --tan-500:   #A8906C;   /* metadatos (referencia bíblica) */
+  --ochre-600: #875D1E;   /* eyebrows sobre crema — AA 4.5:1 hasta en paper-500 (antes #B07A2E, 3.5:1) */
+  --ochre-700: #6E4C19;   /* hover de enlaces e indicadores: un paso más oscuro que el 600 */
+  --tan-500:   #74634B;   /* metadatos (referencia bíblica) — AA 4.5:1 (antes #A8906C, decorativo) */
   --amber-tint: rgba(223,162,78,0.12);  /* hover FAQ / fondos de tinte */
 
   /* Colores de plataforma, afinados a la calidez de Equilibrio: el color
@@ -68,8 +68,8 @@
   --color-error-bg:#fde7e7;
 
   /* ── Tipografía ──────────────────────────────────────────── */
-  --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --font-body:    'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Newsreader', 'Newsreader Fallback', Georgia, 'Times New Roman', serif;
+  --font-body:    'Hanken Grotesk', 'Hanken Grotesk Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   /* Escala tipográfica fluida, calibrada a la escala del handoff
      (H1 60 / H1 claro 52 / H2 40-42 / H3 24-25 / FAQ 21 / cuerpo 16-17) */
