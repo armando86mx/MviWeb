@@ -120,6 +120,16 @@ SSL "Full (Strict)" + Always Use HTTPS + Web Analytics.
 
 ## Si algo sale mal
 
+- **El sitio dejó de actualizarse y Actions falla con `Timeout (control socket)`
+  o `AggregateError`**: la **IP del FTP cambió**. Hostinger la mueve sin avisar.
+  Ve a hPanel → Archivos → **Cuentas FTP** → recuadro "Acceso FTP": ahí está la
+  **IP de FTP** vigente. Cópiala al secret `FTP_HOST` de GitHub (Settings →
+  Secrets and variables → Actions) y vuelve a correr el workflow.
+  **Usa la IP, no el dominio**: el dominio apunta al balanceador web de
+  Hostinger, que no atiende FTP (por eso da `AggregateError`).
+  Mientras tanto no se pierde nada: el build correcto queda esperando en la
+  rama `deploy` y se publica en cuanto el FTP vuelve.
+
 - **No llega el correo del formulario**: revisa `~/amorygracia-config.php`
   (contraseña de noreply@, chmod 600). El formulario mientras tanto degrada
   amable: ofrece la descarga directa.
