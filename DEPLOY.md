@@ -1,7 +1,7 @@
 # Publicar el sitio en Hostinger — guía del día D
 
 Todo el código ya está listo: el build genera un `dist/` completo que incluye
-`.htaccess` (HTTPS + sin www + 301 de /visitanos + caché) y `api/descarga.php`
+`.htaccess` (HTTPS + sin www + 301 de /visitanos + URLs sin barra final + caché) y `api/descarga.php`
 (el formulario de la serie Crecer). Esta guía es lo único que sigues.
 
 **Tiempo estimado: 30-45 minutos** (más la espera de DNS si aplica).
