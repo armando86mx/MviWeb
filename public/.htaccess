@@ -37,11 +37,13 @@ DirectoryIndex index.html index.php
   # ── URLs canónicas SIN barra final (Astro: trailingSlash 'never') ──
   # Antes el servidor contestaba a /pagina con un 301 a /pagina/ (DirectorySlash)
   # en cada clic interno, mientras canonical y sitemap apuntan a la versión sin barra.
-  # 1) /pagina/ → /pagina (301): consolida lo que Google ya indexó con barra.
-  #    (Depende de la regla 2: verificada en el hosting el 13-sep-2026.)
-  RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
-  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-  RewriteRule ^(.+)/$ /$1 [L,R=301]
+  # 1) /pagina/ → /pagina (301) — DESACTIVADA el 13-sep-2026: el balanceador de
+  #    Hostinger sirve 301 viejos (sin barra → con barra) desde caché y, combinados
+  #    con esta regla, formaban un bucle en algunas páginas. La versión con barra
+  #    se queda sirviendo 200 con canonical sin barra (Google consolida solo).
+  # RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
+  # RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  # RewriteRule ^(.+)/$ /$1 [L,R=301]
   # 2) /pagina → sirve /pagina/index.html por dentro, sin redirigir.
   RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
   RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
