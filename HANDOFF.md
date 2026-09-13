@@ -121,6 +121,11 @@ pnpm build           # build + guards
   hacía un 301 de `/pagina` a `/pagina/` (DirectorySlash del servidor) mientras canonical
   y sitemap apuntan a la versión sin barra. Ahora `/pagina` sirve `/pagina/index.html`
   por dentro (LiteSpeed evalúa el rewrite antes de su redirección; `DirectorySlash Off`
-  queda para Apache) y `/pagina/` responde 301 a `/pagina`. Se desplegó en dos pasos
-  para descartar un bucle. Probar cambios de estas reglas con el Apache local de la Mac
-  (`httpd -f conf`) antes de publicar: un error aquí tumba todo el sitio.
+  queda para Apache). `/pagina/` sigue respondiendo 200 con canonical sin barra (Google
+  consolida solo). La regla inversa `/pagina/ → /pagina` (301) se probó y se REVIRTIÓ en
+  minutos: el CDN de Hostinger (`server: hcdn`) cachea los 301 viejos aunque el origen
+  mande max-age=0, y con la inversa activa se formaba un bucle. Si algún día se quiere:
+  purgar la caché del CDN en hPanel primero y comprobar con `?nc=1` (la query salta la
+  caché; `curl -I` tampoco refleja la caché del GET). Probar cambios de estas reglas con
+  el Apache local de la Mac (`httpd -f conf`) antes de publicar: un error aquí tumba
+  todo el sitio.
