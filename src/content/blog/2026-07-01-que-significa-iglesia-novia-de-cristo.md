@@ -101,7 +101,7 @@ Esta verdad no es solo para el cielo. Cambia la vida presente en al menos cuatro
   [La segunda venida de Cristo: cómo prepararnos según la Biblia](/blog/segunda-venida-de-cristo-como-prepararnos).
 - **Comunidad.** La novia es un pueblo, no un individuo. Nadie se prepara solo; nos
   preparamos juntos, perseverando en los mismos pilares de la
-  [iglesia primitiva](/blog/cinco-pilares-iglesia-primitiva-hechos-2-42).
+  [iglesia primitiva](/blog/cuatro-pilares-iglesia-primitiva-hechos-2-42).
 
 ## Una espera con gozo
 

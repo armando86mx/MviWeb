@@ -123,7 +123,7 @@ Carga vía Google Fonts con `font-display: swap` para no bloquear renderizado.
 
 - **Inicio / Hero:** evocador, breve, invitacional. Versículo de cabecera alineado al énfasis escatológico de la iglesia (Mateo 24:42, Apocalipsis 22:20, Tito 2:13, o el que los pastores prefieran).
 - **Nosotros / Historia:** narrativo, primera persona plural, basado en la nota de la pastora del 4 de marzo de 2025 sobre el origen en marzo 2014.
-- **Lo que creemos:** estructurado en torno a los **5 pilares de Crecer 3** (intimidad en adoración, enseñanza, comunión, oración, partimiento del pan). Cada pilar con su versículo y un párrafo. Página pillar de SEO doctrinal.
+- **Lo que creemos:** estructurado en torno a los **4 pilares de Hechos 2:42** (comunión, doctrina, oraciones, partir el pan). Cada pilar con su versículo y un párrafo. Página pillar de SEO doctrinal.
 - **Cómo nos reunimos:** práctico, información concreta. Placeholders elegantes para datos pendientes.
 - **Recursos:** descriptivo, generoso. La serie Crecer ofrecida con email gate.
 - **Conoce a nuestros pastores:** humano, específico. Aquí va literal *"somos enseñables"*.
@@ -141,7 +141,7 @@ La pieza gráfica de Tiempo de Mesa (estilo cálido marrón/vino) **se mantiene 
 ```
 /                                Inicio
 ├── /nosotros                    Quiénes somos, historia, pastores
-├── /lo-que-creemos              Los 5 pilares + declaración de fe
+├── /lo-que-creemos              Los 4 pilares + declaración de fe
 ├── /como-nos-reunimos           Domingos, Tiempos de Mesa, convivencias
 ├── /visitanos                   Qué esperar tu primera visita (FAQ con schema)
 ├── /puebla                      Landing geográfica honesta para Puebla capital
@@ -360,7 +360,7 @@ amorygracia-web/                    ← raíz del repo (en GitHub)
     │   ├── blog/
     │   │   └── *.md
     │   └── pilares/
-    │       └── *.md                ← los 5 pilares como contenido estructurado
+    │       └── *.md                ← los 4 pilares como contenido estructurado
     │
     ├── styles/                     ← CSS plano organizado por capas
     │   ├── tokens.css              ← variables: colores, tipografías, espaciados
@@ -1079,7 +1079,7 @@ Implementar en `<head>` de las páginas correspondientes:
   "@id": "https://amorygraciapuebla.org/#church",
   "name": "MVI Amor y Gracia",
   "alternateName": ["Iglesia Amor y Gracia", "Amor y Gracia Puebla"],
-  "description": "Iglesia cristiana evangélica en Amozoc, Puebla. Estudio bíblico profundo, intimidad en adoración, comunión, oración y partimiento del pan. Bajo cobertura de Ministerios Visión Internacional (MVI).",
+  "description": "Iglesia cristiana evangélica en Amozoc, Puebla. Estudio bíblico profundo, comunión, doctrina, oraciones y partir el pan. Bajo cobertura de Ministerios Visión Internacional (MVI).",
   "url": "https://amorygraciapuebla.org/",
   "logo": "https://amorygraciapuebla.org/logo.png",
   "image": "https://amorygraciapuebla.org/og-image.jpg",
@@ -1265,7 +1265,7 @@ Orden por página: primero ux-designer, luego frontend-design.
 Orden:
 1. **Inicio** (laboratorio de componentes).
 2. **Nosotros** (con la frase pastoral).
-3. **Lo que creemos** (5 pilares — página pillar SEO).
+3. **Lo que creemos** (4 pilares — página pillar SEO).
 4. **Cómo nos reunimos**.
 5. **Visítanos** (FAQ).
 6. **/puebla** (landing geográfica).
@@ -1411,8 +1411,8 @@ Estudio bíblico, oración, y cómo la Palabra transforma nuestro entendimiento.
 
 [BOTÓN GRANDE: Descargar Crecer 3 — La iglesia que crece · PDF, ~2.0 MB]
 
-Los 5 pilares de la iglesia según Hechos 2:42 — adoración, enseñanza,
-comunión, oración y partimiento del pan.
+Los 4 pilares de la iglesia según Hechos 2:42 — comunión, doctrina,
+oraciones y partir el pan.
 
 ──────────────────────────────────────────
 

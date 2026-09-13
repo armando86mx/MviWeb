@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Hero from '@components/sections/Hero.astro';
-import PilaresGrid from '@components/sections/PilaresGrid.astro';
+import HeroSlider from '@components/sections/HeroSlider.astro';
 import EventoCard from '@components/sections/EventoCard.astro';
 import PastoresCard from '@components/sections/PastoresCard.astro';
 import CTABand from '@components/sections/CTABand.astro';
@@ -9,10 +8,9 @@ import MediosRow from '@components/sections/MediosRow.astro';
 import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import ScriptureQuote from '@components/ui/ScriptureQuote.astro';
-import fotoHero from '@assets/img/foto-hero.webp';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaReligiousOrg from '@components/seo/SchemaReligiousOrg.astro';
-import { SITE, SCRIPTURE_HERO } from '@lib/site';
+import { PALABRA_RHEMA } from '@lib/site';
 
 const title = 'MVI Amor y Gracia · Iglesia Cristiana Evangélica en Puebla';
 const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 11:00 AM y Tiempos de Mesa los jueves. Profundos en doctrina, esperando el regreso de Cristo.';
@@ -23,22 +21,22 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
   <SchemaChurch slot="head" variant="main" />
   <SchemaReligiousOrg slot="head" />
 
-  <Hero
-    eyebrow="Amozoc · Tehuacán"
-    title="Iglesia Cristiana Evangélica en Puebla –"
+  <HeroSlider
+    eyebrow="Intimidad - Comunidad - Gran Comisión"
+    title="Iglesia Cristiana"
     titleAccent="MVI Amor y Gracia"
-    subtitle="Una iglesia que estudia la Biblia con calma y profundidad en doctrina mientras espera con gozo el regreso de Cristo."
-    primaryCTA={{ label: 'Visítanos un domingo', href: '/contacto' }}
-    secondaryCTA={{ label: 'Conoce lo que creemos', href: '/lo-que-creemos' }}
-    variant="home"
-    photo={fotoHero}
-    photoAlt="Nuestra nueva ubicación: C. 4 Nte. 207, Barrio, San Antonio, 72980 Amozoc de Mota, Pue. — Estás en casa"
+    subtitle="Un lugar donde te encuentras con la gracia de Jesucristo, el amor del Padre y la comunión con el Espíritu Santo."
   />
 
-  <!-- Versículo del hero -->
-  <section class="section section--tight">
-    <div class="container container--narrow">
-      <ScriptureQuote tone="cream" text={SCRIPTURE_HERO.text} reference={SCRIPTURE_HERO.reference} />
+  <!-- Palabra Rhema del año: dos versículos, dos columnas -->
+  <section class="section section--tight" aria-labelledby="rhema-heading">
+    <div class="container container--cta">
+      <h2 id="rhema-heading" class="rhema__title">{PALABRA_RHEMA.title}</h2>
+      <div class="grid grid--2">
+        {PALABRA_RHEMA.verses.map((v) => (
+          <ScriptureQuote tone="cream" text={v.text} reference={v.reference} />
+        ))}
+      </div>
     </div>
   </section>
 
@@ -57,30 +55,29 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
     </div>
   </section>
 
-  <!-- Pilares -->
-  <section class="section section--alt">
-    <PilaresGrid />
-    <div class="container text-center mt-7">
-      <Button variant="secondary" href="/lo-que-creemos">Lee nuestra confesión completa →</Button>
-    </div>
-  </section>
-
   <!-- Eventos -->
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <header class="block-header">
         <p class="eyebrow">Cómo nos reunimos</p>
         <h2>Ven a sentarte con nosotros</h2>
-        <p class="lead">Dos espacios principales cada semana. Uno en el templo, otro alrededor de una mesa.</p>
+        <p class="lead">Tres espacios cada semana. Dos en el templo, uno alrededor de una mesa.</p>
       </header>
 
-      <div class="grid grid--2 mt-6">
+      <div class="grid grid--3 mt-6">
         <EventoCard
           title="Servicio dominical"
           weekday="Domingos"
           time="11:00 AM"
           location="Sede Amozoc · Amozoc, Puebla"
           description="Estudio bíblico a las 10:30 AM, servicio completo a las 11:00 AM. Familias bienvenidas."
+        />
+        <EventoCard
+          title="Miércoles de oración"
+          weekday="Miércoles"
+          time="5:30 PM"
+          location="Sede Amozoc · Amozoc, Puebla"
+          description="Nos reunimos en el templo para orar juntos por la iglesia, las familias y la ciudad."
         />
         <EventoCard
           title="Tiempos de Mesa"
@@ -100,7 +97,7 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
   </section>
 
   <!-- Pastores -->
-  <section class="section section--alt">
+  <section class="section">
     <div class="container container--narrow">
       <header class="block-header">
         <p class="eyebrow">Conoce a los pastores</p>
@@ -144,7 +141,7 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
         <Card href="/recursos/crecer-3" variant="dark">
           <p class="recurso__n"><span class="recurso__n-num">03</span> · La iglesia que crece</p>
           <h3>Crecer 3</h3>
-          <p>Los 5 pilares de la iglesia primitiva según Hechos 2:42.</p>
+          <p>Los 4 pilares de la iglesia primitiva según Hechos 2:42.</p>
         </Card>
       </div>
 
@@ -166,6 +163,7 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
 
 <style>
   .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+  .rhema__title { text-align: center; margin-bottom: var(--sp-6); }
 
   /* Banda navy de recursos (§7.7): numerito en círculo + tipografía sobre oscuro */
   .recurso__n {

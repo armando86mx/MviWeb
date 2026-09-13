@@ -1,0 +1,167 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  /** Línea superior (una sola línea, tal cual se escribe). */
+  eyebrow: string;
+  title: string;
+  /** Segunda línea del H1, en la itálica de acento (firma del estilo). */
+  titleAccent: string;
+  subtitle: string;
+}
+
+const { eyebrow, title, titleAccent, subtitle } = Astro.props;
+
+// ponytail: las diapositivas SON la carpeta src/assets/hero/ — soltar una foto
+// ahí (horizontal, ≥1920px) es agregar una diapositiva; el orden es alfabético.
+const fotos = Object.entries(
+  import.meta.glob<ImageMetadata>('/src/assets/hero/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' }),
+)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([, img]) => img);
+---
+
+<section class="hero-slider" aria-labelledby="hero-heading" data-hero-slider>
+  {/* Fotos decorativas bajo un velo crema: el contenido es el texto */}
+  <div class="hero-slider__fotos" aria-hidden="true">
+    {fotos.map((foto, i) => (
+      <Image
+        src={foto}
+        alt=""
+        class:list={['hero-slider__foto', { 'is-active': i === 0 }]}
+        data-slide
+        loading={i === 0 ? 'eager' : 'lazy'}
+        fetchpriority={i === 0 ? 'high' : 'low'}
+        decoding="async"
+        quality={62}
+        widths={[640, 960, 1280, 1920]}
+        sizes="100vw"
+      />
+    ))}
+  </div>
+
+  <div class="container container--cta hero-slider__copy">
+    <p class="eyebrow hero-slider__eyebrow">{eyebrow}</p>
+    <h1 id="hero-heading" class="hero-slider__title text-balance">
+      {title}
+      <em class="hero-slider__accent">{titleAccent}</em>
+    </h1>
+    <p class="hero-slider__subtitle text-pretty">{subtitle}</p>
+  </div>
+
+</section>
+
+<script>
+  // ponytail: fundido por opacidad + setInterval, sin librería ni controles
+  // (decisión del dueño: solo automático). Se pausa con el puntero o el foco
+  // encima y con la pestaña oculta; con reduced-motion se queda en la primera foto.
+  const root = document.querySelector<HTMLElement>('[data-hero-slider]');
+  const slides = [...(root?.querySelectorAll<HTMLElement>('[data-slide]') ?? [])];
+
+  if (root && slides.length > 1) {
+    let i = 0;
+    let timer: number | undefined;
+
+    const show = (n: number) => {
+      slides[i].classList.remove('is-active');
+      i = (n + slides.length) % slides.length;
+      slides[i].classList.add('is-active');
+    };
+    const stop = () => { clearInterval(timer); timer = undefined; };
+    const play = () => {
+      stop();
+      if (document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = window.setInterval(() => show(i + 1), 3000);
+    };
+
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', play);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', play);
+    document.addEventListener('visibilitychange', play);
+    play();
+  }
+</script>
+
+<style>
+  .hero-slider {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    min-height: clamp(520px, 78vh, 840px);
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+    background: var(--paper-200);
+    text-align: center;
+  }
+
+  .hero-slider__fotos { position: absolute; inset: 0; z-index: -2; }
+  .hero-slider__foto {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    opacity: 0;
+    transition: opacity 0.9s var(--ease);
+  }
+  .hero-slider__foto.is-active { opacity: 1; }
+
+  /* Velo de papel crema (la referencia lo hace en blanco): luz de tarde ámbar,
+     halo denso detrás del texto y fundido a papel abajo para empalmar con la
+     sección siguiente. Detrás del texto queda ≥90% crema → el navy conserva AA. */
+  .hero-slider::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 85% at 90% 10%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
+      radial-gradient(60% 62% at 50% 50%, rgba(244,239,230,0.94) 0%, rgba(244,239,230,0.6) 58%, rgba(244,239,230,0) 100%),
+      linear-gradient(to bottom, rgba(244,239,230,0.66) 0%, rgba(244,239,230,0.56) 55%, #F4EFE6 100%);
+  }
+
+  .hero-slider__copy { position: relative; }
+
+  .hero-slider__eyebrow {
+    color: var(--ochre-600);
+    white-space: nowrap;
+    margin-bottom: var(--sp-5);
+  }
+
+  .hero-slider__title {
+    font-family: var(--font-display);
+    font-weight: var(--fw-medium);
+    font-size: var(--fs-4xl);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    color: var(--blue-700);
+    margin-bottom: var(--sp-5);
+  }
+  .hero-slider__accent {
+    display: block;
+    font-style: italic;
+    color: var(--blue-500);
+  }
+
+  .hero-slider__subtitle {
+    font-size: var(--fs-md);
+    line-height: 1.6;
+    color: var(--ink-body);
+    max-width: 56ch;
+    margin-inline: auto;
+  }
+
+  /* La línea superior debe caber en UNA línea también en móviles chicos */
+  @media (max-width: 440px) {
+    .hero-slider__eyebrow { font-size: 11px; letter-spacing: 0.12em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slider__foto { transition: none; }
+  }
+</style>

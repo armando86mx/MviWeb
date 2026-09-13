@@ -9,7 +9,7 @@ import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 
 const title = 'Cómo nos reunimos · Horarios en Amozoc · Amor y Gracia';
-const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominicales en Amozoc a las 11:00 AM, Tiempos de Mesa los jueves, y vida en comunidad.';
+const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicio dominical 11:00 AM, oración los miércoles 5:30 PM, Tiempos de Mesa los jueves y vida en comunidad.';
 
 ---
 
@@ -19,7 +19,7 @@ const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominica
   <Hero
     eyebrow="Reuniones"
     title="Cómo nos reunimos"
-    subtitle="Dos espacios principales cada semana. El templo el domingo, la mesa el jueves. Y el resto del tiempo, vida juntos."
+    subtitle="Tres espacios cada semana. El templo el domingo y el miércoles, la mesa el jueves. Y el resto del tiempo, vida juntos."
   />
 
   <section class="section">
@@ -53,6 +53,37 @@ const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominica
   </section>
 
   <section class="section section--alt">
+    <div class="container">
+      <header class="block-header">
+        <p class="eyebrow">Miércoles</p>
+        <h2>Miércoles de oración</h2>
+        <p class="lead">
+          A media semana nos reunimos en el templo a las 5:30 PM para orar juntos: por la
+          iglesia, por las familias y por la ciudad. Sin oración, lo demás es activismo religioso.
+        </p>
+      </header>
+
+      <div class="grid grid--2">
+        <EventoCard
+          title="Miércoles de oración"
+          weekday="Miércoles"
+          time="5:30 PM"
+          location="Sede Amozoc · Amozoc, Puebla"
+          description="Reunión de oración en el templo. Familias bienvenidas."
+        />
+        <Card variant="subtle">
+          <h3>¿Qué esperar?</h3>
+          <p>
+            Una reunión sencilla: oramos juntos por lo que la iglesia carga esa semana y por
+            quienes aún no conocen a Cristo. No necesitas avisar ni traer nada.
+          </p>
+          <p class="mt-3"><em>Si es tu primera vez, <a href="/contacto#primera-visita">aquí te contamos cómo es el lugar</a>.</em></p>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <div class="container">
       <header class="block-header">
         <p class="eyebrow">Jueves</p>
@@ -95,7 +126,7 @@ const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicios dominica
     </div>
   </section>
 
-  <section class="section">
+  <section class="section section--alt">
     <div class="container">
       <header class="block-header">
         <p class="eyebrow">Otras instancias</p>

@@ -92,3 +92,28 @@ pnpm build           # build + guards
 - Memoria persistente de Claude: se carga sola (MEMORY.md + mvi-*.md).
 - Docs: DEPLOY.md (flujo FTP + respaldos), ARCHITECTURE.md, SEO-STRATEGY.md,
   design_handoff_calidez_equilibrio/SISTEMA_DE_DISENO.md (leer antes de tocar estilos).
+
+## 8. Cambios del 13 de septiembre de 2026 (pedidos por el dueño)
+
+- **Hero de la home = slider de fotos** (`src/components/sections/HeroSlider.astro`):
+  las diapositivas son la carpeta `src/assets/hero/` (orden alfabético; soltar una
+  foto horizontal ≥1920px = diapositiva nueva). Velo crema de Equilibrio sobre la
+  foto, texto centrado, puntos para elegir, fundido cada 6 s, pausa con puntero/foco,
+  estático con reduced-motion. **Sin botones en el hero** (decisión del dueño). Copy:
+  "Intimidad - Comunidad - Gran Comisión" / H1 "Iglesia Cristiana" + "MVI Amor y Gracia".
+  `Hero.astro` quedó solo con la variante oscura de páginas interiores.
+- **Pilares: de 5 a 4** — Comunión, Doctrina, Oraciones, Partir el pan (orden del dueño).
+  El acordeón (`PilaresGrid.astro`) salió del home y vive en /lo-que-creemos. Todo el
+  sitio dice "4 pilares", incluidos Crecer 3 y el post del blog (el PDF de Crecer 3
+  sigue diciendo 5 por dentro — avisado). El post cambió de slug:
+  `/blog/cinco-pilares-…` → `/blog/cuatro-pilares-…` con 301 en `public/.htaccess`.
+- **Slider sin controles** (segunda ronda del dueño): sin puntos, avanza solo cada 3 s
+  (fundido 0.9 s); se pausa con puntero/foco y respeta reduced-motion.
+- **Miércoles de oración · 5:30 PM · en el templo (Sede Amozoc)**: agregado al home,
+  /como-nos-reunimos (sección propia), /sedes/amozoc, /contacto (horarios), /nosotros,
+  FAQ de /puebla, CTA del blog y `SchemaChurch` (Wednesday 17:30-19:00; la hora de
+  cierre es supuesta, ajustar si el dueño la precisa).
+- **Palabra Rhema 2026** (home, bajo el hero): sustituye al versículo provisional
+  (Mateo 24:42). Dos citas en dos columnas, mismo estilo crema: izquierda Hechos 2:42,
+  derecha Hechos 5:42 (RVR1960). Datos en `PALABRA_RHEMA` de `src/lib/site.ts`
+  (`SCRIPTURE_HERO` ya no existe).
