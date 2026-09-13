@@ -38,11 +38,10 @@ DirectoryIndex index.html index.php
   # Antes el servidor contestaba a /pagina con un 301 a /pagina/ (DirectorySlash)
   # en cada clic interno, mientras canonical y sitemap apuntan a la versión sin barra.
   # 1) /pagina/ → /pagina (301): consolida lo que Google ya indexó con barra.
-  #    PASO 2: se activa cuando el hosting responda 200 a /pagina con la regla 2
-  #    (si la regla 2 no aplicara, esta sola haría un bucle de redirecciones).
-  # RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
-  # RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
-  # RewriteRule ^(.+)/$ /$1 [L,R=301]
+  #    (Depende de la regla 2: verificada en el hosting el 13-sep-2026.)
+  RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.+)/$ /$1 [L,R=301]
   # 2) /pagina → sirve /pagina/index.html por dentro, sin redirigir.
   RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
   RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
