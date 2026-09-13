@@ -117,3 +117,10 @@ pnpm build           # build + guards
   (Mateo 24:42). Dos citas en dos columnas, mismo estilo crema: izquierda Hechos 2:42,
   derecha Hechos 5:42 (RVR1960). Datos en `PALABRA_RHEMA` de `src/lib/site.ts`
   (`SCRIPTURE_HERO` ya no existe).
+- **URLs sin barra final (13-sep-2026, `public/.htaccess`):** antes cada clic interno
+  hacía un 301 de `/pagina` a `/pagina/` (DirectorySlash del servidor) mientras canonical
+  y sitemap apuntan a la versión sin barra. Ahora `/pagina` sirve `/pagina/index.html`
+  por dentro (LiteSpeed evalúa el rewrite antes de su redirección; `DirectorySlash Off`
+  queda para Apache) y `/pagina/` responde 301 a `/pagina`. Se desplegó en dos pasos
+  para descartar un bucle. Probar cambios de estas reglas con el Apache local de la Mac
+  (`httpd -f conf`) antes de publicar: un error aquí tumba todo el sitio.
