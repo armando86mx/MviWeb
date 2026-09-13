@@ -19,7 +19,7 @@ export const SITE = {
   ],
   tagline: 'Somos iglesia · Hacemos iglesia · Hacemos familia',
   description:
-    'Iglesia cristiana evangélica en Amozoc, Puebla. Estudio bíblico profundo, intimidad en adoración, comunión, oración y partimiento del pan. Bajo cobertura de Ministerios Visión Internacional (MVI).',
+    'Iglesia cristiana evangélica en Amozoc, Puebla. Estudio bíblico profundo, comunión, doctrina, oraciones y partir el pan. Bajo cobertura de Ministerios Visión Internacional (MVI).',
   locale: 'es-MX',
   language: 'es',
   email: 'contacto@amorygraciapuebla.org',
@@ -117,12 +117,20 @@ export const NAV_FOOTER_LEGAL = [
   { label: 'Términos de uso',     href: '/terminos' },
 ] as const;
 
-export const SCRIPTURE_HERO = {
-  // Versículo provisional alineado al énfasis escatológico.
-  // Los pastores eligen el definitivo entre Mateo 24:42,
-  // Apocalipsis 22:20 o Tito 2:13. Solo se muestra en la home.
-  text: 'Velad, pues, porque no sabéis a qué hora ha de venir vuestro Señor.',
-  reference: 'Mateo 24:42',
+/** Palabra Rhema del año: dos versículos en dos columnas bajo el hero de la home
+    (izquierda → derecha, tal como los dictó el dueño). Texto RVR1960. */
+export const PALABRA_RHEMA = {
+  title: 'Palabra Rhema 2026',
+  verses: [
+    {
+      text: 'Y perseveraban en la doctrina de los apóstoles, en la comunión unos con otros, en el partimiento del pan y en las oraciones.',
+      reference: 'Hechos 2:42',
+    },
+    {
+      text: 'Y todos los días, en el templo y por las casas, no cesaban de enseñar y predicar a Jesucristo.',
+      reference: 'Hechos 5:42',
+    },
+  ],
 } as const;
 
 export const PASTORAL_QUOTE = {

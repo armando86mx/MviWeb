@@ -23,6 +23,9 @@ DirectoryIndex index.html index.php
   # /visitanos se fusionó en /contacto (301 real; el HTML de respaldo
   # con meta-refresh queda para hosts sin mod_rewrite)
   RewriteRule ^visitanos/?$ /contacto [L,R=301]
+
+  # El post de los pilares pasó de 5 a 4 (sep-2026): la URL vieja sigue viva
+  RewriteRule ^blog/cinco-pilares-iglesia-primitiva-hechos-2-42/?$ /blog/cuatro-pilares-iglesia-primitiva-hechos-2-42 [L,R=301]
 </IfModule>
 
 # El estado del deploy por FTP (GitHub Actions) no es público

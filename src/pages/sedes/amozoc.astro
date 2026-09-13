@@ -12,7 +12,7 @@ import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
 import { SITE } from '@lib/site';
 
 const title = 'Iglesia Cristiana Evangélica en Amozoc, Puebla · Amor y Gracia';
-const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Servicios dominicales 11:00 AM, Tiempos de Mesa los jueves 7:30 PM. Iglesia evangélica con sana doctrina.';
+const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Domingos 11:00 AM, oración miércoles 5:30 PM, Tiempos de Mesa jueves 7:30 PM. Sana doctrina.';
 ---
 
 <BaseLayout title={title} description={description} path="/sedes/amozoc">
@@ -28,7 +28,7 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
   <Hero
     eyebrow="Sede principal · Amozoc"
     title="Iglesia Cristiana Evangélica en Amozoc"
-    subtitle="Nuestra sede principal y el corazón de Amor y Gracia. Aquí nos reunimos cada domingo y los jueves para Tiempos de Mesa."
+    subtitle="Nuestra sede principal y el corazón de Amor y Gracia. Aquí nos reunimos cada domingo, los miércoles para orar y los jueves para Tiempos de Mesa."
   />
 
   <section class="section">
@@ -82,7 +82,7 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
         <p class="eyebrow">Horario de reuniones</p>
         <h2>Cuándo nos encontramos en Amozoc</h2>
       </header>
-      <div class="grid grid--3">
+      <div class="grid grid--2">
         <EventoCard
           title="Estudio bíblico previo"
           weekday="Domingos"
@@ -96,6 +96,13 @@ const description = 'Sede principal de MVI Amor y Gracia en Amozoc, Puebla. Serv
           time="11:00 AM"
           location="Sede Amozoc"
           description="Adoración, predicación y comunión. Familias bienvenidas."
+        />
+        <EventoCard
+          title="Miércoles de oración"
+          weekday="Miércoles"
+          time="5:30 PM"
+          location="Sede Amozoc"
+          description="Oramos juntos en el templo por la iglesia, las familias y la ciudad."
         />
         <EventoCard
           title="Tiempos de Mesa"
