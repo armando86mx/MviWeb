@@ -6,6 +6,13 @@
 # de Hostinger, que LiteSpeed prioriza por default y el deploy FTP no borra)
 DirectoryIndex index.html index.php
 
+# Sin el 301 automático "sin barra → con barra" de los directorios: las reglas de
+# rewrite de abajo sirven /pagina/index.html directo. (LiteSpeed ignora esta
+# directiva y evalúa el rewrite antes de su redirección, así que ahí no hace falta.)
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
 # ── Canónico: HTTPS + sin www (una sola forma de URL para SEO) ──
 <IfModule mod_rewrite.c>
   RewriteEngine On
@@ -26,6 +33,20 @@ DirectoryIndex index.html index.php
 
   # El post de los pilares pasó de 5 a 4 (sep-2026): la URL vieja sigue viva
   RewriteRule ^blog/cinco-pilares-iglesia-primitiva-hechos-2-42/?$ /blog/cuatro-pilares-iglesia-primitiva-hechos-2-42 [L,R=301]
+
+  # ── URLs canónicas SIN barra final (Astro: trailingSlash 'never') ──
+  # Antes el servidor contestaba a /pagina con un 301 a /pagina/ (DirectorySlash)
+  # en cada clic interno, mientras canonical y sitemap apuntan a la versión sin barra.
+  # 1) /pagina/ → /pagina (301): consolida lo que Google ya indexó con barra.
+  #    PASO 2: se activa cuando el hosting responda 200 a /pagina con la regla 2
+  #    (si la regla 2 no aplicara, esta sola haría un bucle de redirecciones).
+  # RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
+  # RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  # RewriteRule ^(.+)/$ /$1 [L,R=301]
+  # 2) /pagina → sirve /pagina/index.html por dentro, sin redirigir.
+  RewriteCond %{HTTP_HOST} ^(www\.)?amorygraciapuebla\.org$ [NC]
+  RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+  RewriteRule ^(.+[^/])$ /$1/index.html [L]
 </IfModule>
 
 # El estado del deploy por FTP (GitHub Actions) no es público
