@@ -64,6 +64,7 @@ export const SITE = {
       longitude: -97.3828064,
       geoConfirmed: true,
       email: 'contacto@tzionlife.org',
+      website: 'https://tzionlife.org',
       phone: '',
     },
   },
