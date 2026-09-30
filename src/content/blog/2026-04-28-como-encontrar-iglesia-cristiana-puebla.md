@@ -81,7 +81,7 @@ Te invitamos a [conocer cómo nos visita gente de Puebla](/puebla) y a leer
 
 ## Si vives en Tehuacán
 
-Tenemos una [iglesia hija en Tehuacán](/sedes/tehuacan) con su propio liderazgo local. Si
+Tenemos una [iglesia asociada en Tehuacán](/sedes/tehuacan) con su propio liderazgo local. Si
 estás en la zona, esa puede ser tu mejor opción para visitar.
 
 ## Una última cosa

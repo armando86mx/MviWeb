@@ -29,7 +29,7 @@ const name = variant === 'tehuacan'
 
 // La descripción global habla de Amozoc; Tehuacán necesita la suya
 const description = variant === 'tehuacan'
-  ? 'Iglesia cristiana evangélica en Tehuacán, Puebla — iglesia hija de MVI Amor y Gracia (Amozoc), bajo cobertura de Ministerios Visión Internacional.'
+  ? 'Iglesia cristiana evangélica en Tehuacán, Puebla — iglesia asociada de MVI Amor y Gracia (Amozoc), bajo cobertura de Ministerios Visión Internacional.'
   : SITE.description;
 
 const schema = {
@@ -42,7 +42,7 @@ const schema = {
   url: variant === 'main' ? `${SITE.url}/` : `${SITE.url}/sedes/${variant}`,
   logo: `${SITE.url}/favicon-512.png`,
   image: `${SITE.url}${SITE.ogImage}`,
-  email: SITE.email,
+  email: 'email' in sede && sede.email ? sede.email : SITE.email,
   // Teléfono, calle, CP y geo entran al schema solo cuando son datos
   // confirmados: un dato provisional en Google es peor que ninguno.
   ...(sede.phone ? { telephone: sede.phone } : {}),

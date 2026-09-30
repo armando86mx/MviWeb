@@ -7,10 +7,13 @@ import CTABand from '@components/sections/CTABand.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import MapaEmbed from '@components/ui/MapaEmbed.astro';
 import { SITE } from '@lib/site';
 
+const sede = SITE.sedes.tehuacan;
+
 const title = 'Iglesia Cristiana en Tehuacán, Puebla · Amor y Gracia';
-const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Iglesia evangélica con sana doctrina, en comunión con la sede principal de Amozoc.';
+const description = 'Iglesia asociada de MVI Amor y Gracia en Tehuacán, Puebla. Iglesia evangélica con sana doctrina, en comunión con la sede principal de Amozoc.';
 ---
 
 <BaseLayout title={title} description={description} path="/sedes/tehuacan">
@@ -24,9 +27,9 @@ const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Igl
   />
 
   <Hero
-    eyebrow="Iglesia hija · Tehuacán"
+    eyebrow="Iglesia asociada · Tehuacán"
     title="Iglesia Cristiana Evangélica en Tehuacán"
-    subtitle="Nuestra iglesia hija en Tehuacán, Puebla. Con su propio liderazgo local, en comunión con la sede principal de Amozoc."
+    subtitle="Nuestra iglesia asociada en Tehuacán, Puebla. Con su propio liderazgo local, en comunión con la sede principal de Amozoc."
   />
 
   <section class="section">
@@ -40,7 +43,7 @@ const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Igl
       <p class="eyebrow">Quiénes somos en Tehuacán</p>
       <h2>Una iglesia local, plantada con calma.</h2>
       <p>
-        La iglesia de Tehuacán es <strong>iglesia hija</strong> de MVI Amor y Gracia. Eso
+        La iglesia de Tehuacán es <strong>iglesia asociada</strong> de MVI Amor y Gracia. Eso
         significa que es una congregación local, con su propio liderazgo y vida en comunidad,
         pero en comunión doctrinal y pastoral con la sede principal en Amozoc.
       </p>
@@ -59,20 +62,16 @@ const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Igl
           <p class="eyebrow">Cómo llegar</p>
           <h2>Dirección y horario</h2>
           <address class="address">
-            <strong>MVI Amor y Gracia · Tehuacán</strong><br />
-            Tehuacán, Puebla, México
+            <strong>Tzion Life</strong><br />
+            {sede.fullAddress}
           </address>
           <p>
-            Estamos confirmando la dirección y el horario de la congregación en
-            Tehuacán para publicarlos aquí. Mientras tanto,
-            <a href="/contacto">escríbenos</a> y te ponemos en contacto directo
-            con la iglesia local.
+            <Button variant="ghost" href={sede.mapsUrl} target="_blank" rel="noopener">Abrir en Google Maps →</Button>
           </p>
+          <MapaEmbed sede={sede} title="Mapa: Tzion Life, C. 11 Nte. 433, San Pedro Acoquiaco, Tehuacán" />
           <p class="muted">
-            <strong>Correo:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+            <strong>Correo:</strong> <a href={`mailto:${sede.email}`}>{sede.email}</a>
           </p>
-          {/* Con dirección/geo confirmadas en site.ts: restaurar botón de
-              Google Maps e iframe del mapa. */}
         </article>
 
         <Card>
@@ -102,8 +101,8 @@ const description = 'Iglesia hija de MVI Amor y Gracia en Tehuacán, Puebla. Igl
 
       <Card variant="subtle">
         <p>
-          Pronto presentaremos aquí al liderazgo local de Tehuacán, con su
-          historia y su corazón por la ciudad. Si quieres conocerlos antes,
+          Los pastores de la iglesia en Tehuacán son <strong>Mizael Reyes Frías</strong> y
+          <strong>Patricia Arriaga Martínez</strong>. Si quieres conocerlos,
           <a href="/contacto">escríbenos</a> y con gusto los saludas en persona.
         </p>
       </Card>
