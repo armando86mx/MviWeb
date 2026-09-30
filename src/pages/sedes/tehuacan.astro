@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/sections/Hero.astro';
 import Button from '@components/ui/Button.astro';
+import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
@@ -91,17 +92,33 @@ const description = 'Iglesia asociada de MVI Amor y Gracia en Tehuacán, Puebla.
 
   <section class="section">
     <div class="container">
-      <header class="block-header">
-        <p class="eyebrow">Liderazgo local</p>
-        <h2>Pastores de Tzion Life Tehuacán</h2>
-        <p class="lead">
-          Los pastores de Tzion Life Tehuacán son <strong>Mizael Reyes Frías</strong> y
-          <strong>Patricia Arriaga Martínez</strong>. La iglesia cuenta con su propio liderazgo,
-          con conocimiento de la zona y experiencia ministerial, en comunión con los pastores
-          Daniel y Rocío Chávez. Si quieres conocerlos, <a href="/contacto">escríbenos</a> y con
-          gusto los saludas en persona.
-        </p>
-      </header>
+      <div class="grid grid--2 sede">
+        <header class="info">
+          <p class="eyebrow">Liderazgo local</p>
+          <h2>Pastores de Tzion Life Tehuacán</h2>
+          <p class="lead">
+            La iglesia de Tehuacán cuenta con su propio liderazgo, con conocimiento de la zona
+            y experiencia ministerial, en comunión con los pastores Daniel y Rocío Chávez.
+          </p>
+          <p>
+            Si quieres conocerlos, <a href="/contacto">escríbenos</a> y con gusto los saludas
+            en persona.
+          </p>
+        </header>
+
+        <Card>
+          <ul class="pastores">
+            <li>
+              <span class="pastores__rol">Pastor</span>
+              <strong class="pastores__nombre">Mizael Reyes Frías</strong>
+            </li>
+            <li>
+              <span class="pastores__rol">Pastora</span>
+              <strong class="pastores__nombre">Patricia Arriaga Martínez</strong>
+            </li>
+          </ul>
+        </Card>
+      </div>
     </div>
   </section>
 
@@ -138,5 +155,14 @@ const description = 'Iglesia asociada de MVI Amor y Gracia en Tehuacán, Puebla.
   @media (max-width: 767px) {
     .sede__mapa :global(.mapa) { aspect-ratio: 16 / 9; min-height: 0; height: auto; }
   }
-  .block-header { max-width: 60ch; }
+  .pastores { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .pastores li { padding: var(--sp-4) 0; display: flex; flex-direction: column; gap: var(--sp-1); }
+  .pastores li + li { border-top: 1.5px solid var(--paper-line); }
+  .pastores__rol {
+    font-size: var(--fs-sm);
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .pastores__nombre { font-family: var(--font-display); font-size: var(--fs-xl); color: var(--blue-700); font-weight: 400; }
 </style>
