@@ -74,12 +74,16 @@ const description = 'Tzion Life, iglesia asociada de MVI Amor y Gracia en Tehuac
               <dt>Correo</dt>
               <dd><a href={`mailto:${sede.email}`}>{sede.email}</a></dd>
             </div>
+            <div>
+              <dt>Sitio web</dt>
+              <dd><a href={sede.website} target="_blank" rel="noopener noreferrer">tzionlife.org<span class="sr-only"> (se abre en ventana nueva)</span></a></dd>
+            </div>
           </dl>
           <p class="acciones">
             <Button variant="primary" href={sede.mapsUrl} target="_blank" rel="noopener noreferrer">
               Cómo llegar<span class="sr-only"> (se abre en ventana nueva)</span>
             </Button>
-            <Button variant="ghost" href="/contacto">Escribir a la iglesia →</Button>
+            <Button variant="ghost" href={`mailto:${sede.email}`}>Escribir a la iglesia →</Button>
           </p>
         </article>
 
@@ -101,7 +105,7 @@ const description = 'Tzion Life, iglesia asociada de MVI Amor y Gracia en Tehuac
             y experiencia ministerial, en comunión con los pastores Daniel y Rocío Chávez.
           </p>
           <p>
-            Si quieres conocerlos, <a href="/contacto">escríbenos</a> y con gusto los saludas
+            Si quieres conocerlos, <a href={`mailto:${sede.email}`}>escríbenos</a> y con gusto los saludas
             en persona.
           </p>
         </header>
@@ -126,7 +130,7 @@ const description = 'Tzion Life, iglesia asociada de MVI Amor y Gracia en Tehuac
     eyebrow="Visítanos"
     title="Ven a conocer la iglesia Tzion Life en Tehuacán."
     subtitle="Si vives en la zona y estás buscando iglesia, escríbenos y te recibimos personalmente. Sin presión, sin requisitos."
-    primaryCTA={{ label: 'Escríbenos', href: '/contacto' }}
+    primaryCTA={{ label: 'Escríbenos', href: `mailto:${sede.email}` }}
     secondaryCTA={{ label: 'Qué esperar en tu visita', href: '/contacto#primera-visita' }}
   />
 </BaseLayout>
