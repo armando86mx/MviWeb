@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/sections/Hero.astro';
-import Card from '@components/ui/Card.astro';
 import Button from '@components/ui/Button.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaChurch from '@components/seo/SchemaChurch.astro';
@@ -94,20 +93,15 @@ const description = 'Iglesia asociada de MVI Amor y Gracia en Tehuacán, Puebla.
     <div class="container">
       <header class="block-header">
         <p class="eyebrow">Liderazgo local</p>
-        <h2>Pastores y líderes en Tehuacán</h2>
+        <h2>Pastores de Tzion Life Tehuacán</h2>
         <p class="lead">
-          La iglesia de Tehuacán cuenta con su propio liderazgo, con conocimiento de la zona,
-          experiencia ministerial y comunión con los pastores Daniel y Rocío Chávez.
+          Los pastores de Tzion Life Tehuacán son <strong>Mizael Reyes Frías</strong> y
+          <strong>Patricia Arriaga Martínez</strong>. La iglesia cuenta con su propio liderazgo,
+          con conocimiento de la zona y experiencia ministerial, en comunión con los pastores
+          Daniel y Rocío Chávez. Si quieres conocerlos, <a href="/contacto">escríbenos</a> y con
+          gusto los saludas en persona.
         </p>
       </header>
-
-      <Card variant="subtle">
-        <p>
-          Los pastores de la iglesia en Tehuacán son <strong>Mizael Reyes Frías</strong> y
-          <strong>Patricia Arriaga Martínez</strong>. Si quieres conocerlos,
-          <a href="/contacto">escríbenos</a> y con gusto los saludas en persona.
-        </p>
-      </Card>
     </div>
   </section>
 
@@ -144,5 +138,5 @@ const description = 'Iglesia asociada de MVI Amor y Gracia en Tehuacán, Puebla.
   @media (max-width: 767px) {
     .sede__mapa :global(.mapa) { aspect-ratio: 16 / 9; min-height: 0; height: auto; }
   }
-  .block-header { max-width: 60ch; margin-bottom: var(--sp-5); }
+  .block-header { max-width: 60ch; }
 </style>
