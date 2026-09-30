@@ -8,11 +8,11 @@
  */
 import { SITE } from '@lib/site';
 
-const sede = SITE.sedes.amozoc;
+const { sede = SITE.sedes.amozoc, title = 'Mapa: MVI Amor y Gracia, C. 4 Nte. 207, Amozoc de Mota' } = Astro.props;
 const embedUrl = `https://www.google.com/maps?q=${sede.latitude},${sede.longitude}&z=16&hl=es&output=embed`;
 ---
 
-<div class="mapa" data-mapa data-src={embedUrl}>
+<div class="mapa" data-mapa data-src={embedUrl} data-title={title}>
   <button type="button" class="mapa__btn" data-mapa-btn>
     <span class="mapa__pin" aria-hidden="true"></span>
     <span>
@@ -27,7 +27,7 @@ const embedUrl = `https://www.google.com/maps?q=${sede.latitude},${sede.longitud
     el.querySelector('[data-mapa-btn]')?.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
       iframe.src = el.dataset.src ?? '';
-      iframe.title = 'Mapa: MVI Amor y Gracia, C. 4 Nte. 207, Amozoc de Mota';
+      iframe.title = el.dataset.title ?? 'Mapa';
       iframe.loading = 'lazy';
       iframe.referrerPolicy = 'no-referrer-when-downgrade';
       iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;';
