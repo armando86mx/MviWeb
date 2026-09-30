@@ -70,7 +70,7 @@ export const SITE = {
   },
   social: {
     // El Footer y Contacto solo muestran las redes con URL real.
-    facebook: 'https://www.facebook.com/IglesiaAmoryGraciaVIA',
+    facebook: 'https://www.facebook.com/MVIAmoryGracia',
     instagram: 'https://www.instagram.com/mviamorygracia/',
     youtube: 'https://www.youtube.com/@mviamorygracia',
     whatsapp: 'https://wa.me/522383856790',
