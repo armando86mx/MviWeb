@@ -67,5 +67,12 @@ jobs:
           # no coincide con el dominio (el default loose sí conecta).
           protocol: ftps
           timeout: 60000
+          # Archivo de estado nuevo (nov-2026): el anterior listaba la carpeta
+          # blog/cinco-pilares-… que ya no existía en el servidor; borrarla daba
+          # "550 No such file" y la subida fallaba en cada run desde el 7-oct.
+          # Con estado nuevo hace una subida completa una vez, sin borrar nada.
+          # Si vuelve a pasar: subir a -v3 (y nunca usar dangerous-clean-slate:
+          # borraría app/, la app de finanzas que vive en public_html).
+          state-name: .ftp-deploy-sync-state-v2.json
           local-dir: dist/
           server-dir: ./
