@@ -21,8 +21,11 @@ El contenido permanece visible cuando JavaScript está desactivado.
 El slider de Inicio abre con el arte de la serie durante 6 segundos y después
 continúa con las fotografías habituales, 3 segundos por foto. La campaña usa
 su composición vertical en pantallas en retrato y la horizontal en paisaje;
-el encuadre central llena el hero y mantiene el título dentro del área visible. La bienvenida y el velo crema
-solo acompañan las fotos. Los archivos están en `src/assets/img/seasons/`,
+el encuadre central llena el hero y mantiene el título dentro del área visible.
+La campaña lleva un velo crema, suave sobre el título y más intenso en los
+bordes, para acercarla al tono de las fotografías. Su fundido dura 1.4 segundos;
+la bienvenida aparece después de que la campaña termine de salir y solo
+acompaña las fotos. Los archivos están en `src/assets/img/seasons/`,
 separados del directorio de fotos para que desactivar la temporada los retire.
 Con movimiento reducido al cargar, el slider queda estático en la primera
 diapositiva. Si se activa esa preferencia durante la reproducción, se detiene

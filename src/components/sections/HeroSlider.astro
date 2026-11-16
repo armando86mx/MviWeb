@@ -144,6 +144,7 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
 
 <style>
   .hero-slider {
+    --hero-season-fade: 1.4s;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -164,14 +165,36 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
   }
   .hero-slider__slide.is-active { opacity: 1; }
 
-  /* Capa propia sobre la bienvenida: conserva el arte sin velo ni texto encima.
-     El encuadre central mantiene el título visible sin franjas en los bordes. */
+  /* La campaña conserva su título y lleva un velo crema propio, más ligero
+     en el centro. La bienvenida permanece debajo y oculta durante esta imagen. */
   .hero-slider__season {
     position: absolute;
     inset: 0;
     z-index: 1;
     background: #000;
     pointer-events: none;
+    transition-duration: var(--hero-season-fade);
+  }
+  .hero-slider__season::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 48% 58% at 50% 50%,
+      rgba(244,239,230,0.18) 0%,
+      rgba(244,239,230,0.20) 30%,
+      rgba(244,239,230,0.46) 60%,
+      rgba(244,239,230,0.72) 85%,
+      rgba(244,239,230,0.84) 100%);
+  }
+  @media (orientation: portrait) {
+    .hero-slider__season::after {
+      background: radial-gradient(ellipse 85% 55% at 50% 50%,
+        rgba(244,239,230,0.18) 0%,
+        rgba(244,239,230,0.20) 30%,
+        rgba(244,239,230,0.46) 60%,
+        rgba(244,239,230,0.72) 85%,
+        rgba(244,239,230,0.84) 100%);
+    }
   }
   .hero-slider__season picture { display: block; width: 100%; height: 100%; }
   .hero-slider__season img {
@@ -207,7 +230,7 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
   }
 
   /* Espera a que desaparezca la campaña antes de mostrar la bienvenida. */
-  .hero-slider__copy { position: relative; transition: opacity 0.3s var(--ease) 0.9s; }
+  .hero-slider__copy { position: relative; transition: opacity 0.3s var(--ease) var(--hero-season-fade); }
   .hero-slider.is-season-slide::before { opacity: 0; }
   .hero-slider.is-season-slide .hero-slider__copy { opacity: 0; transition: none; }
 
