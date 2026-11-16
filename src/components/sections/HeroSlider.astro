@@ -91,7 +91,9 @@ const fotos = Object.entries(
     overflow: hidden;
     display: grid;
     place-items: center;
-    min-height: clamp(520px, 78vh, 840px);
+    /* Completa la pantalla bajo el header, incluido su borde inferior. */
+    min-height: calc(100vh - var(--header-h) - 1px);
+    min-height: calc(100dvh - var(--header-h) - 1px);
     padding-block: clamp(3.5rem, 8vw, 6rem);
     background: var(--paper-200);
     text-align: center;
