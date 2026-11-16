@@ -7,15 +7,17 @@ interface Props {
   /** Línea final del H1 en itálica de acento (la firma del estilo). */
   titleAccent?: string;
   subtitle?: string;
+  decorated?: boolean;
   primaryCTA?: { label: string; href: string };
   secondaryCTA?: { label: string; href: string };
 }
 
-const { eyebrow, title, titleAccent, subtitle, primaryCTA, secondaryCTA } = Astro.props;
+const { eyebrow, title, titleAccent, subtitle, primaryCTA, secondaryCTA, decorated = false } = Astro.props;
 ---
 
 <section class="hero hero--page" aria-labelledby="hero-heading">
-  <div class="container container--cta hero__inner">
+  <div class:list={['container container--cta hero__inner', { 'hero__inner--decorated': decorated }]}>
+    <div class="hero__copy">
     {eyebrow && <p class="eyebrow">{eyebrow}</p>}
     <h1 id="hero-heading" class="hero__title text-balance">
       {title}
@@ -29,6 +31,8 @@ const { eyebrow, title, titleAccent, subtitle, primaryCTA, secondaryCTA } = Astr
         {secondaryCTA && <Button variant="secondary" size="lg" href={secondaryCTA.href}>{secondaryCTA.label} <span aria-hidden="true">→</span></Button>}
       </div>
     )}
+    </div>
+    <slot name="decoration" />
   </div>
 </section>
 
@@ -40,7 +44,13 @@ const { eyebrow, title, titleAccent, subtitle, primaryCTA, secondaryCTA } = Astr
     color: var(--cream-text);
   }
   .hero__inner {
+    position: relative;
     padding-block: clamp(5.625rem, 8vw, 7rem); /* ~90-112px */
+  }
+  .hero__inner--decorated { display: grid; grid-template-columns: minmax(0, 1fr) 72px; align-items: center; gap: var(--sp-6); }
+  @media (max-width: 767px) {
+    .hero__inner--decorated { display: block; }
+    .hero__inner--decorated .eyebrow { padding-left: 32px; min-height: 24px; display: flex; align-items: center; }
   }
   .hero__title {
     font-family: var(--font-display);

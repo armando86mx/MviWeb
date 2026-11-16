@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import flyerMesa from '@assets/img/tiempo-de-mesa.jpg';
 import Hero from '@components/sections/Hero.astro';
 import EventoCard from '@components/sections/EventoCard.astro';
+import SeasonNote from '@components/season/SeasonNote.astro';
 import Card from '@components/ui/Card.astro';
 import CTABand from '@components/sections/CTABand.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
@@ -47,7 +48,9 @@ const description = 'Cómo nos reunimos en MVI Amor y Gracia: servicio dominical
           time="11:00 AM"
           location="Sede Amozoc · Amozoc, Puebla"
           description="Adoración, predicación expositiva y comunión. Familias bienvenidas, niños incluidos."
-        />
+        >
+          <SeasonNote slot="season-note" />
+        </EventoCard>
       </div>
     </div>
   </section>
