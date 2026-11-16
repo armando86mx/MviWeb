@@ -32,7 +32,9 @@ const nextPost = others[0];
   updatedDate={post.data.updatedDate}
   tags={post.data.tags}
   author={post.data.author}
-  ogImage={post.data.heroImage}
+  ogImage={post.data.heroImage?.src}
+  heroImage={post.data.heroImage}
+  heroImageAlt={post.data.heroImageAlt}
   path={path}
 >
   <Content />

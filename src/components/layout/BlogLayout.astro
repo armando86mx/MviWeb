@@ -4,6 +4,8 @@ import SchemaArticle from '@components/seo/SchemaArticle.astro';
 import SchemaBreadcrumb from '@components/seo/SchemaBreadcrumb.astro';
 import { SITE } from '@lib/site';
 import { buildCanonical } from '@lib/seo';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 
 interface Props {
   title: string;
@@ -13,10 +15,12 @@ interface Props {
   tags?: readonly string[];
   author?: string;
   ogImage?: string;
+  heroImage?: ImageMetadata;
+  heroImageAlt?: string;
   path: string;
 }
 
-const { title, description, pubDate, updatedDate, tags = [], author, ogImage, path } = Astro.props;
+const { title, description, pubDate, updatedDate, tags = [], author, ogImage, heroImage, heroImageAlt = '', path } = Astro.props;
 const url = buildCanonical(path);
 const datePublished = pubDate.toISOString();
 const dateModified = (updatedDate ?? pubDate).toISOString();
@@ -67,6 +71,12 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
       )}
     </header>
 
+    {heroImage && (
+      <Image class="post__image" src={heroImage} alt={heroImageAlt}
+        widths={[480, 768, 1200]} sizes="(max-width: 800px) calc(100vw - 2rem), 760px"
+        loading="eager" />
+    )}
+
     <div class="post__body">
       <slot />
     </div>
@@ -82,6 +92,7 @@ const fmt = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'long', ye
 <style>
   .post { padding-top: clamp(2rem, 4vw, 3.5rem); }
   .post__header { margin-bottom: var(--sp-7); }
+  .post__image { display: block; width: 100%; height: auto; border-radius: var(--radius-md); margin-bottom: var(--sp-7); }
   .post h1 { margin-top: var(--sp-3); text-wrap: balance; }
   .post__meta { font-size: var(--fs-sm); color: var(--ink-muted); margin-top: var(--sp-3); font-family: var(--font-body); }
   .post__tags {

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import HeroSlider from '@components/sections/HeroSlider.astro';
+import SeasonBanner from '@components/season/SeasonBanner.astro';
 import EventoCard from '@components/sections/EventoCard.astro';
 import PastoresCard from '@components/sections/PastoresCard.astro';
 import CTABand from '@components/sections/CTABand.astro';
@@ -27,6 +28,8 @@ const description = 'Iglesia cristiana evangélica en Amozoc, Puebla. Domingos 1
     titleAccent="MVI Amor y Gracia"
     subtitle="Un lugar donde te encuentras con la gracia de Jesucristo, el amor del Padre y la comunión con el Espíritu Santo."
   />
+
+  <SeasonBanner />
 
   <!-- Palabra Rhema del año: dos versículos, dos columnas -->
   <section class="section section--tight" aria-labelledby="rhema-heading">

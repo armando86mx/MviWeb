@@ -19,6 +19,7 @@ const { title, weekday, time, location, description, variant = 'default', badge 
   <h3 class="evento__title">{title}</h3>
   <p class="evento__location">{location}</p>
   {description && <p class="evento__desc">{description}</p>}
+  <slot name="season-note" />
 </article>
 
 <style>
