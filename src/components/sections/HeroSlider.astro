@@ -40,6 +40,9 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
       data-duration="6000"
       aria-hidden="false"
     >
+      <div class="container hero-slider__season-caption">
+        <p class="hero-slider__season-label">Nueva serie</p>
+      </div>
       <picture>
         <source
           media="(orientation: portrait)"
@@ -197,6 +200,27 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
     }
   }
   .hero-slider__season picture { display: block; width: 100%; height: 100%; }
+  .hero-slider__season-caption {
+    position: absolute;
+    inset-inline: 0;
+    /* Sigue el 40% de la imagen real, incluso cuando cover recorta sus bordes. */
+    top: calc(50% - max(10%, 5.628vw));
+    transform: translateY(-100%);
+    z-index: 1;
+    text-align: center;
+  }
+  @media (orientation: portrait) {
+    .hero-slider__season-caption { top: calc(50% - max(10%, 17.768vw)); }
+  }
+  .hero-slider__season-label {
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    background: var(--paper-200);
+    color: var(--blue-700);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.06em;
+  }
   .hero-slider__season img {
     width: 100%;
     height: 100%;

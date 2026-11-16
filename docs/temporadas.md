@@ -24,7 +24,8 @@ su composición vertical en pantallas en retrato y la horizontal en paisaje;
 el encuadre central llena el hero y mantiene el título dentro del área visible.
 La campaña lleva un velo crema, suave sobre el título y más intenso en los
 bordes, para acercarla al tono de las fotografías. Su fundido dura 1.4 segundos;
-la bienvenida aparece después de que la campaña termine de salir y solo
+el rótulo "Nueva serie" aparece centrado justo encima del título de la imagen.
+La bienvenida aparece después de que la campaña termine de salir y solo
 acompaña las fotos. Los archivos están en `src/assets/img/seasons/`,
 separados del directorio de fotos para que desactivar la temporada los retire.
 Con movimiento reducido al cargar, el slider queda estático en la primera
