@@ -10,13 +10,23 @@ La decoración temporal se controla en `src/lib/season.ts`.
 El sitio es estático: cambiar este ajuste requiere reconstruir y publicar. No es
 un control visible para visitantes. Una selección desconocida desactiva la temporada.
 
-La desactivación elimina el bloque de Inicio, la flama y el destacado del Blog y
+La desactivación elimina la diapositiva y el bloque de Inicio, la flama y el destacado del Blog y
 la nota del Servicio Dominical. El artículo sigue en el listado normal del Blog,
 en su dirección, en el RSS y en el sitemap; conserva su ilustración.
 
 La animación del bloque de Inicio ocurre una sola vez al aparecer, solo en
 pantallas desde 768 px con puntero preciso y sin preferencia de movimiento reducido.
 El contenido permanece visible cuando JavaScript está desactivado.
+
+El slider de Inicio abre con el arte de la serie durante 6 segundos y después
+continúa con las fotografías habituales, 3 segundos por foto. La campaña usa
+su composición vertical en pantallas en retrato y la horizontal en paisaje;
+el encuadre central llena el hero y mantiene el título dentro del área visible. La bienvenida y el velo crema
+solo acompañan las fotos. Los archivos están en `src/assets/img/seasons/`,
+separados del directorio de fotos para que desactivar la temporada los retire.
+Con movimiento reducido al cargar, el slider queda estático en la primera
+diapositiva. Si se activa esa preferencia durante la reproducción, se detiene
+en la diapositiva actual.
 
 Para una serie futura, añadir su información a `seasons` y seleccionar su clave
 en `current`; revisar también su ilustración en `SeasonBanner.astro`. Los componentes

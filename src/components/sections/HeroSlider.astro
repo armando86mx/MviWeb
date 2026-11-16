@@ -1,6 +1,9 @@
 ---
 import type { ImageMetadata } from 'astro';
-import { Image } from 'astro:assets';
+import { getImage, Image } from 'astro:assets';
+import seasonDesktop from '@assets/img/seasons/el-celo-slider-escritorio.png';
+import seasonMobile from '@assets/img/seasons/el-celo-slider-movil.png';
+import { activeSeason } from '@lib/season';
 
 interface Props {
   /** Línea superior (una sola línea, tal cual se escribe). */
@@ -13,26 +16,63 @@ interface Props {
 
 const { eyebrow, title, titleAccent, subtitle } = Astro.props;
 
-// ponytail: las diapositivas SON la carpeta src/assets/hero/ — soltar una foto
-// ahí (horizontal, ≥1920px) es agregar una diapositiva; el orden es alfabético.
+// Las fotos habituales siguen en src/assets/hero/, en orden alfabético.
+// El arte de campaña vive aparte para retirarlo al desactivar la temporada.
 const fotos = Object.entries(
   import.meta.glob<ImageMetadata>('/src/assets/hero/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' }),
 )
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([, img]) => img);
+
+const hasSeasonSlide = activeSeason?.id === 'el-celo-por-tu-casa';
+const seasonImages = hasSeasonSlide ? await Promise.all([
+  getImage({ src: seasonDesktop, format: 'webp', quality: 90, widths: [960, 1280, 1672] }),
+  getImage({ src: seasonMobile, format: 'webp', quality: 90, widths: [480, 720, 941] }),
+]) : null;
 ---
 
-<section class="hero-slider" aria-labelledby="hero-heading" data-hero-slider>
+<section class:list={['hero-slider', { 'is-season-slide': hasSeasonSlide }]} aria-labelledby="hero-heading" data-hero-slider>
+  {seasonImages && (
+    <div
+      class="hero-slider__season hero-slider__slide is-active"
+      data-slide
+      data-kind="season"
+      data-duration="6000"
+      aria-hidden="false"
+    >
+      <picture>
+        <source
+          media="(orientation: portrait)"
+          srcset={seasonImages[1].srcSet.attribute}
+          sizes="100vw"
+          width={seasonMobile.width}
+          height={seasonMobile.height}
+        />
+        <img
+          src={seasonImages[0].src}
+          srcset={seasonImages[0].srcSet.attribute}
+          sizes="100vw"
+          width={seasonDesktop.width}
+          height={seasonDesktop.height}
+          alt="El celo por tu casa. Una flama dorada ilumina un arco, con un corazón alrededor del título."
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </picture>
+    </div>
+  )}
+
   {/* Fotos decorativas bajo un velo crema: el contenido es el texto */}
   <div class="hero-slider__fotos" aria-hidden="true">
     {fotos.map((foto, i) => (
       <Image
         src={foto}
         alt=""
-        class:list={['hero-slider__foto', { 'is-active': i === 0 }]}
+        class:list={['hero-slider__foto', 'hero-slider__slide', { 'is-active': !hasSeasonSlide && i === 0 }]}
         data-slide
         loading={i === 0 ? 'eager' : 'lazy'}
-        fetchpriority={i === 0 ? 'high' : 'low'}
+        fetchpriority={!hasSeasonSlide && i === 0 ? 'high' : 'low'}
         decoding="async"
         quality={62}
         widths={[640, 960, 1280, 1920]}
@@ -53,33 +93,51 @@ const fotos = Object.entries(
 </section>
 
 <script>
-  // ponytail: fundido por opacidad + setInterval, sin librería ni controles
+  // Fundido por opacidad, sin librería ni controles
   // (decisión del dueño: solo automático). Se pausa con el puntero o el foco
-  // encima y con la pestaña oculta; con reduced-motion se queda en la primera foto.
+  // encima y con la pestaña oculta; reduced-motion detiene la reproducción.
   const root = document.querySelector<HTMLElement>('[data-hero-slider]');
   const slides = [...(root?.querySelectorAll<HTMLElement>('[data-slide]') ?? [])];
 
   if (root && slides.length > 1) {
     let i = 0;
     let timer: number | undefined;
+    let hovered = false;
+    let focused = false;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
     const show = (n: number) => {
       slides[i].classList.remove('is-active');
+      if (slides[i].dataset.kind === 'season') slides[i].setAttribute('aria-hidden', 'true');
       i = (n + slides.length) % slides.length;
       slides[i].classList.add('is-active');
+      const isSeason = slides[i].dataset.kind === 'season';
+      if (isSeason) slides[i].setAttribute('aria-hidden', 'false');
+      root.classList.toggle('is-season-slide', isSeason);
     };
-    const stop = () => { clearInterval(timer); timer = undefined; };
+    const stop = () => { clearTimeout(timer); timer = undefined; };
     const play = () => {
       stop();
-      if (document.hidden || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      timer = window.setInterval(() => show(i + 1), 3000);
+      if (document.hidden || hovered || focused || reducedMotion.matches) return;
+      timer = window.setTimeout(() => {
+        show(i + 1);
+        play();
+      }, Number(slides[i].dataset.duration ?? 3000));
     };
 
-    root.addEventListener('mouseenter', stop);
-    root.addEventListener('mouseleave', play);
-    root.addEventListener('focusin', stop);
-    root.addEventListener('focusout', play);
+    root.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') { hovered = true; stop(); }
+    });
+    root.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'mouse') { hovered = false; play(); }
+    });
+    root.addEventListener('focusin', () => { focused = true; stop(); });
+    root.addEventListener('focusout', (event) => {
+      focused = event.relatedTarget instanceof Node && root.contains(event.relatedTarget);
+      play();
+    });
     document.addEventListener('visibilitychange', play);
+    reducedMotion.addEventListener('change', play);
     play();
   }
 </script>
@@ -100,6 +158,29 @@ const fotos = Object.entries(
   }
 
   .hero-slider__fotos { position: absolute; inset: 0; z-index: -2; }
+  .hero-slider__slide {
+    opacity: 0;
+    transition: opacity 0.9s var(--ease);
+  }
+  .hero-slider__slide.is-active { opacity: 1; }
+
+  /* Capa propia sobre la bienvenida: conserva el arte sin velo ni texto encima.
+     El encuadre central mantiene el título visible sin franjas en los bordes. */
+  .hero-slider__season {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: #000;
+    pointer-events: none;
+  }
+  .hero-slider__season picture { display: block; width: 100%; height: 100%; }
+  .hero-slider__season img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
   .hero-slider__foto {
     position: absolute;
     inset: 0;
@@ -107,10 +188,7 @@ const fotos = Object.entries(
     height: 100%;
     object-fit: cover;
     object-position: center 35%;
-    opacity: 0;
-    transition: opacity 0.9s var(--ease);
   }
-  .hero-slider__foto.is-active { opacity: 1; }
 
   /* Velo de papel crema (la referencia lo hace en blanco): luz de tarde ámbar,
      halo denso detrás del texto y fundido a papel abajo para empalmar con la
@@ -121,13 +199,17 @@ const fotos = Object.entries(
     inset: 0;
     z-index: -1;
     pointer-events: none;
+    transition: opacity 0.9s var(--ease);
     background:
       radial-gradient(120% 85% at 90% 10%, rgba(223,162,78,0.16) 0%, rgba(223,162,78,0) 55%),
       radial-gradient(60% 62% at 50% 50%, rgba(244,239,230,0.94) 0%, rgba(244,239,230,0.6) 58%, rgba(244,239,230,0) 100%),
       linear-gradient(to bottom, rgba(244,239,230,0.66) 0%, rgba(244,239,230,0.56) 55%, #F4EFE6 100%);
   }
 
-  .hero-slider__copy { position: relative; }
+  /* Espera a que desaparezca la campaña antes de mostrar la bienvenida. */
+  .hero-slider__copy { position: relative; transition: opacity 0.3s var(--ease) 0.9s; }
+  .hero-slider.is-season-slide::before { opacity: 0; }
+  .hero-slider.is-season-slide .hero-slider__copy { opacity: 0; transition: none; }
 
   .hero-slider__eyebrow {
     color: var(--ochre-600);
@@ -164,6 +246,8 @@ const fotos = Object.entries(
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-slider__foto { transition: none; }
+    .hero-slider__slide,
+    .hero-slider::before,
+    .hero-slider__copy { transition: none; }
   }
 </style>
