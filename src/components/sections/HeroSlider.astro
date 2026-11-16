@@ -203,19 +203,23 @@ const seasonImages = hasSeasonSlide ? await Promise.all([
   .hero-slider__season-caption {
     position: absolute;
     inset-inline: 0;
-    /* Debajo de POR TU CASA; sigue el encuadre real incluso con cover. */
-    top: calc(50% + max(11%, 6.191vw));
+    /* El título y el corazón forman una unidad. El rótulo queda bajo la punta,
+       siguiendo la imagen real incluso cuando cover recorta sus bordes. */
+    top: calc(50% + max(25.5%, 14.351vw));
     z-index: 1;
     text-align: center;
   }
   @media (orientation: portrait) {
-    .hero-slider__season-caption { top: calc(50% + max(6%, 10.661vw)); }
+    .hero-slider__season-caption { top: calc(50% + max(16.6%, 29.495vw)); }
   }
   .hero-slider__season-label {
-    color: var(--blue-700);
-    font-size: var(--fs-sm);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
     font-weight: var(--fw-semibold);
-    letter-spacing: 0.06em;
+    line-height: 1.1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
   }
   .hero-slider__season img {
     width: 100%;

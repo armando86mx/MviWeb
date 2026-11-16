@@ -24,7 +24,9 @@ su composición vertical en pantallas en retrato y la horizontal en paisaje;
 el encuadre central llena el hero y mantiene el título dentro del área visible.
 La campaña lleva un velo crema, suave sobre el título y más intenso en los
 bordes, para acercarla al tono de las fotografías. Su fundido dura 1.4 segundos;
-el rótulo "Nueva serie" aparece centrado debajo de "POR TU CASA", pequeño y sin fondo.
+el rótulo "NUEVA SERIE" aparece centrado bajo la punta del corazón, separado
+del título y de sus trazos. Usa Hanken Grotesk seminegrita, 18–22 px, espaciado
+amplio y color marrón oscuro, sin fondo ni sombra.
 La bienvenida aparece después de que la campaña termine de salir y solo
 acompaña las fotos. Los archivos están en `src/assets/img/seasons/`,
 separados del directorio de fotos para que desactivar la temporada los retire.
