@@ -1,12 +1,17 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import remarkStraightQuotes from './scripts/remark-straight-quotes.mjs';
 
 const SITE_URL = process.env.PUBLIC_SITE_URL || 'https://amorygraciapuebla.org';
 
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: 'never',
+  markdown: {
+    // Preferencia editorial de esta entrada; conserva la tipografía de las demás.
+    remarkPlugins: [[remarkStraightQuotes, { slugs: ['el-celo-por-tu-casa'] }]],
+  },
   // El preview de Claude asigna puerto vía PORT; sin la env se queda el default 4321.
   server: { port: Number(process.env.PORT) || 4321 },
   // /visitanos se fusionó en /contacto (su contenido vive al final, #primera-visita)
