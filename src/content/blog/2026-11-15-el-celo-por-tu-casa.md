@@ -5,7 +5,7 @@ description: "¿Hace falta congregarse o basta con buscar a Dios en casa? Un rec
 pubDate: 2026-11-15
 author: "Pastora Rocío Chávez"
 tags: ["Salmo 84", "casa de Dios", "comunión", "estudio bíblico"]
-keywords: ["salmo 84 explicación", "amar la casa de dios", "el celo de tu casa", "habitar en la casa de jehová"]
+keywords: ["Salmo 84 explicación", "amar la casa de Dios", "el celo de tu casa", "habitar en la casa de Jehová"]
 heroImage: "../../assets/img/blog/el-celo-por-tu-casa.png"
 heroImageAlt: "Una puerta entreabierta ilumina el umbral de una casa; una golondrina vuelve al nido sobre el dintel."
 draft: false
@@ -13,7 +13,7 @@ draft: false
 
 Si alguna vez te has preguntado si de verdad hace falta ir a la iglesia, o si basta con orar y leer la Biblia en casa, esta entrada es para ti. Es una pregunta honesta y merece una respuesta bíblica.
 
-Lo que sigue nace de una prédica de nuestra serie *El celo por tu casa*. No es un regaño. Es lo que tres salmos dicen sobre un deseo que David resumió en una sola frase: «Una cosa he demandado a Jehová, ésta buscaré; que esté yo en la casa de Jehová todos los días de mi vida» (Salmo 27:4).
+Lo que sigue nace de una prédica de nuestra serie *El celo por tu casa*. No es un regaño. Es lo que tres salmos dicen sobre un deseo que David resumió en una sola frase: «Una cosa he demandado a Jehová, esta buscaré; que esté yo en la casa de Jehová todos los días de mi vida» (Salmo 27:4).
 
 ## Empieza por tres preguntas honestas
 
@@ -33,21 +33,21 @@ Charles Spurgeon llamó al Salmo 84 «la perla de los Salmos». En pocos versíc
 
 - **Atrios** (*jatsér*). El patio, el espacio donde el pueblo se acerca. Es lo que el salmista anhela (v. 2).
 
-- **Altares** (*mizbéaj*). El lugar del sacrificio. El salmista ve al gorrión y a la golondrina anidar cerca de ellos (v. 3) y piensa: qué alegría, ellos sí pueden vivir en tu casa.
+- **Altares** (*mizbéaj*). El lugar del sacrificio. El salmista ve al gorrión y a la golondrina anidar cerca de ellos (v. 3) y piensa: ¡qué alegría!, ellos sí pueden vivir en tu casa.
 
 - **Casa** (*báyit*). El hogar: lugar de intimidad y comunión. «Bienaventurados los que habitan en tu casa» (v. 4).
 
 - **Sion** (*Tsiyón*). Jerusalén, el destino del camino: «verán a Dios en Sion» (v. 7).
 
-El salmo describe una peregrinación que sale de la casa de Dios y termina delante de Dios. El deseo, el camino y el destino son Él.
+El salmo describe una peregrinación que empieza con el anhelo por la casa de Dios y termina delante de Dios. El deseo, el camino y el destino son Él.
 
 ## Cinco señales de que dejamos de amar la casa
 
 Por contraste, el amor por la casa se enfría cuando:
 
-- **Vienes por cumplir.** «Tengo que ir, si no dejo de ser cristiano» es obligación, no deseo.
+- **Vienes por cumplir.** «Tengo que ir; si no, dejo de ser cristiano» es obligación, no deseo.
 
-- **Tu medida es lo que hacen los demás.** «Si él no lo hace, ¿yo por qué?» Si él no ama la casa, ámala tú.
+- **Tu medida es lo que hacen los demás.** «Si él no lo hace, ¿yo por qué?». Si él no ama la casa, ámala tú.
 
 - **Solo sirves en lo tuyo.** «Yo nada más soy de alabanza», «yo nada más soy de multimedia». Quien ama la casa también lava los baños.
 
@@ -79,7 +79,7 @@ El Salmo 84 dice algo parecido de quienes caminan hacia su casa: atraviesan el v
 
 ## Una última cosa
 
-Amar la casa de Dios no se trata de un edificio. Se trata de a quién le pertenece. Apocalipsis muestra a Cristo andando en medio de sus iglesias (Apocalipsis 2:1). Él está ahí cada vez que nos reunimos, perfeccionando a su iglesia con todo y nuestras imperfecciones.
+Amar la casa de Dios no es cuestión de un edificio, sino de a quién le pertenece. Apocalipsis muestra a Cristo andando en medio de sus iglesias (Apocalipsis 2:1). Él está ahí cada vez que nos reunimos, perfeccionando a su iglesia con todo y nuestras imperfecciones.
 
 Haz una prueba sencilla. Imagina a Jesús sentado a tu lado y pregúntale: «Señor, ¿te gusta cómo tenemos tu casa? ¿Estás de acuerdo con que hoy no fui?». Y escucha lo que responde Él, no lo que diga el pastor.
 

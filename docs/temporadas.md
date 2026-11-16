@@ -30,6 +30,8 @@ ejecutar el despliegue hasta la aprobación del usuario.
 
 El artículo se incorporó del DOCX `2026-11-15-el-celo-por-tu-casa.docx` para
 revisar la experiencia completa. No se publicaron sus notas editoriales.
+Se incorporaron las correcciones de la versión recibida el 16 de noviembre
+de 2026, conservando el texto y la estructura del documento.
 Conserva la firma propuesta «Pastora Rocío Chávez». Antes de aprobar la
 publicación, revisar los pendientes del documento: firma, título/dirección y
 referencias añadidas sobre Obed-edom, David y Apocalipsis. Su dirección en esta
